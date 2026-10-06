@@ -14,3 +14,6 @@ next-env.d.ts
 docs/research/pdf-preview/
 *.log
 
+
+.vercel
+!.env.example

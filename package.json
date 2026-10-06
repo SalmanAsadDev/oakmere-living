@@ -12,26 +12,31 @@
     "check": "npm run catalogue:validate && npm test && npm run typecheck"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.8.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cn": "^0.4.0",
+    "lucide-react": "^0.468.0",
     "next": "16.3.8",
+    "pg": "^8.23.1",
+    "radix-ui": "^1.4.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "lucide-react": "^0.468.0",
-    "@supabase/supabase-js": "^2.49.0",
-    "@supabase/ssr": "^0.8.0",
-    "zod": "^4.0.0",
-    "clsx": "^2.1.1",
+    "server-only": "^0.0.1",
     "tailwind-merge": "^3.0.0",
-    "class-variance-authority": "^0.7.1",
-    "radix-ui": "^1.4.0",
-    "server-only": "^0.0.1"
+    "zod": "^4.0.0"
   },
   "devDependencies": {
-    "typescript": "^5.9.0",
+    "@tailwindcss/postcss": "4.3.3",
     "@types/node": "^24.0.0",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "tailwindcss": "4.3.3",
-    "@tailwindcss/postcss": "4.3.3"
+    "typescript": "^5.9.0"
   },
-  "engines": { "node": ">=22.0.0" }
+  "engines": {
+    "node": ">=22.0.0"
+  }
 }

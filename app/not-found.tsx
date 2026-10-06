@@ -1,0 +1,2 @@
+import Link from "next/link";
+export default function NotFound() { return <section className="container section text-center"><p className="eyebrow">A little off the beaten path</p><h1 className="display my-6 text-5xl">This page isn’t here.</h1><p className="mb-8 text-muted-foreground">Let’s find you somewhere comfortable.</p><Link className="link-underline" href="/sofas">Explore our sofas</Link></section>; }

@@ -1,0 +1,37 @@
+{
+  "name": "oakmere-living",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs",
+    "catalogue:validate": "node scripts/catalogue-validate.mjs",
+    "check": "npm run catalogue:validate && npm test && npm run typecheck"
+  },
+  "dependencies": {
+    "next": "16.3.8",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "lucide-react": "^0.468.0",
+    "@supabase/supabase-js": "^2.49.0",
+    "@supabase/ssr": "^0.8.0",
+    "zod": "^4.0.0",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.0",
+    "class-variance-authority": "^0.7.1",
+    "radix-ui": "^1.4.0",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "4.3.3",
+    "@tailwindcss/postcss": "4.3.3"
+  },
+  "engines": { "node": ">=22.0.0" }
+}

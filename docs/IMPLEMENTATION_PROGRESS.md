@@ -9,6 +9,8 @@ Started: 6 October 2026. Full scope follows the project and technical plans.
 - Context7 is not exposed in this session's tools. Installed Vercel guidance and official documentation are the fallback.
 - Free Supabase project provisioned in London through Vercel; connected to development and preview. Required database environment keys verified as present without exposing values. Production is not connected.
 - Email and address-provider configuration remain outstanding.
+- Frontend deployed and verified on 7 October: latest preview https://oakmere-living-jgk664e9e-salmanasad561-gmailcoms-projects.vercel.app (commit 01a9d14). Vercel assigned the initial deployment to production automatically at https://oakmere-living.vercel.app; that alias currently precedes the final hero spacing fix. Neither is a completed commerce launch. Indexing and live orders remain disabled.
+- Direct database migration connectivity requires the Supabase CA certificate: verified TLS connections returned SELF_SIGNED_CERT_IN_CHAIN, including with the Windows trust store. Certificate verification was not disabled. The empty CLI-generated commerce migration has not been applied.
 
 ## Build milestones
 

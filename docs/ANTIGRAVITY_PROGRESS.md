@@ -34,3 +34,12 @@
 ### Notes
 - Service forms are now fully functional and persistent, securely satisfying the blocker from `FRONTEND_PROGRESS.md`.
 - No interference with Codex's frontend work. Ownership bounds were strictly maintained.
+
+## 7 October 2026 - Milestone 3: Admin Dashboard & Staff Operations
+
+### Completed (Conversation B)
+- **Admin Database Migrations (`supabase/migrations`)**: Created `20261007200500_admin_schema.sql` establishing `staff_profiles` and `store_settings` with role-based access control (RBAC). 
+- **Admin Layout (`app/admin/layout.tsx`)**: Created a staff dashboard shell with sidebar navigation connecting to Overview, Orders, Catalogue, Swatch Requests, and Contact Enquiries.
+- **Service Request Views (`app/admin/contacts`, `app/admin/swatches`)**: Implemented data tables displaying submitted requests with their current status, fetching live from Supabase.
+- **Order Management UI (`app/admin/orders`)**: Implemented a view for staff to manage incoming checkout transactions (integrating with schemas built by Conversation A).
+- **Catalogue Management UI (`app/admin/products`)**: Added a placeholder view pending finalisation of the products schema.

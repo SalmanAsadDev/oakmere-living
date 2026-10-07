@@ -14,6 +14,8 @@ The plans describe intended behaviour; they are not evidence those features exis
 
 ## Work ownership while the frontend rebuild continues
 
+**7 October additive scope:** `REFERENCE_PARITY_PLAN.md` is the latest route/functionality contract. Codex is implementing the newly requested shared planner, builder, assistant, navigation/cards/footer and parity page entry points. Antigravity retains order/admin and persisted service endpoints. Do not overwrite the new tools while wiring services. Disabled service forms require validated persistence before re-enabling.
+
 Antigravity may create or change these currently unfinished areas:
 
 - `app/contact/`, `app/delivery/`, `app/guides/`, `app/faqs/`, `app/privacy/`, `app/terms/`.

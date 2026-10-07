@@ -2,7 +2,9 @@
 
 > Latest frontend direction (7 October 2026): see [Frontend motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Home, Shop, About and Cart are distinct pages; categories are Shop filters rather than separate landing pages. This supersedes conflicting category-route recommendations below.
 
-Version: 0.2 | Updated: 6 October 2026 | Status: owner answers incorporated; implementation baseline
+Version: 0.3 | Updated: 7 October 2026 | Status: implementation in progress; reference parity added
+
+> Additive requirement authority: [Corner Sofa parity plan](docs/REFERENCE_PARITY_PLAN.md). Corner Sofa is the primary visual reference. Preserve existing animations and add micro-interactions, prominent Swatches, a seven-step builder, browser-local room planner, shopper assistant, complete service/footer navigation and the mapped reference pages. The parity plan records implementation contracts and launch dependencies; page presence is not functional completion.
 
 Provisional storefront name: **Oakmere Living**, selected under the user's authorisation and changeable through settings. This is not a registered legal identity or a verified available trademark/domain. Legal seller details remain to be supplied.
 

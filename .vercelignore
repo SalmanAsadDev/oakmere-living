@@ -1,0 +1,14 @@
+.git/
+.agents/
+.local/
+.cache/
+.env*
+docs/
+tests/
+supabase/
+*.pdf
+Screenshot*.png
+WhatsApp*.jpeg
+*.md
+*.log
+*.tsbuildinfo

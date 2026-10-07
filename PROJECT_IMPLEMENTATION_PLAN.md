@@ -1,5 +1,7 @@
 # Oakmere Living — Project Implementation Plan
 
+> Latest frontend direction (7 October 2026): see [Frontend motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Home, Shop, About and Cart are distinct pages; categories are Shop filters rather than separate landing pages. This supersedes conflicting category-route recommendations below.
+
 Version: 0.2 | Updated: 6 October 2026 | Status: owner answers incorporated; implementation baseline
 
 Provisional storefront name: **Oakmere Living**, selected under the user's authorisation and changeable through settings. This is not a registered legal identity or a verified available trademark/domain. Legal seller details remain to be supplied.

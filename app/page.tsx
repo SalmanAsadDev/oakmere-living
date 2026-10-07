@@ -1,24 +1,198 @@
 import Link from "next/link";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CreditCard,
+  HeartHandshake,
+  Truck,
+} from "lucide-react";
 import { ProductImage as Image } from "@/components/storefront/product-image";
-import { ArrowRight, ArrowUpRight, MoveRight } from "lucide-react";
-import { products, getFeaturedProducts } from "@/lib/domain/catalogue";
+import { AssemblyHero } from "@/components/storefront/assembly-hero";
+import { Reveal } from "@/components/storefront/reveal";
 import { ProductCard } from "@/components/storefront/product-card";
-import { Button } from "@/components/ui/button";
+import { products, getFeaturedProducts } from "@/lib/domain/catalogue";
 export default function HomePage() {
-  const featured=getFeaturedProducts();
-  const hero=products.find(p=>p.category==="corner-sofas"&&p.images[0]?.url.startsWith("/images/"))||products[0];
-  const groups=[{name:"Room for everyone",label:"Corner sofas",slug:"corner-sofas"},{name:"Better together",label:"Sofa sets",slug:"3-2-seater-sofa-sets"},{name:"Put your feet up",label:"Recliners",slug:"recliner-sofas"}];
-  return <>
-    <section className="relative overflow-hidden bg-[#eae7df]">
-      <div className="container grid min-h-[620px] items-center gap-8 py-12 lg:grid-cols-[.85fr_1.15fr] lg:py-16">
-        <div className="relative z-10 max-w-lg"><p className="eyebrow mb-7 text-primary">For the everyday, and everything else.</p><h1 className="display text-[58px] sm:text-[78px] xl:text-[90px]">Come home<br/>to <em className="font-normal text-[#65785d]">comfortable.</em></h1><p className="mt-7 max-w-[340px] text-sm leading-7 text-muted-foreground">The long chats. The quiet moments. The whole family, all piled in. Find a sofa made for your kind of living.</p><Button asChild className="mt-8 h-12 rounded-none px-7 text-xs"><Link href="/sofas">Find your sofa <ArrowRight className="ml-6 h-4 w-4"/></Link></Button><p className="mt-7 text-[11px] text-muted-foreground">Thoughtfully chosen. Ready to feel like home.</p></div>
-        <div className="relative"><div className="relative aspect-[6/5] overflow-hidden rounded-t-[160px] bg-[#deddd4] sm:rounded-t-[240px]"><Image src={hero.images[0].url} alt={hero.name} fill priority sizes="(max-width:1024px) 95vw, 55vw" className="object-cover"/></div><Link href={`/products/${hero.slug}`} className="absolute bottom-5 left-5 right-5 flex items-center justify-between gap-5 border border-white/50 bg-background/95 p-4 text-xs backdrop-blur"><div><span className="eyebrow text-[9px] text-muted-foreground">Make yourself at home</span><p className="mt-1 max-w-[260px] font-serif text-lg">{hero.name}</p></div><ArrowUpRight size={20}/></Link></div>
+  const featured = getFeaturedProducts();
+  const hero = featured[0];
+  const groups = [
+    { name: "Room for everyone", label: "Corner sofas", slug: "corner-sofas" },
+    {
+      name: "Better together",
+      label: "Sofa sets",
+      slug: "3-2-seater-sofa-sets",
+    },
+    {
+      name: "Time to unwind",
+      label: "Electric recliners",
+      slug: "electric-recliners",
+    },
+  ];
+  return (
+    <>
+      <AssemblyHero />
+      <div className="border-y bg-background">
+        <div className="container flex flex-wrap justify-between gap-4 py-6 text-[10px] uppercase tracking-[.14em]">
+          <span>A family furniture business</span>
+          <span>Cash & card on delivery</span>
+          <span>Made for everyday living</span>
+        </div>
       </div>
-      <div className="container flex items-center justify-between border-t border-black/10 py-5 text-[10px] uppercase tracking-[.12em]"><span>A softer way to live</span><span>01 — The sofa collection</span></div>
-    </section>
-    <section className="container section"><div className="mb-9 flex flex-wrap items-end justify-between gap-5"><div><p className="eyebrow mb-4 text-muted-foreground">Find your favourite place</p><h2 className="display text-4xl sm:text-5xl">Every room has a story.</h2></div><Link href="/sofas" className="inline-flex items-center gap-4 text-xs">Explore the collection <MoveRight size={19}/></Link></div><div className="grid gap-7 md:grid-cols-3">{groups.map(group=>{const product=products.find(p=>p.categories.includes(group.slug)&&p.images.length)||products[0];return <Link key={group.slug} href={`/sofas/${group.slug}`} className="group"><div className="relative aspect-[4/3] overflow-hidden bg-muted"><Image src={product.images[0].url} alt={group.label} fill sizes="(max-width:768px) 95vw, 33vw" className="object-cover transition-transform duration-500 group-hover:scale-105"/></div><div className="flex items-center justify-between pt-5"><div><p className="text-[10px] uppercase tracking-widest text-muted-foreground">{group.label}</p><h3 className="mt-2 font-serif text-2xl">{group.name}</h3></div><ArrowUpRight size={20}/></div></Link>;})}</div></section>
-    <section className="bg-[#f0efe9]"><div className="container section"><div className="mb-10 flex items-end justify-between gap-4"><div><p className="eyebrow mb-4 text-muted-foreground">A few favourites</p><h2 className="display text-4xl sm:text-5xl">Good days start here.</h2></div><Link className="link-underline text-xs" href="/sofas">Shop all sofas</Link></div><div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">{featured.slice(0,4).map(product=><ProductCard key={product.id} product={product}/>)}</div></div></section>
-    <section className="container section grid items-center gap-12 md:grid-cols-2"><div className="relative aspect-square bg-muted"><Image src={(products.find(p=>p.name.toLowerCase().includes("verona")&&p.images.length>1)||products[0]).images.at(-1)!.url} alt="Details that make a sofa feel like home" fill sizes="(max-width:768px) 95vw, 45vw" className="object-cover"/></div><div className="max-w-md md:pl-8"><p className="eyebrow mb-6 text-muted-foreground">Your home. Your way.</p><h2 className="display text-5xl">It’s the feeling<br/>that matters.</h2><p className="mt-7 text-sm leading-7 text-muted-foreground">A sofa is more than the centre of a room. It’s where life happens. We’re here to help you find the shape, the fabric and the comfort that fit you.</p><div className="mt-9 grid gap-5 border-t border-border pt-7 text-sm"><Link className="flex justify-between" href="/swatches">Find your fabric <ArrowUpRight size={17}/></Link><Link className="flex justify-between" href="/try-in-your-room">Picture it in your room <ArrowUpRight size={17}/></Link><Link className="flex justify-between" href="/guides">Measure with confidence <ArrowUpRight size={17}/></Link></div></div></section>
-    <section className="bg-primary py-16 text-white"><div className="container flex flex-wrap items-center justify-between gap-8"><div><p className="eyebrow mb-4 text-white/65">A little help goes a long way</p><h2 className="display text-4xl sm:text-5xl">Let’s find your kind of comfort.</h2></div><Button asChild variant="outline" className="h-12 rounded-none border-white/40 bg-transparent px-7 text-white hover:bg-white hover:text-primary"><Link href="/contact">Talk to our team <ArrowRight className="ml-5 h-4 w-4"/></Link></Button></div></section>
-  </>;
+      <Reveal className="container section">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-5">
+          <div>
+            <p className="eyebrow reveal-text mb-4 text-muted-foreground">
+              Find your favourite place
+            </p>
+            <h2 className="line-mask display text-4xl sm:text-5xl">
+              <span>Every room has a story.</span>
+            </h2>
+          </div>
+          <Link
+            href="/shop"
+            className="reveal-text inline-flex items-center gap-4 text-xs"
+          >
+            Explore all sofas <ArrowRight size={18} />
+          </Link>
+        </div>
+        <div className="grid gap-7 md:grid-cols-3">
+          {groups.map((group, i) => {
+            const product =
+              products.find(
+                (p) =>
+                  p.categories.includes(group.slug) &&
+                  p.images[0]?.url.startsWith("/images/"),
+              ) || hero;
+            return (
+              <Reveal index={i} key={group.slug}>
+                <Link href={`/shop?category=${group.slug}`} className="group">
+                  <div className="asset-mask relative aspect-[4/3] overflow-hidden bg-muted">
+                    <Image
+                      src={product.images[0].url}
+                      alt={group.label}
+                      fill
+                      sizes="(max-width:768px) 95vw, 33vw"
+                      className="product-photo object-cover"
+                    />
+                  </div>
+                  <div className="flex items-center justify-between pt-5">
+                    <div>
+                      <p className="eyebrow text-[10px] text-muted-foreground">
+                        {group.label}
+                      </p>
+                      <h3 className="mt-2 font-serif text-2xl">{group.name}</h3>
+                    </div>
+                    <ArrowUpRight size={20} />
+                  </div>
+                </Link>
+              </Reveal>
+            );
+          })}
+        </div>
+      </Reveal>
+      <section className="bg-[#f0efe9]">
+        <Reveal className="container section">
+          <div className="mb-10 flex items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow reveal-text mb-4 text-muted-foreground">
+                The considered collection
+              </p>
+              <h2 className="line-mask display text-4xl sm:text-5xl">
+                <span>Good days start here.</span>
+              </h2>
+            </div>
+            <Link className="text-xs underline underline-offset-4" href="/shop">
+              View all
+            </Link>
+          </div>
+          <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4">
+            {featured.slice(0, 4).map((product, i) => (
+              <Reveal index={i} key={product.id}>
+                <ProductCard product={product} />
+              </Reveal>
+            ))}
+          </div>
+        </Reveal>
+      </section>
+      <Reveal className="container section grid items-center gap-12 md:grid-cols-2">
+        <div className="asset-mask relative aspect-square bg-muted">
+          <Image
+            src={(featured[1] || hero).images[0].url}
+            alt="A sofa from the Oakmere collection"
+            fill
+            sizes="(max-width:768px) 95vw, 45vw"
+            className="object-cover"
+          />
+        </div>
+        <div className="max-w-md md:pl-8">
+          <p className="eyebrow reveal-text mb-6 text-muted-foreground">
+            Hello, we’re Oakmere.
+          </p>
+          <h2 className="line-mask display text-4xl sm:text-5xl">
+            <span>
+              A family business.
+              <br />A feeling of home.
+            </span>
+          </h2>
+          <p className="reveal-text mt-7 text-sm leading-7 text-muted-foreground">
+            We’re Sami and his brothers. What began with sharing furniture on
+            social media is finding a home of its own. Our aim is simple: help
+            you find furniture that fits the way you live.
+          </p>
+          <Link
+            href="/about"
+            className="reveal-text mt-8 inline-flex items-center gap-8 border-b pb-3 text-xs"
+          >
+            Get to know us <ArrowUpRight size={18} />
+          </Link>
+        </div>
+      </Reveal>
+      <Reveal className="container pb-20">
+        <div className="grid gap-8 border-t pt-10 md:grid-cols-3">
+          {[
+            {
+              Icon: HeartHandshake,
+              title: "People behind every order",
+              text: "A family team to help you choose and confirm the details.",
+            },
+            {
+              Icon: Truck,
+              title: "Let’s get the fit right",
+              text: "Check your space and delivery access before choosing your sofa.",
+            },
+            {
+              Icon: CreditCard,
+              title: "Pay on delivery",
+              text: "Choose cash or card on delivery. No online card details required.",
+            },
+          ].map(({ Icon, title, text }) => (
+            <div key={title}>
+              <Icon strokeWidth={1.2} className="mb-5" size={26} />
+              <h2 className="font-serif text-2xl">{title}</h2>
+              <p className="mt-3 text-sm leading-7 text-muted-foreground">
+                {text}
+              </p>
+            </div>
+          ))}
+        </div>
+      </Reveal>
+      <section className="bg-primary py-20 text-white">
+        <Reveal className="container flex flex-wrap items-center justify-between gap-8">
+          <div>
+            <p className="eyebrow mb-4 text-white/65">
+              Your next chapter starts here
+            </p>
+            <h2 className="line-mask display text-4xl sm:text-5xl">
+              <span>Come in. Get comfortable.</span>
+            </h2>
+          </div>
+          <Link
+            className="inline-flex items-center gap-8 border border-white/40 px-7 py-4 text-xs"
+            href="/shop"
+          >
+            Find your sofa <ArrowRight size={18} />
+          </Link>
+        </Reveal>
+      </section>
+    </>
+  );
 }

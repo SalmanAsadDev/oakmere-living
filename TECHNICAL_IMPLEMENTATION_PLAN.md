@@ -1,5 +1,7 @@
 # Oakmere Living — Technical Implementation Plan
 
+> Updated frontend authority (7 October 2026): [Motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Use `/shop` with category query filters and `/cart`; legacy category routes redirect. Follow the named motion tokens and reduced-motion behaviour in that contract. It supersedes conflicting route/animation recommendations below.
+
 Version: 1.0 | Updated: 6 October 2026 | Status: implementation-ready design; application not yet built
 
 Companion authority: [Project implementation plan, v0.2](PROJECT_IMPLEMENTATION_PLAN.md). That document owns business requirements and acceptance IDs. This document owns the implementation design, contracts, task dependencies and verification approach. Later explicit user answers take precedence; record any change in both affected documents.

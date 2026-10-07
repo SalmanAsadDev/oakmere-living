@@ -26,6 +26,9 @@ Commit and push after each major verified milestone. Never commit credentials, l
 
 ## Verification and known limitations
 
+- 7 October frontend revision: dedicated welcome Home, filter-based `/shop`, About and `/cart`; category routes redirect. Four motion components implemented: scroll assembly illustration, loaded-image material mask, staggered text/image reveals, Radix cart/filter drawers. See FRONTEND_MOTION_SPEC.md for specifications and the 400ms material timing resolution.
+- Revised production build and TypeScript passed. Browser verified: Corner Sofas gives 30 results without leaving `/shop`; filter/cart drawers work; Grey Leather Oxford variant morph computes 0.4s and adds the correct £999 line and image to cart; mobile viewport has no horizontal overflow; hero removes will-change after interaction. Reduced-motion stylesheet and listener paths inspected; OS preference emulation was not available in the browser tool.
+
 - `npm test`: 4 catalogue/price/variant tests passed.
 - `npm run typecheck`: passed.
 - `npm run build`: passed after allowing Windows worker process creation (sandbox initially returned EPERM).

@@ -3,10 +3,171 @@ import { useState } from "react";
 import { ProductImage as Image } from "./product-image";
 import Link from "next/link";
 import type { Product } from "@/lib/domain/catalogue";
+import { MaterialImage } from "./material-image";
 import { money } from "@/lib/presentation/format";
 import { useBasket } from "./basket-provider";
 import { Button } from "@/components/ui/button";
-export function ProductDetail({product}:{product:Product}) {
- const [selected,setSelected]=useState(product.variants.length===1?product.variants[0].id:"");const [photo,setPhoto]=useState(product.images[0]?.url);const [added,setAdded]=useState(false);const basket=useBasket();const variant=product.variants.find(v=>v.id===selected);
- return <div className="container py-10"><nav className="mb-8 text-xs text-muted-foreground" aria-label="Breadcrumb"><Link href="/sofas">Sofas</Link> / {product.name}</nav><div className="grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]"><div><div className="relative aspect-[5/4] bg-muted">{photo&&<Image src={photo} alt={product.name} fill priority sizes="(max-width:1024px) 95vw, 55vw" className="object-contain"/>}</div><div className="mt-3 flex gap-3 overflow-x-auto">{product.images.map((image,index)=><button key={image.url} onClick={()=>setPhoto(image.url)} aria-label={`View ${product.name}, image ${index+1}`} aria-pressed={photo===image.url} className={`relative h-20 w-24 shrink-0 border ${photo===image.url?"border-primary":"border-transparent"}`}><Image src={image.url} alt="" fill sizes="96px" className="object-cover"/></button>)}</div></div><div><p className="eyebrow text-muted-foreground">Make room for comfort</p><h1 className="display mt-4 text-4xl sm:text-5xl">{product.name}</h1><p className="my-6 text-2xl">{variant?money(variant.price):product.price!==null?`${product.priceType==="from"?"From ":""}${money(product.price)}`:"Ask for a price"}</p><p className="text-sm leading-7 text-muted-foreground">{product.description}</p>{product.variants.length>0?<fieldset className="my-8"><legend className="mb-3 text-sm font-medium">Choose your configuration</legend><div className="flex flex-wrap gap-2">{product.variants.map(v=><button key={v.id} type="button" aria-pressed={selected===v.id} className={`border px-4 py-3 text-xs ${selected===v.id?"border-primary bg-primary text-white":""}`} onClick={()=>{setSelected(v.id);setAdded(false);if(v.image)setPhoto(v.image);}}>{v.label}</button>)}</div></fieldset>:<p className="my-6 rounded border p-4 text-sm">Our team can help confirm the available configurations and price for this sofa.</p>}{product.variants.length>0&&<Button disabled={!variant} className="h-12 w-full rounded-none" onClick={()=>{if(!variant)return;basket.add({variantId:variant.id,productId:product.id,slug:product.slug,name:product.name,label:variant.label,image:variant.image||product.images[0]?.url||"",price:variant.price});setAdded(true);}}>{added?"Added to your basket":"Add to basket"}</Button>}<p aria-live="polite" className="mt-3 text-sm">{added&&<Link className="underline" href="/basket">View your basket →</Link>}</p><Button asChild variant="outline" className="mt-3 h-12 w-full rounded-none"><Link href={`/contact?product=${encodeURIComponent(product.slug)}`}>Ask about this sofa</Link></Button><div className="mt-8 divide-y border-y text-sm"><details className="py-5" open><summary className="cursor-pointer font-medium">Dimensions & materials</summary><p className="mt-4 leading-7 text-muted-foreground">{product.dimensions||"Dimensions are being confirmed. Contact us before ordering to check the fit."}</p><p className="mt-2 text-muted-foreground">{product.materials.join(", ")}</p><Link href="/guides" className="mt-3 inline-block underline">How to measure your space</Link></details><details className="py-5"><summary className="cursor-pointer font-medium">Delivery & payment</summary><p className="mt-4 leading-7 text-muted-foreground">Pay by cash or card on delivery. Availability, delivery charge and access requirements must be confirmed for your address.</p><Link href="/delivery" className="underline">Delivery information</Link></details></div></div></div></div>;
+export function ProductDetail({ product }: { product: Product }) {
+  const [selected, setSelected] = useState(
+    product.variants.length === 1 ? product.variants[0].id : "",
+  );
+  const [photo, setPhoto] = useState(product.images[0]?.url);
+  const [added, setAdded] = useState(false);
+  const basket = useBasket();
+  const variant = product.variants.find((v) => v.id === selected);
+  return (
+    <div className="container py-10">
+      <nav
+        className="mb-8 text-xs text-muted-foreground"
+        aria-label="Breadcrumb"
+      >
+        <Link href="/shop">Sofas</Link> / {product.name}
+      </nav>
+      <div className="grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]">
+        <div>
+          <div className="relative aspect-[5/4] bg-muted">
+            {photo && (
+              <MaterialImage
+                src={photo}
+                alternatives={product.variants.map((v) => v.image)}
+                alt={product.name}
+              />
+            )}
+          </div>
+          <div className="mt-3 flex gap-3 overflow-x-auto">
+            {product.images.map((image, index) => (
+              <button
+                key={image.url}
+                onClick={() => setPhoto(image.url)}
+                aria-label={`View ${product.name}, image ${index + 1}`}
+                aria-pressed={photo === image.url}
+                className={`relative h-20 w-24 shrink-0 border ${photo === image.url ? "border-primary" : "border-transparent"}`}
+              >
+                <Image
+                  src={image.url}
+                  alt=""
+                  fill
+                  sizes="96px"
+                  className="object-cover"
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="eyebrow text-muted-foreground">Make room for comfort</p>
+          <h1 className="display mt-4 text-4xl sm:text-5xl">{product.name}</h1>
+          <p className="my-6 text-2xl">
+            {variant
+              ? money(variant.price)
+              : product.price !== null
+                ? `${product.priceType === "from" ? "From " : ""}${money(product.price)}`
+                : "Ask for a price"}
+          </p>
+          <p className="text-sm leading-7 text-muted-foreground">
+            {product.description}
+          </p>
+          {product.variants.length > 0 ? (
+            <fieldset className="my-8">
+              <legend className="mb-3 text-sm font-medium">
+                Choose your configuration
+              </legend>
+              <div className="flex flex-wrap gap-2">
+                {product.variants.map((v) => (
+                  <button
+                    key={v.id}
+                    type="button"
+                    aria-pressed={selected === v.id}
+                    className={`swatch-button border px-4 py-3 text-xs ${selected === v.id ? "border-primary bg-primary text-white" : ""}`}
+                    onPointerEnter={(event) => {
+                      if (event.pointerType === "mouse" && v.image) setPhoto(v.image);
+                    }}
+                    onPointerLeave={() => setPhoto(variant?.image || product.images[0]?.url)}
+                    onClick={() => {
+                      setSelected(v.id);
+                      setAdded(false);
+                      if (v.image) setPhoto(v.image);
+                    }}
+                  >
+                    {v.label}
+                  </button>
+                ))}
+              </div>
+            </fieldset>
+          ) : (
+            <p className="my-6 rounded border p-4 text-sm">
+              Our team can help confirm the available configurations and price
+              for this sofa.
+            </p>
+          )}
+          {product.variants.length > 0 && (
+            <Button
+              disabled={!variant}
+              className="h-12 w-full rounded-none"
+              onClick={() => {
+                if (!variant) return;
+                basket.add({
+                  variantId: variant.id,
+                  productId: product.id,
+                  slug: product.slug,
+                  name: product.name,
+                  label: variant.label,
+                  image: variant.image || product.images[0]?.url || "",
+                  price: variant.price,
+                });
+                setAdded(true);
+              }}
+            >
+              {added ? "Added to your basket" : "Add to basket"}
+            </Button>
+          )}
+          <p aria-live="polite" className="mt-3 text-sm">
+            {added && (
+              <Link className="underline" href="/cart">
+                View your basket →
+              </Link>
+            )}
+          </p>
+          <Button
+            asChild
+            variant="outline"
+            className="mt-3 h-12 w-full rounded-none"
+          >
+            <Link href={`/contact?product=${encodeURIComponent(product.slug)}`}>
+              Ask about this sofa
+            </Link>
+          </Button>
+          <div className="mt-8 divide-y border-y text-sm">
+            <details className="py-5" open>
+              <summary className="cursor-pointer font-medium">
+                Dimensions & materials
+              </summary>
+              <p className="mt-4 leading-7 text-muted-foreground">
+                {product.dimensions ||
+                  "Dimensions are being confirmed. Contact us before ordering to check the fit."}
+              </p>
+              <p className="mt-2 text-muted-foreground">
+                {product.materials.join(", ")}
+              </p>
+              <Link href="/guides" className="mt-3 inline-block underline">
+                How to measure your space
+              </Link>
+            </details>
+            <details className="py-5">
+              <summary className="cursor-pointer font-medium">
+                Delivery & payment
+              </summary>
+              <p className="mt-4 leading-7 text-muted-foreground">
+                Pay by cash or card on delivery. Availability, delivery charge
+                and access requirements must be confirmed for your address.
+              </p>
+              <Link href="/delivery" className="underline">
+                Delivery information
+              </Link>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }

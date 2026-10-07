@@ -207,10 +207,10 @@ button {
 }
 .assembly-stage {
   position: absolute;
-  width: min(82%, 800px);
+  width: min(68%, 900px);
   aspect-ratio: 900/650;
-  left: 50%;
-  bottom: 0;
+  left: 70%;
+  bottom: -5%;
   transform: translate3d(-50%, 0, 0);
 }
 .assembly-layer {
@@ -365,6 +365,7 @@ button {
   }
   .assembly-stage {
     width: 135%;
+    left: 50%;
     bottom: 4%;
   }
 }

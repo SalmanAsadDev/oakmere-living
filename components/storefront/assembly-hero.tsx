@@ -174,7 +174,7 @@ export function AssemblyHero() {
       <div className="assembly-sticky">
         <div className="container relative z-10 pt-10 sm:pt-14">
           <p className="eyebrow text-primary">Welcome to Oakmere Living</p>
-          <div className="mt-5 flex items-end justify-between gap-8">
+          <div className="mt-5">
             <h1 className="display text-[clamp(46px,6.5vw,96px)]">
               <span className="line-mask">
                 <span>A little more</span>
@@ -185,7 +185,7 @@ export function AssemblyHero() {
                 </span>
               </span>
             </h1>
-            <div className="hidden max-w-[260px] pb-3 md:block">
+            <div className="mt-7 hidden max-w-[280px] pb-3 md:block">
               <p className="text-sm leading-7 text-muted-foreground">
                 For the slow Sundays. The long conversations. The moments that
                 make a house your home.

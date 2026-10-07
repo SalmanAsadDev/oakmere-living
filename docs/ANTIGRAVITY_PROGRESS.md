@@ -43,3 +43,19 @@
 - **Service Request Views (`app/admin/contacts`, `app/admin/swatches`)**: Implemented data tables displaying submitted requests with their current status, fetching live from Supabase.
 - **Order Management UI (`app/admin/orders`)**: Implemented a view for staff to manage incoming checkout transactions (integrating with schemas built by Conversation A).
 - **Catalogue Management UI (`app/admin/products`)**: Added a placeholder view pending finalisation of the products schema.
+
+## 7 October 2026 - Milestone 4: Core Catalogue Backend (Conversation C)
+
+### Completed
+- **Catalogue Database Migrations (`supabase/migrations`)**: Created `20261007200500_catalogue_schema.sql` establishing tables for `categories`, `products`, `variants`, and `media_assets` with appropriate RLS policies.
+- **Admin Catalogue List (`app/admin/products/page.tsx`)**: Replaced placeholder with a dynamic data table fetching live products from the database.
+- **Product Editor UI (`app/admin/products/new`)**: Implemented a form to create new products, along with the corresponding server actions (`actions.ts`).
+- **Validation Schemas (`lib/validation/catalogue.ts`)**: Defined robust Zod schemas for validating product and variant inputs.
+
+## 7 October 2026 - Milestone 5: Auth, Orders, & Try-in-Room (Conversation D)
+
+### Completed
+- **Admin Authentication (`app/admin/login`, `middleware.ts`)**: Built a secure login interface using `@supabase/ssr` and implemented route protection via Next.js middleware to keep unauthorized users out of the admin panel.
+- **Order Fulfillment UI (`app/admin/(dashboard)/orders/[id]`)**: Implemented a detailed order view displaying customer details, shipping address, and line items, alongside a server action for staff to update order statuses.
+- **Try-In-Your-Room Feature (`app/try-in-your-room`)**: Created a browser-local room planner using HTML5 Canvas (`components/previews/room-planner.tsx`), allowing users to upload a photo of their room and manipulate a sofa overlay (scale/drag) without any server-side upload, fully adhering to privacy constraints.
+- **Project Structure Fixes**: Reorganized the admin layout into a route group `(dashboard)` to allow the login page to render cleanly without the sidebar. Resolved TypeScript errors introduced by form actions.

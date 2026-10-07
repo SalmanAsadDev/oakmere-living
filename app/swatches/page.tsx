@@ -41,7 +41,11 @@ export default function SwatchesPage() {
         </div>
 
         <div className="bg-muted/10 p-6 sm:p-8 rounded-lg border border-border">
-          <form className="space-y-4">
+          <form className="space-y-4" aria-describedby="swatch-form-status">
+            <p id="swatch-form-status" role="status" className="text-sm text-muted-foreground">
+              Swatch requests are not available yet. This form will open once our request service is ready.
+            </p>
+            <fieldset disabled className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
               <Input id="name" name="name" required placeholder="Your name" />
@@ -80,6 +84,7 @@ export default function SwatchesPage() {
             <p className="text-xs text-muted-foreground text-center mt-4">
               Your details will only be used to send your swatches. See our <a href="/privacy" className="underline">Privacy Policy</a>.
             </p>
+            </fieldset>
           </form>
         </div>
       </div>

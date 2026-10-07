@@ -31,7 +31,7 @@ export default function ContactPage() {
             <div>
               <h2 className="text-xl font-serif text-primary mb-2">Direct Contact</h2>
               <p className="text-muted-foreground">
-                Email: <a href="mailto:support@oakmereliving.co.uk" className="link-underline">support@oakmereliving.co.uk</a>
+                Our direct contact details are being confirmed.
               </p>
               <p className="text-muted-foreground mt-2 text-sm italic">
                 * Phone and WhatsApp contacts will be available once confirmed by our team.
@@ -42,7 +42,11 @@ export default function ContactPage() {
 
         <div className="bg-muted/30 p-6 sm:p-8 rounded-lg border border-border">
           <h2 className="text-2xl font-serif text-primary mb-6">Send a Message</h2>
-          <form className="space-y-4">
+          <form className="space-y-4" aria-describedby="contact-form-status">
+            <p id="contact-form-status" role="status" className="text-sm text-muted-foreground">
+              Online enquiries are not available yet. This form will open once our contact service is ready.
+            </p>
+            <fieldset disabled className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="name">Full Name</Label>
               <Input id="name" name="name" required placeholder="Your name" />
@@ -81,6 +85,7 @@ export default function ContactPage() {
             <p className="text-xs text-muted-foreground text-center mt-4">
               By submitting this form, you agree to our <a href="/privacy" className="underline">Privacy Policy</a>.
             </p>
+            </fieldset>
           </form>
         </div>
       </div>

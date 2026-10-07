@@ -29,11 +29,17 @@ function SheetPortal({
 
 function SheetOverlay({
   className,
+  onTransitionRun,
+  onTransitionEnd,
+  onTransitionCancel,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Overlay>) {
   return (
     <SheetPrimitive.Overlay
       data-slot="sheet-overlay"
+      onTransitionRun={(event) => { markMotion(event, true); onTransitionRun?.(event); }}
+      onTransitionEnd={(event) => { markMotion(event, false); onTransitionEnd?.(event); }}
+      onTransitionCancel={(event) => { markMotion(event, false); onTransitionCancel?.(event); }}
       className={cn(
         "spatial-overlay fixed inset-0 z-50 bg-black/40",
         className,
@@ -43,11 +49,20 @@ function SheetOverlay({
   );
 }
 
+function markMotion(event: React.TransitionEvent<HTMLDivElement>, active: boolean) {
+  if (event.target !== event.currentTarget) return;
+  if (active) event.currentTarget.dataset.animating = "true";
+  else delete event.currentTarget.dataset.animating;
+}
+
 function SheetContent({
   className,
   children,
   side = "right",
   showCloseButton = true,
+  onTransitionRun,
+  onTransitionEnd,
+  onTransitionCancel,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
   side?: "top" | "right" | "bottom" | "left";
@@ -59,14 +74,9 @@ function SheetContent({
       <SheetPrimitive.Content
         data-slot="sheet-content"
         data-side={side}
-        onAnimationStart={(event) => {
-          if (event.target === event.currentTarget)
-            event.currentTarget.dataset.animating = "true";
-        }}
-        onAnimationEnd={(event) => {
-          if (event.target === event.currentTarget)
-            delete event.currentTarget.dataset.animating;
-        }}
+        onTransitionRun={(event) => { markMotion(event, true); onTransitionRun?.(event); }}
+        onTransitionEnd={(event) => { markMotion(event, false); onTransitionEnd?.(event); }}
+        onTransitionCancel={(event) => { markMotion(event, false); onTransitionCancel?.(event); }}
         className={cn(
           "spatial-sheet fixed z-50 flex flex-col gap-4 bg-background shadow-lg",
           side === "right" &&

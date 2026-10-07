@@ -1,7 +1,7 @@
 {
   "attempted": 100,
-  "copied": 20,
-  "available": 20,
+  "copied": 66,
+  "available": 86,
   "errors": [
     {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372040/Lily-5-Seater-Corner-High-Back-Sofa-Grey_l8aovm.png",
@@ -20,7 +20,7 @@
       "error": "HTTP 404"
     },
     {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372076/Lily-U-Shape-Grey_plahnk.png",
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372077/Lily-U-Shape-Navy-Black_c61qgx.png",
       "error": "HTTP 404"
     },
     {
@@ -28,300 +28,36 @@
       "error": "HTTP 404"
     },
     {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372076/Lily-U-Shape-Grey_plahnk.png",
+      "error": "HTTP 404"
+    },
+    {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372044/Lily-Footstool-Navy-Blue_cjmbyj.png",
       "error": "HTTP 404"
     },
     {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372077/Lily-U-Shape-Navy-Black_c61qgx.png",
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-Scatter-Back-Sofa-Grey_fnhlv9.png",
       "error": "HTTP 404"
     },
     {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248492/Hannah-Electric-Corner-Sofa-Grey_tddmev.png",
-      "error": "The operation was aborted due to timeout"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-Scatter-Back-Sofa-Grey_fnhlv9.png",
-      "error": "fetch failed"
-    },
-    {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372039/Lily-3-2-Seater-Corner-Scatter-Back-Sofa-Black_om86vz.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787517246/Verona-3_2-seater-scattered-back-sofa-grey_lbi4wq.jpg",
-      "error": "terminated"
+      "error": "HTTP 404"
     },
     {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372042/Lily-5-Seater-Corner-Scatter-Back-Sofa-Grey_hggppb.png",
-      "error": "fetch failed"
+      "error": "HTTP 404"
     },
     {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372043/Lily-5-Seater-Corner-Scatter-Back-Sofa-Black_rswmfi.png",
-      "error": "fetch failed"
+      "error": "HTTP 404"
     },
     {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-High-Back-Sofa-Grey_nm3cpr.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513326/Verona-3-seater-scattered-back-sofa-grey_bdwses.jpg",
-      "error": "fetch failed"
+      "error": "HTTP 404"
     },
     {
       "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-High-Back-Sofa-Black_mlvpbr.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788375693/Malibu-5-Seater-Corner-Oatmeal-High-Back-Sofa_n1lhvn.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788375694/Malibu-5-Seater-Corner-Pebble-High-Back-Sofa_qap3im.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248467/Black-Roma-Recliner-Manual_fu4i3h.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248482/Brown-Roma-Recliner-Manual_whbi8q.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248440/Black-Roma-Recliner-Manual-2-Seater-Fabric-Sofa_rvkrwt.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248442/Brown-Roma-Recliner-Manual-2-Seater-Fabric-Sofa_kmoq3h.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248447/Grey-Fabric-Roma-Recliner-Manual-3-Seater-Fabric-Sofa_inwxfs.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248451/Black-Roma-Recliner-Manual-3-Seater-Fabric-Sofa_nsvdbd.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248442/Brown-Roma-Recliner-Manual-Corner-Sofa_clo8r5.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248451/Grey-Roma-Recliner-Manual-Corner-Fabric-Sofa_rvzlli.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513319/Verona-4-seater-2c1-corner-high-back-sofa-grey2_uw3ny5.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513318/Verona-2-seater-scattered-back-sofa-grey_uvsjse.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513317/Verona-arm-chair-scattered-back-grey_n1rypi.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513322/Verona-4-seater-2c1-corner-scattered-back-sofa-grey_r3x5au.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513331/Verona-arm-chair-high-back-grey_ku1gtz.jpg",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789633310/Hannah-Electric-Recliner-3-2-Seater-Sofa-Grey_drw0cb.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789633310/Hannah-Electric-Recliner-3-2-Seater-Sofa-Beige_apaowq.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789664871/Ashton-3-2-Seater-High-Back-Plush-Velvet-Sofa-Grey_pfyf1b.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789664867/Ashton-3-2-Seater-Scatter-Back-Plush-Velvet-Sofa-Grey_hi1o3s.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789664875/Ashton-5-Seater-Corner-High-Back-Plush-Velvet-Sofa-Grey_ynyztj.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789664875/Ashton-5-Seater-Corner-Scatter-Back-Plush-Velvet-Sofa-Grey_jo4ivn.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789664867/Ashton-u-shape-Scatter-Back-Plush-Velvet-Sofa-Grey_g8mi6k.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789668995/Ashton-u-shape-High-Back-Plush-Velvet-Sofa-Grey_rqyuaq.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670894/Salone-2-Seater-Footstool-Sofa-Mink_a83q4z.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670936/Salone-3-Seater-Footstool-Sofa-Mink_vxngzw.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670908/Salone-3-2-Seater-Sofa-Mink_dq6egz.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670949/Salone-3-2-Seater-Sofa-Mink-Gallery-Image1_o4bez8.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670960/Salone-5-Seater-Corner-Sofa-Mink_neaguy.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670947/Salone-U-Shape-Sofa-Mink_rqteep.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789670929/Salone-Armed-U-Shape-Sofa-Mink_awkcot.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789671481/Salone-L-Shape-Sofa-White-with-Black-Piping_lmftbk.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789672904/Ashton-3-Seater-High-Back-Plush-Velvet-Sofa-Grey_fri167.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789672663/Ashton-2-Seater-High-Back-Plush-Velvet-Sofa-Grey_fi1nk6.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789672885/Ashton-3-Seater-Scatter-Back-Plush-Velvet-Sofa-Grey_vjimox.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789672724/Ashton-2-Seater-Scatter-Back-Plush-Velvet-Sofa-Grey_tulkja.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991695/Harrison-5-Seater-Corner-Scatter-Back-Sofa_kf1x4t.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991696/Oakland-5-Seater-Corner-Scatter-Back-Sofa_crfnba.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991705/Rub-y5-Seater-Corner-Scatter-Back-Sofa_ijkj8x.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991694/Olympia-5-Seater-Corner-Scatter-Back-Sofa_d439xy.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991696/Tango-5-Seater-Corner-Scatter-Back-Sofa_qtgkcl.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991703/Shannon-5-Seater-Corner-Scatter-Back-Sofa_fiijok.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789991698/Windsor-5-Seater-Corner-Scatter-Back-Sofa-Cream_wxrj6a.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1789993202/Rio-Chesterfield-5-Seater-Corner-Scatter-Back-Sofa_f81tpz.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2026/06/Roma-corner-brown-by-furnishings-hub3.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2026/06/Roma-corner-black-by-furnishings-hub-.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2026/06/Roma-corner-black-by-furnishings-hub2.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Madrid-sofa-by-furnishings-hub-3-2_20260520_205400_0000.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2026/05/Madrid-sofa-by-furnishings-hub-3-2-1000-x-1000-px_20260520_215758_0000.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/grey-corner-sofa-bed-with-2-adults.webfh4_.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/grey-corner-sofa-bed-with-2-adults.webfh1_.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Corner-sofa-bed-by-furnishingshub-1.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2026/06/Electric-grey-32-web-fh5.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2026/06/Electric-grey-32-web-fh54.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Electric-recliner-with-led-32-by-furnishings-hub-4.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Electric-sofa-32-by-furnishings-hub00.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Roma-corner-grey-by-furnishings-hub.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Roma-corner-grey-by-furnishings-hub3.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/U-shape-truffle-fullback-by-furnishings-hub4-.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/U-shape-truffle-fullback-by-furnishings-hub3.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Chesterfield-black-leather-32-by-furnishings-hub3.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://furnishingshub.co.uk/wp-content/uploads/2023/04/Chesterfield-black-leather-32-by-furnishings-hub4.png",
-      "error": "fetch failed"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1787513325/Verona-5-seater-2c2-corner-scattered-back-sofa-grey_xydmvl.jpg",
-      "error": "terminated"
-    },
-    {
-      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1782248491/Hannah-Electric-Corner-Sofa-Beige_bnq7vl.png",
-      "error": "terminated"
+      "error": "HTTP 404"
     }
   ]
 }

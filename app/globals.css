@@ -14,10 +14,6 @@
   --motion-duration-material: 400ms;
   --motion-stagger: 60ms;
   --motion-max-delay: 360ms;
-  --animate-drawer-in: drawer-in var(--motion-duration-responsive)
-    var(--motion-ease-tactile) both;
-  --animate-drawer-out: drawer-out var(--motion-duration-responsive)
-    var(--motion-ease-tactile) both;
 }
 
 :root {
@@ -166,22 +162,10 @@ button {
     opacity var(--motion-duration-calm) var(--motion-ease-editorial);
   transition-delay: var(--reveal-delay, 0ms);
 }
-.reveal .reveal-text:nth-child(2) {
-  transition-delay: min(
-    calc(var(--reveal-delay, 0ms) + var(--motion-stagger)),
-    var(--motion-max-delay)
-  );
-}
-.reveal .reveal-text:nth-child(3) {
-  transition-delay: min(
-    calc(var(--reveal-delay, 0ms) + var(--motion-stagger) * 2),
-    var(--motion-max-delay)
-  );
-}
-.reveal[data-reveal="waiting"] .line-mask > span {
+.line-mask > span[data-reveal="waiting"] {
   transform: translate3d(0, 100%, 0);
 }
-.reveal[data-reveal="waiting"] .reveal-text {
+.reveal-text[data-reveal="waiting"] {
   transform: translate3d(0, 18px, 0);
   opacity: 0;
 }
@@ -190,27 +174,28 @@ button {
   transition: clip-path var(--motion-duration-calm) var(--motion-ease-editorial);
   transition-delay: var(--reveal-delay, 0ms);
 }
-.reveal[data-reveal="waiting"] .asset-mask {
+.asset-mask[data-reveal="waiting"] {
   clip-path: inset(100% 0 0 0);
 }
 .assembly-section {
+  --hero-height: max(590px, calc(100svh - 130px));
   position: relative;
-  height: calc(200svh - 130px);
-  background: #e8e5db;
+  height: calc(var(--hero-height) + 100vh);
+  background: radial-gradient(ellipse at 72% 42%, #f6f3e9, #e8e5db 72%);
 }
 .assembly-sticky {
   position: sticky;
   top: 0;
-  height: calc(100svh - 130px);
+  height: var(--hero-height);
   min-height: 590px;
   overflow: hidden;
 }
 .assembly-stage {
   position: absolute;
-  width: min(68%, 900px);
-  aspect-ratio: 900/650;
-  left: 70%;
-  bottom: -5%;
+  width: min(65%, 820px, calc(100svh - 170px));
+  aspect-ratio: 1;
+  left: 69%;
+  bottom: 4%;
   transform: translate3d(-50%, 0, 0);
 }
 .assembly-layer {
@@ -220,19 +205,23 @@ button {
   height: 100%;
 }
 .assembly-feet {
-  transform: translate3d(0, calc((1 - var(--scroll-progress)) * 32px), 0);
+  clip-path: inset(78% 0 0 0);
+  transform: translate3d(0, calc(var(--scroll-progress) * -9%), 0);
 }
 .assembly-frame {
-  transform: translate3d(0, calc((1 - var(--scroll-progress)) * -22px), 0);
+  clip-path: inset(45% 0 22% 0);
+  transform: translate3d(0, 0, 0);
 }
 .assembly-cushions {
-  transform: translate3d(0, calc((1 - var(--scroll-progress)) * -105px), 0);
+  clip-path: inset(0 0 56% 0);
+  transform-origin: 50% 30%;
+  transform: translate3d(0, calc(var(--scroll-progress) * 27%), 0) scale(.85);
 }
 .assembly-shadow {
   position: absolute;
-  left: 22%;
-  top: 67%;
-  width: 62%;
+  left: 8%;
+  top: 79%;
+  width: 84%;
   height: 8%;
   border-radius: 50%;
   background: radial-gradient(ellipse, #3b3a2d33, transparent 70%);
@@ -261,6 +250,8 @@ button {
 .spatial-sheet {
   --drawer-x: 100%;
   --drawer-y: 0%;
+  transform: translate3d(var(--drawer-x), var(--drawer-y), 0);
+  transition: transform var(--motion-duration-responsive) var(--motion-ease-tactile);
 }
 .spatial-sheet[data-side="left"] {
   --drawer-x: -100%;
@@ -274,53 +265,37 @@ button {
   --drawer-y: 100%;
 }
 .spatial-sheet[data-state="open"] {
-  animation: var(--animate-drawer-in);
+  transform: translate3d(0, 0, 0);
 }
-.spatial-sheet[data-state="closed"] {
-  animation: var(--animate-drawer-out);
+.spatial-sheet[data-state="closed"],
+.spatial-overlay[data-state="closed"] {
+  /* Radix Presence waits for this exit signal. Visual transitions retain their
+     current value when reversed, instead of restarting a keyframe endpoint. */
+  animation: sheet-presence var(--motion-duration-responsive);
+  pointer-events: none;
 }
-.spatial-sheet[data-animating="true"] {
+.spatial-sheet[data-animating="true"],
+.spatial-overlay[data-animating="true"] {
   will-change: transform, opacity;
 }
+.spatial-overlay {
+  opacity: 0;
+  transition: opacity var(--motion-duration-responsive) var(--motion-ease-tactile);
+}
 .spatial-overlay[data-state="open"] {
-  animation: overlay-in var(--motion-duration-responsive)
-    var(--motion-ease-tactile) both;
+  opacity: 1;
 }
-.spatial-overlay[data-state="closed"] {
-  animation: overlay-out var(--motion-duration-responsive)
-    var(--motion-ease-tactile) both;
-}
-@keyframes drawer-in {
-  from {
+@starting-style {
+  .spatial-sheet[data-state="open"] {
     transform: translate3d(var(--drawer-x), var(--drawer-y), 0);
   }
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-@keyframes drawer-out {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(var(--drawer-x), var(--drawer-y), 0);
-  }
-}
-@keyframes overlay-in {
-  from {
+  .spatial-overlay[data-state="open"] {
     opacity: 0;
   }
-  to {
-    opacity: 1;
-  }
 }
-@keyframes overlay-out {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
+@keyframes sheet-presence {
+  from { --sheet-presence: 0; }
+  to { --sheet-presence: 1; }
 }
 @property --material-reveal {
   syntax: "<percentage>";
@@ -357,16 +332,16 @@ button {
 }
 @media (max-width: 767px) {
   .assembly-section {
-    height: calc(200svh - 112px);
+    --hero-height: max(740px, calc(100svh - 112px));
   }
   .assembly-sticky {
-    height: calc(100svh - 112px);
-    min-height: 600px;
+    min-height: 740px;
   }
   .assembly-stage {
-    width: 135%;
+    width: min(100%, 420px);
     left: 50%;
-    bottom: 4%;
+    top: 270px;
+    bottom: auto;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -378,13 +353,13 @@ button {
     position: relative;
     height: 85svh;
   }
-  .assembly-layer,
   .line-mask > span,
   .reveal-text {
     transform: none !important;
     opacity: 1 !important;
     will-change: auto !important;
   }
+  .assembly-layer { will-change: auto !important; }
   .asset-mask {
     clip-path: none !important;
   }

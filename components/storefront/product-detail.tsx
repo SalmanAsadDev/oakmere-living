@@ -78,7 +78,7 @@ export function ProductDetail({ product }: { product: Product }) {
                     key={v.id}
                     type="button"
                     aria-pressed={selected === v.id}
-                    className={`swatch-button border px-4 py-3 text-xs ${selected === v.id ? "border-primary bg-primary text-white" : ""}`}
+                    className={`swatch-button inline-flex items-center gap-3 border px-4 py-3 text-xs ${selected === v.id ? "border-primary bg-primary text-white" : ""}`}
                     onPointerEnter={(event) => {
                       if (event.pointerType === "mouse" && v.image) setPhoto(v.image);
                     }}
@@ -89,6 +89,7 @@ export function ProductDetail({ product }: { product: Product }) {
                       if (v.image) setPhoto(v.image);
                     }}
                   >
+                    <span aria-hidden="true" className="size-4 rounded-full border border-current/30" style={{ backgroundColor: v.hex }} />
                     {v.label}
                   </button>
                 ))}

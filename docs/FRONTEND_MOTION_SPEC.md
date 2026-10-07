@@ -12,10 +12,10 @@ The source of truth is `app/globals.css`: editorial, tactile and micro easing; s
 
 ## Four signatures
 
-1. `AssemblyHero`: original vector sofa design study with separate feet, frame and cushion SVG layers in one aspect-ratio-controlled stage. It is clearly described as an illustration, not product photography. Scroll over one viewport maps to `--scroll-progress` through requestAnimationFrame; only transforms and opacity animate. The section and sticky viewport establish layout before JavaScript.
+1. `AssemblyHero`: original generated sofa design study with separate feet, frame and cushion crops in one aspect-ratio-controlled stage. One transparent WebP is reused across all three layers. It is clearly described as an illustration, not product photography. Static clip bounds never animate. Scroll over one viewport maps to `--scroll-progress` through requestAnimationFrame; only transforms and opacity animate. The section and sticky viewport establish layout before JavaScript.
 2. `MaterialImage`: retained base photo and preloaded incoming variant layer. The incoming photo is revealed only after loading, with a 400ms editorial gradient mask. Rapid input supersedes the previous requested image. Failed alternatives preserve the previous photo and announce the limitation. Only actual supplied variant images are used; no invented fabric option is sold.
 3. `Reveal`: IntersectionObserver entrances, overflow-hidden typography and vertical image clip masks, with bounded stagger. Content is visible if JavaScript or IntersectionObserver is unavailable. No scroll handler per product card.
-4. Radix `Sheet`: cart and filter panels use open/closed states, tactile translation and exactly 300ms opacity overlays. Escape, focus trap, focus restoration and immediate close remain controlled by Radix. Inputs are never locked for animation.
+4. Radix `Sheet`: cart and filter panels use open/closed states, tactile translation and exactly 300ms opacity overlay transitions. `@starting-style` supplies initial positions. Transitions can reverse from their current values; a separate CSS animation signals the exit lifetime to Radix Presence without animating layout. Escape, focus trap and focus restoration remain controlled by Radix. Inputs are never locked by application animation logic.
 
 ## Performance and accessibility
 

@@ -15,6 +15,7 @@ export function MaterialImage({
   const [incoming, setIncoming] = useState<string | null>(null);
   const [failed, setFailed] = useState(false);
   const loaded = useRef(new Set<string>());
+  const failedSources = useRef(new Set<string>());
   const requested = useRef(src);
   function show(url: string) {
     if (url !== requested.current) return;
@@ -26,7 +27,7 @@ export function MaterialImage({
   }
   useEffect(() => {
     requested.current = src;
-    setFailed(false);
+    setFailed(failedSources.current.has(src));
     setIncoming(null);
     if (loaded.current.has(src)) show(src);
   }, [src]); // Incoming images are only revealed after their load event.
@@ -48,7 +49,7 @@ export function MaterialImage({
         src={base}
         alt={alt}
         fill
-        priority
+        preload
         sizes="(max-width:1024px) 95vw, 55vw"
         className="object-contain"
       />
@@ -59,15 +60,17 @@ export function MaterialImage({
           alt=""
           aria-hidden
           fill
-          priority={index < 3}
+          preload={index < 3}
           loading={index < 3 ? undefined : "eager"}
           sizes="(max-width:1024px) 95vw, 55vw"
           className={`object-contain ${incoming === url ? "material-incoming" : "invisible"}`}
           onLoad={() => {
+            failedSources.current.delete(url);
             loaded.current.add(url);
             if (requested.current === url) show(url);
           }}
           onError={() => {
+            failedSources.current.add(url);
             if (requested.current === url) {
               setIncoming(null);
               setFailed(true);

@@ -16,31 +16,45 @@ export function Reveal({
     if (!el || !window.IntersectionObserver) return;
     const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (preference.matches) return;
+    // Each wrapper owns its own choreography. Nested product cards must not be
+    // hidden again by the enclosing section's observer.
+    const items = [...el.querySelectorAll<HTMLElement>(".line-mask > span, .reveal-text, .asset-mask")]
+      .filter((item) => item.closest(".reveal") === el);
+    items.forEach((item, position) => {
+      item.style.setProperty("--reveal-delay", stagger(index + position)["--reveal-delay"] as string);
+    });
+    const reveal = (state: "waiting" | "visible") => {
+      el.dataset.reveal = state;
+      items.forEach((item) => { item.dataset.reveal = state; });
+    };
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((e) => e.isIntersecting)) {
-          el.dataset.reveal = "visible";
+          reveal("visible");
           observer.disconnect();
         }
       },
       { threshold: 0.08 },
     );
     if (el.getBoundingClientRect().top >= window.innerHeight)
-      el.dataset.reveal = "waiting";
-    else el.dataset.reveal = "visible";
+      reveal("waiting");
+    else reveal("visible");
     observer.observe(el);
     const reduce = () => {
       if (preference.matches) {
-        el.dataset.reveal = "visible";
+        reveal("visible");
         observer.disconnect();
       }
     };
     preference.addEventListener("change", reduce);
+    const focus = () => { reveal("visible"); observer.disconnect(); };
+    el.addEventListener("focusin", focus);
     return () => {
       observer.disconnect();
       preference.removeEventListener("change", reduce);
+      el.removeEventListener("focusin", focus);
     };
-  }, []);
+  }, [index]);
   return (
     <div ref={ref} style={stagger(index)} className={`reveal ${className}`}>
       {children}

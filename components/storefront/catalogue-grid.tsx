@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
-import { useState, useTransition, useOptimistic } from "react";
+import { useEffect, useState, useTransition, useOptimistic } from "react";
 import { SlidersHorizontal, X } from "lucide-react";
 import type { Product } from "@/lib/domain/catalogue";
 import { ProductCard } from "./product-card";
@@ -26,6 +26,7 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
   const category = selectedParams.get("category") || "";
   const material = selectedParams.get("material") || "";
   const query = selectedParams.get("q") || "";
+  useEffect(() => { setSearch(query); }, [query]);
   const sort = selectedParams.get("sort") || "featured";
   const categories = [...new Set(products.flatMap((p) => p.categories))].sort();
   const materials = [...new Set(products.flatMap((p) => p.materials))].sort();
@@ -200,7 +201,10 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
               className="inline-flex items-center gap-2 px-3 text-xs"
               onClick={() => {
                 setSearch("");
-                startTransition(() => router.replace(path, { scroll: false }));
+                startTransition(() => {
+                  setOptimistic("");
+                  router.replace(path, { scroll: false });
+                });
               }}
             >
               <X size={13} /> Clear filters

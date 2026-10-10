@@ -1,10 +1,12 @@
 # Frontend direction and motion contract
 
-Updated 7 October 2026. This records the user's latest direction and overrides older category-page assumptions in the original plans.
+Updated 10 October 2026. This records the user's latest direction and overrides older category-page assumptions in the original plans.
 
 ## Navigation
 
 Home (`/`), Shop (`/shop`), About (`/about`), Cart (`/cart`) and supporting service pages. Categories are filters on Shop, stored in query parameters for sharing and back/forward navigation. Old `/sofas` and `/sofas/[category]` URLs permanently redirect. No separate category landing pages are generated. Shop canonical is `/shop`; do not add filter combinations to the sitemap.
+
+Desktop Shop uses an accessible category menu; mobile navigation uses the existing tactile sheet. Swatches, Build and Plan room are first-class service destinations. Navigation underline, CTA arrow/lift, icon feedback and product secondary-photo crossfade use the shared tokens and hover/focus-visible states. Product/room actions remain visible on touch. Quantity controls use immediate +/− buttons with live totals, never a dropdown; no animation can delay quantity state updates.
 
 ## Tokens
 
@@ -25,4 +27,4 @@ No indefinite global will-change. Promote hero layers only while scroll updates 
 
 ## Remaining product work
 
-The frontend revision does not mark checkout, admin, services, legal content, real image ownership/availability, database migrations or deployment complete. Track those in IMPLEMENTATION_PROGRESS.md. Real separated product photography may replace the design-study SVG later without changing its motion contract.
+The frontend revision does not establish commercial checkout, staff/RLS security, persistent services, approved legal policies or complete image ownership/availability. Track evidence in IMPLEMENTATION_PROGRESS.md and FRONTEND_PROGRESS.md. Real separated product photography may replace the generated WebP design study later without changing its motion contract. Natural room integration remains ROOM-02 in the reference parity plan; the current local photo moodboard is only a prototype.

@@ -42,3 +42,12 @@ Ordering is gated by both environment configuration and `checkoutImplementationR
 Next development milestone: ROOM-02 natural furniture integration. Need faithful product cutouts, room-aware floor/perspective placement and lighting/contact shadows, plus a visually verified implementation. Choose local compositing or a configured image-editing provider after a feasibility test; never call the current rectangular overlay complete.
 
 Remaining launch work: persistent service/admin journeys and schema/RLS proof; safe checkout; appointments/reviews/private order lookup; actual business contacts, delivery/returns/legal policies and operational settings; remaining gallery audit; mobile/accessibility/performance verification and recovery checks. Preview deployment is not commercial launch approval.
+
+## Verified preview release
+
+- Source commit: `b339445`; staff/checkout integration guard commit: `ea3ae44`. Both pushed to GitHub main.
+- Vercel preview: https://oakmere-living-dqiho232k-salmanasad561-gmailcoms-projects.vercel.app
+- Deployment ID: `dpl_AfPBYDASetQe1RkEx9kDij1ej4C9`; status READY; Next.js 16.3.8 remote build passed (build output 30s).
+- Deployed browser smoke test: homepage and Lily detail render; Grey exact variant enters basket, + updates quantity to 2 and subtotal to £1,498. No console errors in tested session.
+- Target is preview; no production promotion or indexing enablement. Local verification screenshot: `.local/verification/frontend-home-2026-10-10.png` (ignored, not a repository asset).
+- Publishing initially encountered connection resets; HTTP/1.1 Git retry and Vercel CLI retry without update check succeeded. Vercel connector lacks the required team scope, so the authorized scoped CLI was used.

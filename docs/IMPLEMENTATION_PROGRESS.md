@@ -28,3 +28,7 @@ Current authority: project and technical plans; reference parity contract. Front
 ## Checks
 
 `npm run check` passes catalogue audit, seven tests and TypeScript. `npm run build` passes on Next.js 16.3.8. Browser checks and exact HTTP evidence are in the frontend progress report. Vercel preview URL and commit will be appended after deployment is READY. No new handoff document is being created.
+
+## Latest preview
+
+READY: https://oakmere-living-dqiho232k-salmanasad561-gmailcoms-projects.vercel.app (source `b339445`, guard integration `ea3ae44`, 10 October 2026). Both commits are pushed. Remote production build and deployed product/basket smoke check passed; full commercial launch remains gated. No production promotion was performed.

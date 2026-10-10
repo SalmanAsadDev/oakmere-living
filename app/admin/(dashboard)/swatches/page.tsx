@@ -1,8 +1,8 @@
-import { createAdminClient } from "@/lib/server/supabase";
+import { requireStaff } from "@/lib/server/staff";
 import { format } from "date-fns";
 
 export default async function AdminSwatchesPage() {
-  const supabase = createAdminClient();
+  const supabase = await requireStaff();
   
   const { data: requests, error } = await supabase
     .from("swatch_requests")

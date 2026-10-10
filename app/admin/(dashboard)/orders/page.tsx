@@ -1,10 +1,10 @@
-import { createAdminClient } from "@/lib/server/supabase";
+import { requireStaff } from "@/lib/server/staff";
 import { format } from "date-fns";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default async function AdminOrdersPage() {
-  const supabase = createAdminClient();
+  const supabase = await requireStaff();
   
   const { data: orders, error } = await supabase
     .from("orders")

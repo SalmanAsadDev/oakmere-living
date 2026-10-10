@@ -1,6 +1,6 @@
 "use server";
 
-import { createClient } from "@/lib/server/supabase";
+import { requireStaff } from "@/lib/server/staff";
 import { revalidatePath } from "next/cache";
 
 export async function updateOrderStatus(formData: FormData) {
@@ -9,7 +9,7 @@ export async function updateOrderStatus(formData: FormData) {
 
   if (!order_id || !status) return;
 
-  const supabase = await createClient();
+  const supabase = await requireStaff(["admin", "sales"]);
 
   const { error } = await supabase
     .from("orders")

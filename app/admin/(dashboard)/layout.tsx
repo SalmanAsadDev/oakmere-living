@@ -9,17 +9,19 @@ import {
   LogOut
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { requireStaff } from "@/lib/server/staff";
 
 export const metadata: Metadata = {
   title: "Admin Dashboard | Oakmere Living",
   description: "Internal staff administration dashboard.",
 };
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  await requireStaff();
   return (
     <div className="flex min-h-screen flex-col md:flex-row bg-muted/20">
       {/* Sidebar Navigation */}

@@ -3,8 +3,12 @@ import { checkoutPayloadSchema } from "@/lib/validation/checkout";
 import { createAdminClient } from "@/lib/server/supabase";
 import { cookies } from "next/headers";
 import crypto from "crypto";
+import { liveOrderingEnabled, checkoutImplementationReady } from "@/lib/config/site";
 
 export async function POST(request: Request) {
+  if (!liveOrderingEnabled || !checkoutImplementationReady) {
+    return NextResponse.json({ error: "Online ordering is not available yet. Please contact the team to confirm your sofa and delivery details." }, { status: 503 });
+  }
   try {
     const body = await request.json();
     const result = checkoutPayloadSchema.safeParse(body);

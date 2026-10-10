@@ -1,0 +1,2 @@
+export const metadata = { title: "Staff access required", robots: { index: false, follow: false } };
+export default function AccessDeniedPage() { return <div className="container section max-w-xl"><h1 className="font-serif text-3xl">Staff access required</h1><p className="my-5 text-sm leading-7">This account does not have permission for that action, or staff access could not be verified. Please contact the store administrator.</p><form method="POST" action="/api/auth/signout"><button className="border px-5 py-3 text-sm">Sign out</button></form></div>; }

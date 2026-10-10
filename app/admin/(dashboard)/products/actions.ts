@@ -4,8 +4,10 @@ import { createAdminClient } from "@/lib/server/supabase";
 import { productSchema } from "@/lib/validation/catalogue";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { requireStaff } from "@/lib/server/staff";
 
 export async function createProduct(formData: FormData) {
+  await requireStaff(["admin"]);
   const supabase = createAdminClient();
 
   const payload = {

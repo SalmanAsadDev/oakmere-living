@@ -7,3 +7,7 @@ export const site = {
 };
 export const databaseConfigured = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY && process.env.SUPABASE_SERVICE_ROLE_KEY);
 export const liveOrderingEnabled = process.env.LIVE_ORDERING_ENABLED === "true" && databaseConfigured;
+// Release blocker: the inherited checkout still uses a mock basket, client prices
+// and non-transactional writes. Remove this guard only after CHECKOUT-01 in the
+// reference parity plan is verified; an environment flag alone is insufficient.
+export const checkoutImplementationReady = false;

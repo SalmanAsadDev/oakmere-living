@@ -1,8 +1,8 @@
-import { createAdminClient } from "@/lib/server/supabase";
+import { requireStaff } from "@/lib/server/staff";
 import { format } from "date-fns";
 
 export default async function AdminContactsPage() {
-  const supabase = createAdminClient();
+  const supabase = await requireStaff();
   
   const { data: contacts, error } = await supabase
     .from("contact_requests")

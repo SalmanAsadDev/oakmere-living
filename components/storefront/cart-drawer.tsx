@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { ShoppingBag, Minus, Plus, ArrowRight, X } from "lucide-react";
+import { ShoppingBag, ArrowRight, X } from "lucide-react";
 import { useBasket } from "./basket-provider";
 import {
   Sheet,
@@ -13,13 +13,14 @@ import {
 } from "@/components/ui/sheet";
 import { money } from "@/lib/presentation/format";
 import { ProductImage } from "./product-image";
+import { QuantityControl } from "./quantity-control";
 export function CartDrawer() {
   const basket = useBasket();
   const count = basket.items.reduce((n, i) => n + i.quantity, 0);
   return (
     <Sheet>
       <SheetTrigger
-        className="relative flex items-center gap-2 p-2 text-xs"
+        className="icon-action relative flex min-h-11 items-center gap-2 p-2 text-xs"
         aria-label={`Open cart, ${count} items`}
       >
         <ShoppingBag size={20} />
@@ -66,29 +67,11 @@ export function CartDrawer() {
                     {item.label}
                   </p>
                   <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center border">
-                      <button
-                        className="p-2 disabled:opacity-30"
-                        disabled={item.quantity === 1}
-                        aria-label={`Decrease quantity of ${item.name}`}
-                        onClick={() =>
-                          basket.quantity(item.variantId, item.quantity - 1)
-                        }
-                      >
-                        <Minus size={12} />
-                      </button>
-                      <span className="px-2 text-xs">{item.quantity}</span>
-                      <button
-                        className="p-2 disabled:opacity-30"
-                        disabled={item.quantity === 10}
-                        aria-label={`Increase quantity of ${item.name}`}
-                        onClick={() =>
-                          basket.quantity(item.variantId, item.quantity + 1)
-                        }
-                      >
-                        <Plus size={12} />
-                      </button>
-                    </div>
+                    <QuantityControl
+                      value={item.quantity}
+                      label={item.name}
+                      onAdjust={(delta) => basket.adjust(item.variantId, delta)}
+                    />
                     <span className="text-sm">
                       {money(item.price * item.quantity)}
                     </span>
@@ -131,8 +114,8 @@ export function CartDrawer() {
               </span>
             </div>
             <p className="mb-6 text-xs leading-5 text-muted-foreground">
-              Delivery and availability are confirmed at checkout. Cash or card
-              on delivery.
+              Confirm delivery and availability with the team. Cash or card on
+              delivery.
             </p>
             <SheetClose asChild>
               <Link

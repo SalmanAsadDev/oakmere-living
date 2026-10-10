@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useBasket } from "@/components/storefront/basket-provider";
 import { money } from "@/lib/presentation/format";
 import { Button } from "@/components/ui/button";
+import { QuantityControl } from "@/components/storefront/quantity-control";
+import { ProductImage } from "@/components/storefront/product-image";
 export default function BasketPage() {
   const basket = useBasket();
   return (
@@ -26,8 +28,20 @@ export default function BasketPage() {
             {basket.items.map((item) => (
               <article
                 key={item.variantId}
-                className="grid grid-cols-[1fr_auto] gap-5 py-6"
+                className="grid grid-cols-[80px_1fr] gap-5 py-6 sm:grid-cols-[140px_1fr_auto]"
               >
+                <Link
+                  href={`/products/${item.slug}`}
+                  className="relative aspect-square overflow-hidden bg-muted"
+                >
+                  <ProductImage
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    sizes="(max-width:640px) 80px, 140px"
+                    className="object-cover"
+                  />
+                </Link>
                 <div>
                   <Link
                     className="font-serif text-2xl"
@@ -38,24 +52,12 @@ export default function BasketPage() {
                   <p className="mt-2 text-sm text-muted-foreground">
                     {item.label}
                   </p>
-                  <div className="mt-4 flex gap-4">
-                    <label className="text-xs">
-                      Quantity{" "}
-                      <select
-                        className="ml-2 border p-2"
-                        value={item.quantity}
-                        onChange={(e) =>
-                          basket.quantity(
-                            item.variantId,
-                            Number(e.target.value),
-                          )
-                        }
-                      >
-                        {Array.from({ length: 10 }, (_, i) => (
-                          <option key={i + 1}>{i + 1}</option>
-                        ))}
-                      </select>
-                    </label>
+                  <div className="mt-4 flex flex-wrap items-center gap-4">
+                    <QuantityControl
+                      value={item.quantity}
+                      label={item.name}
+                      onAdjust={(delta) => basket.adjust(item.variantId, delta)}
+                    />
                     <button
                       className="text-xs underline"
                       onClick={() => basket.remove(item.variantId)}
@@ -64,7 +66,9 @@ export default function BasketPage() {
                     </button>
                   </div>
                 </div>
-                <p>{money(item.price * item.quantity)}</p>
+                <p className="col-start-2 text-sm tabular-nums sm:col-start-auto">
+                  {money(item.price * item.quantity)}
+                </p>
               </article>
             ))}
           </div>
@@ -82,8 +86,8 @@ export default function BasketPage() {
               </span>
             </p>
             <p className="mb-6 text-xs leading-6 text-muted-foreground">
-              Delivery and final availability are checked at checkout. Pay by
-              cash or card on delivery.
+              Confirm delivery and final availability with the team. Pay by cash
+              or card on delivery.
             </p>
             <Button asChild className="h-12 w-full rounded-none">
               <Link href="/checkout">Continue to checkout</Link>

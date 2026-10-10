@@ -2,7 +2,9 @@
 
 > Latest frontend direction (7 October 2026): see [Frontend motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Home, Shop, About and Cart are distinct pages; categories are Shop filters rather than separate landing pages. This supersedes conflicting category-route recommendations below.
 
-Version: 0.3 | Updated: 7 October 2026 | Status: implementation in progress; reference parity added
+Version: 0.4 | Updated: 10 October 2026 | Status: frontend release verification; reference parity added
+
+> Latest owner requirements (10 October): quantity controls must use immediate +/− buttons everywhere, with totals updating in the same interaction. The room planner must integrate the selected furniture into an uploaded room photograph with convincing perspective, scale, lighting and contact shadows. A rectangular product-photo moodboard is an interim prototype and does not satisfy room-planner acceptance. Complete the shared frontend rebuild first, then develop natural room placement. Do not create a new Antigravity handoff.
 
 > Additive requirement authority: [Corner Sofa parity plan](docs/REFERENCE_PARITY_PLAN.md). Corner Sofa is the primary visual reference. Preserve existing animations and add micro-interactions, prominent Swatches, a seven-step builder, browser-local room planner, shopper assistant, complete service/footer navigation and the mapped reference pages. The parity plan records implementation contracts and launch dependencies; page presence is not functional completion.
 

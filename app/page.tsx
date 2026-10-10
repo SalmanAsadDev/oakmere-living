@@ -176,6 +176,44 @@ export default function HomePage() {
         </div>
       </Reveal>
       <section className="bg-primary py-20 text-white">
+        <div className="container mb-16 grid gap-6 sm:grid-cols-2">
+          {[
+            [
+              "The sofa studio",
+              "Find your own kind of comfort.",
+              "Choose a shape, explore the details and build a sofa from our collection.",
+              "/build",
+              "Build your sofa",
+            ],
+            [
+              "The room studio",
+              "A new perspective on home.",
+              "Bring your room photo and your favourite sofa together in a private moodboard.",
+              "/room-planner",
+              "Plan your room",
+            ],
+          ].map(([label, title, text, href, action]) => (
+            <Reveal
+              key={href}
+              className="journey-card border border-white/25 p-7 sm:p-10"
+            >
+              <p className="eyebrow mb-5 text-white/65">{label}</p>
+              <h2 className="line-mask font-serif text-3xl">
+                <span>{title}</span>
+              </h2>
+              <p className="reveal-text mt-4 max-w-sm text-sm leading-7 text-white/75">
+                {text}
+              </p>
+              <Link
+                className="editorial-link mt-7 inline-flex items-center gap-6 border-b border-white/40 pb-2 text-xs"
+                href={href}
+              >
+                {action}
+                <ArrowUpRight size={16} />
+              </Link>
+            </Reveal>
+          ))}
+        </div>
         <Reveal className="container flex flex-wrap items-center justify-between gap-8">
           <div>
             <p className="eyebrow mb-4 text-white/65">
@@ -186,7 +224,7 @@ export default function HomePage() {
             </h2>
           </div>
           <Link
-            className="inline-flex items-center gap-8 border border-white/40 px-7 py-4 text-xs"
+            className="editorial-link inline-flex items-center gap-8 border border-white/40 px-7 py-4 text-xs"
             href="/shop"
           >
             Find your sofa <ArrowRight size={18} />

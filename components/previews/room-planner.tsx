@@ -1,224 +1,389 @@
 "use client";
-
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Upload, RotateCcw, Download, Move } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Upload, RefreshCw, Download } from "lucide-react";
+import type { PlanningProduct } from "@/lib/domain/planning";
+const defaults = { x: 50, y: 65, scale: 50, rotation: 0, flipped: false };
+const clamp = (n: number) => Math.min(95, Math.max(5, n));
 
-export function RoomPlanner() {
-  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const [overlayImage, setOverlayImage] = useState<string | null>(null);
+export function RoomPlanner({
+  products,
+  initialSlug,
+}: {
+  products: PlanningProduct[];
+  initialSlug?: string;
+}) {
+  const [slug, setSlug] = useState(
+    products.find((p) => p.slug === initialSlug)?.slug ||
+      products[0]?.slug ||
+      "",
+  );
+  const product = products.find((p) => p.slug === slug);
+  const [variantId, setVariantId] = useState("");
+  const variant = product?.variants.find((v) => v.id === variantId);
+  const source = variant?.image.startsWith("/images/")
+    ? variant.image
+    : product?.image;
+  const [room, setRoom] = useState<HTMLImageElement | null>(null);
+  const [sofa, setSofa] = useState<{
+    source: string;
+    image: HTMLImageElement;
+  } | null>(null);
+  const [layout, setLayout] = useState(defaults);
+  const [error, setError] = useState("");
+  const [photoError, setPhotoError] = useState("");
+  const [reading, setReading] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  // Overlay state
-  const [pos, setPos] = useState({ x: 100, y: 100 });
-  const [scale, setScale] = useState(1);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-
-  // Load sofa overlay (mocking an actual selected variant)
+  const inputRef = useRef<HTMLInputElement>(null);
+  const uploadVersion = useRef(0);
+  const drag = useRef<{
+    id: number;
+    x: number;
+    y: number;
+    startX: number;
+    startY: number;
+  } | null>(null);
+  const ready = Boolean(room && sofa?.source === source);
   useEffect(() => {
-    // In a real app, this would be passed as a prop from the selected catalogue variant.
-    // We use a placeholder image for demonstration purposes.
-    setOverlayImage("/assets/oxford/oxford-3-seater-grey.webp");
-  }, []);
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    // Browser-local processing: Never upload to a server
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const result = event.target?.result as string;
-      setBackgroundImage(result);
-      setPos({ x: 100, y: 100 });
-      setScale(1);
+    if (!source) return;
+    let ignore = false;
+    const image = new Image();
+    image.src = `/_next/image?url=${encodeURIComponent(source)}&w=1080&q=75`;
+    image
+      .decode()
+      .then(() => {
+        if (!ignore) {
+          setSofa({ source, image });
+          setPhotoError("");
+        }
+      })
+      .catch(() => {
+        if (!ignore)
+          setPhotoError(
+            "This photograph could not load. Please choose another sofa.",
+          );
+      });
+    return () => {
+      ignore = true;
     };
-    reader.readAsDataURL(file);
-  };
-
-  const handleReset = () => {
-    setBackgroundImage(null);
-    setPos({ x: 100, y: 100 });
-    setScale(1);
-  };
-
-  const drawCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
+  }, [source]);
+  useEffect(
+    () => () => {
+      uploadVersion.current += 1;
+    },
+    [],
+  );
+  useEffect(() => {
+    const ctx = canvasRef.current?.getContext("2d");
     if (!ctx) return;
-
-    // Clear canvas
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    const drawImages = async () => {
-      // Draw background
-      if (backgroundImage) {
-        const bgImg = new Image();
-        bgImg.src = backgroundImage;
-        await new Promise((resolve) => {
-          bgImg.onload = () => {
-            // Scale background to fit canvas width while maintaining aspect ratio
-            const ratio = canvas.width / bgImg.width;
-            const height = bgImg.height * ratio;
-            canvas.height = height; // Resize canvas height to match scaled background
-            ctx.drawImage(bgImg, 0, 0, canvas.width, height);
-            resolve(true);
-          };
-        });
-      }
-
-      // Draw overlay
-      if (overlayImage && backgroundImage) {
-        const overlayImg = new Image();
-        overlayImg.src = overlayImage;
-        await new Promise((resolve) => {
-          overlayImg.onload = () => {
-            const width = overlayImg.width * scale * 0.5; // Base scale adjustment
-            const height = overlayImg.height * scale * 0.5;
-            ctx.drawImage(overlayImg, pos.x, pos.y, width, height);
-            resolve(true);
-          };
-        });
-      }
-    };
-
-    drawImages();
-  };
-
-  useEffect(() => {
-    drawCanvas();
-  }, [backgroundImage, overlayImage, pos, scale]);
-
-  // Mouse events for dragging
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    setIsDragging(true);
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
-      setDragStart({
-        x: e.clientX - rect.left - pos.x,
-        y: e.clientY - rect.top - pos.y,
-      });
+    ctx.fillStyle = "#eeece5";
+    ctx.fillRect(0, 0, 1200, 800);
+    if (room) {
+      const fit = Math.min(1200 / room.width, 800 / room.height);
+      const width = room.width * fit,
+        height = room.height * fit;
+      ctx.drawImage(
+        room,
+        (1200 - width) / 2,
+        (800 - height) / 2,
+        width,
+        height,
+      );
     }
-  };
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDragging) return;
-    const rect = canvasRef.current?.getBoundingClientRect();
-    if (rect) {
-      setPos({
-        x: e.clientX - rect.left - dragStart.x,
-        y: e.clientY - rect.top - dragStart.y,
-      });
+    if (room && sofa && sofa.source === source) {
+      const width = (1200 * layout.scale) / 100,
+        height = (width * sofa.image.height) / sofa.image.width;
+      ctx.save();
+      ctx.translate(layout.x * 12, layout.y * 8);
+      ctx.rotate((layout.rotation * Math.PI) / 180);
+      ctx.scale(layout.flipped ? -1 : 1, 1);
+      ctx.drawImage(sofa.image, -width / 2, -height / 2, width, height);
+      ctx.restore();
     }
-  };
-
-  const handleMouseUp = () => setIsDragging(false);
-  const handleMouseLeave = () => setIsDragging(false);
-
-  const handleExport = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    // Export standard browser functionality
-    const dataUrl = canvas.toDataURL("image/jpeg");
-    const link = document.createElement("a");
-    link.download = "oakmere-room-plan.jpg";
-    link.href = dataUrl;
-    link.click();
-  };
-
+    ctx.fillStyle = "#fbfaf7";
+    ctx.fillRect(0, 764, 1200, 36);
+    ctx.fillStyle = "#344639";
+    ctx.font = "16px Arial";
+    ctx.fillText("OAKMERE LIVING · Photo moodboard · Not to scale", 20, 788);
+  }, [room, sofa, source, layout]);
+  async function upload(file?: File) {
+    if (!file) return;
+    const version = ++uploadVersion.current;
+    setError("");
+    if (
+      !["image/jpeg", "image/png", "image/webp"].includes(file.type) ||
+      file.size > 15 * 1024 * 1024
+    ) {
+      setError("Choose a JPEG, PNG or WebP photograph up to 15 MB.");
+      setReading(false);
+      return;
+    }
+    setReading(true);
+    const url = URL.createObjectURL(file);
+    try {
+      const image = new Image();
+      image.src = url;
+      await image.decode();
+      if (version !== uploadVersion.current) return;
+      if (image.width * image.height > 40_000_000)
+        throw new Error(
+          "Please resize your photograph to under 40 megapixels.",
+        );
+      setRoom(image);
+      setLayout(defaults);
+    } catch (err) {
+      if (version === uploadVersion.current)
+        setError(
+          err instanceof Error && err.message.startsWith("Please")
+            ? err.message
+            : "We could not read that photograph. Try another image.",
+        );
+    } finally {
+      URL.revokeObjectURL(url);
+      if (version === uploadVersion.current) setReading(false);
+    }
+  }
+  function save() {
+    if (!ready) return;
+    try {
+      canvasRef.current?.toBlob(
+        (blob) => {
+          if (!blob) {
+            setError("Your image could not be saved. Please try again.");
+            return;
+          }
+          const url = URL.createObjectURL(blob),
+            link = document.createElement("a");
+          link.href = url;
+          link.download = "oakmere-room-moodboard.jpg";
+          link.click();
+          URL.revokeObjectURL(url);
+        },
+        "image/jpeg",
+        0.9,
+      );
+    } catch {
+      setError(
+        "Your browser could not export this photograph. Please choose another sofa.",
+      );
+    }
+  }
   return (
-    <div className="space-y-6">
-      {!backgroundImage ? (
-        <div className="border-2 border-dashed border-border rounded-xl p-12 text-center bg-muted/20">
-          <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-4" />
-          <h3 className="font-serif text-xl mb-2">Upload a photo of your room</h3>
-          <p className="text-muted-foreground mb-6 max-w-md mx-auto text-sm">
-            Take a photo of where you want your new sofa to go. Your photo is processed entirely on your device and never uploaded to our servers.
-          </p>
-          <div className="flex justify-center">
-            <Button asChild>
-              <label className="cursor-pointer">
-                Select Photo
-                <input 
-                  type="file" 
-                  accept="image/jpeg, image/png, image/webp" 
-                  className="hidden" 
-                  onChange={handleFileUpload} 
-                />
-              </label>
+    <div className="grid items-start gap-8 lg:grid-cols-[1fr_320px]">
+      <div>
+        <div className="relative aspect-[3/2] overflow-hidden border bg-muted">
+          <canvas
+            ref={canvasRef}
+            width={1200}
+            height={800}
+            aria-label="Room moodboard. Use the labelled sliders to position your sofa."
+            className="block h-full w-full touch-none cursor-grab active:cursor-grabbing"
+            onPointerDown={(event) => {
+              if (!ready) return;
+              event.currentTarget.setPointerCapture(event.pointerId);
+              drag.current = {
+                id: event.pointerId,
+                x: event.clientX,
+                y: event.clientY,
+                startX: layout.x,
+                startY: layout.y,
+              };
+            }}
+            onPointerMove={(event) => {
+              const current = drag.current;
+              if (!current || current.id !== event.pointerId) return;
+              const rect = event.currentTarget.getBoundingClientRect();
+              setLayout((old) => ({
+                ...old,
+                x: clamp(
+                  current.startX +
+                    ((event.clientX - current.x) / rect.width) * 100,
+                ),
+                y: clamp(
+                  current.startY +
+                    ((event.clientY - current.y) / rect.height) * 100,
+                ),
+              }));
+            }}
+            onPointerUp={() => {
+              drag.current = null;
+            }}
+            onPointerCancel={() => {
+              drag.current = null;
+            }}
+            onLostPointerCapture={() => {
+              drag.current = null;
+            }}
+          />
+          {!room && (
+            <div className="absolute inset-0 grid place-content-center gap-4 px-6 text-center">
+              <Upload className="mx-auto" size={28} strokeWidth={1} />
+              <h2 className="font-serif text-2xl sm:text-3xl">
+                Start with your space.
+              </h2>
+              <p className="mx-auto hidden max-w-sm text-sm leading-6 text-muted-foreground sm:block">
+                Your room photo stays on this device.
+              </p>
+              <Button
+                className="mx-auto h-12 rounded-none"
+                onClick={() => inputRef.current?.click()}
+                disabled={reading}
+              >
+                {reading ? "Opening photograph…" : "Choose room photograph"}
+              </Button>
+            </div>
+          )}
+        </div>
+        <input
+          ref={inputRef}
+          aria-label="Upload room photograph"
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          className="sr-only"
+          tabIndex={-1}
+          onChange={(event) => {
+            void upload(event.target.files?.[0]);
+            event.target.value = "";
+          }}
+        />
+        <p className="mt-4 text-xs leading-6 text-muted-foreground">
+          Your room photo stays on this device. JPEG, PNG or WebP · up to 15 MB.
+          This is a photo moodboard, not an AR fitting tool. Product photographs
+          retain their original backgrounds. Scale and colour are illustrative;
+          check measurements before ordering.
+        </p>
+        <p role="status" className="mt-3 text-sm">
+          {error ||
+            photoError ||
+            (room && !ready ? "Loading sofa photograph…" : "")}
+        </p>
+        {room && (
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Button
+              variant="outline"
+              onClick={() => inputRef.current?.click()}
+              disabled={reading}
+            >
+              Change room photo
+            </Button>
+            <Button
+              variant="outline"
+              onClick={() => {
+                uploadVersion.current += 1;
+                setRoom(null);
+                setLayout(defaults);
+                setReading(false);
+                setError("");
+              }}
+            >
+              Remove photo
+            </Button>
+            <Button onClick={save} disabled={!ready}>
+              <Download /> Save moodboard
             </Button>
           </div>
-        </div>
-      ) : (
-        <div className="space-y-4">
-          <div className="flex flex-wrap gap-4 items-center justify-between p-4 bg-muted/20 rounded-lg border border-border">
-            <div className="flex items-center gap-4">
-              <div className="space-y-1">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Size Adjust</label>
-                <input 
-                  type="range" 
-                  min="0.2" 
-                  max="2" 
-                  step="0.1" 
-                  value={scale} 
-                  onChange={(e) => setScale(parseFloat(e.target.value))}
-                  className="w-32 block"
-                />
-              </div>
-              <p className="text-xs text-muted-foreground max-w-[200px] ml-4">
-                Drag the sofa to position it. Use the slider to adjust its scale.
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleReset}>
-                <RefreshCw className="w-4 h-4 mr-2" /> Start Over
-              </Button>
-              <Button size="sm" onClick={handleExport}>
-                <Download className="w-4 h-4 mr-2" /> Save Image
-              </Button>
-            </div>
-          </div>
-
-          <div className="relative border border-border rounded-lg overflow-hidden bg-black/5 flex justify-center">
-            <canvas
-              ref={canvasRef}
-              width={800}
-              height={600}
-              className={`max-w-full touch-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseLeave}
-              // Touch support for mobile
-              onTouchStart={(e) => {
-                setIsDragging(true);
-                const rect = canvasRef.current?.getBoundingClientRect();
-                if (rect && e.touches[0]) {
-                  setDragStart({
-                    x: e.touches[0].clientX - rect.left - pos.x,
-                    y: e.touches[0].clientY - rect.top - pos.y,
-                  });
+        )}
+      </div>
+      <aside className="space-y-6 border bg-white p-6">
+        <p className="eyebrow text-muted-foreground">Your room, your way</p>
+        <label className="field">
+          Choose a sofa
+          <select
+            value={slug}
+            onChange={(event) => {
+              setSlug(event.target.value);
+              setVariantId("");
+              setPhotoError("");
+            }}
+          >
+            {products.map((p) => (
+              <option key={p.slug} value={p.slug}>
+                {p.name}
+              </option>
+            ))}
+          </select>
+        </label>
+        {product &&
+          product.variants.some((v) => v.image.startsWith("/images/")) && (
+            <label className="field">
+              Photographed configuration
+              <select
+                value={variantId}
+                onChange={(event) => {
+                  setVariantId(event.target.value);
+                  setPhotoError("");
+                }}
+              >
+                <option value="">Main photograph</option>
+                {product.variants
+                  .filter((v) => v.image.startsWith("/images/"))
+                  .map((v) => (
+                    <option key={v.id} value={v.id}>
+                      {v.label}
+                    </option>
+                  ))}
+              </select>
+            </label>
+          )}
+        <fieldset disabled={!room} className="space-y-5 disabled:opacity-50">
+          <legend className="mb-5 flex items-center gap-2 text-sm">
+            <Move size={16} /> Position & proportion
+          </legend>
+          {(
+            [
+              { key: "x", label: "Horizontal position", min: 5, max: 95 },
+              { key: "y", label: "Vertical position", min: 5, max: 95 },
+              { key: "scale", label: "Sofa size", min: 15, max: 90 },
+              { key: "rotation", label: "Rotation", min: -45, max: 45 },
+            ] as const
+          ).map((control) => (
+            <label key={control.key} className="grid gap-2 text-xs">
+              {control.label}
+              <input
+                type="range"
+                min={control.min}
+                max={control.max}
+                value={layout[control.key]}
+                onChange={(event) =>
+                  setLayout((old) => ({
+                    ...old,
+                    [control.key]: Number(event.target.value),
+                  }))
                 }
-              }}
-              onTouchMove={(e) => {
-                if (!isDragging) return;
-                e.preventDefault(); // Prevent scrolling while dragging
-                const rect = canvasRef.current?.getBoundingClientRect();
-                if (rect && e.touches[0]) {
-                  setPos({
-                    x: e.touches[0].clientX - rect.left - dragStart.x,
-                    y: e.touches[0].clientY - rect.top - dragStart.y,
-                  });
-                }
-              }}
-              onTouchEnd={() => setIsDragging(false)}
-            />
-          </div>
-        </div>
-      )}
+                className="w-full accent-primary"
+              />
+            </label>
+          ))}
+          <label className="flex gap-3 text-xs">
+            <input
+              type="checkbox"
+              checked={layout.flipped}
+              onChange={(event) =>
+                setLayout((old) => ({ ...old, flipped: event.target.checked }))
+              }
+            />{" "}
+            Mirror photograph (visual only)
+          </label>
+          <Button variant="outline" onClick={() => setLayout(defaults)}>
+            <RotateCcw /> Reset position
+          </Button>
+        </fieldset>
+        {product && (
+          <Link
+            className="editorial-link block border-t pt-5 text-sm link-underline"
+            href={`/products/${product.slug}`}
+          >
+            View {product.name} →
+          </Link>
+        )}
+        <Link
+          className="block text-xs link-underline"
+          href="/guides/measuring-for-delivery"
+        >
+          Check the real measurements
+        </Link>
+      </aside>
     </div>
   );
 }

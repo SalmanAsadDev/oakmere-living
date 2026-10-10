@@ -2,11 +2,13 @@
 
 > Updated frontend authority (7 October 2026): [Motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Use `/shop` with category query filters and `/cart`; legacy category routes redirect. Follow the named motion tokens and reduced-motion behaviour in that contract. It supersedes conflicting route/animation recommendations below.
 
-Version: 1.1 | Updated: 7 October 2026 | Status: application in progress; additive reference parity scope
+Version: 1.2 | Updated: 10 October 2026 | Status: frontend release verification; additive reference parity scope
+
+> Latest technical requirements: all quantities use the shared `QuantityControl` and functional basket adjustments; no quantity dropdown. Room visualisation requires a faithful cutout of the exact selected product/variant, floor placement and perspective/scale controls, contact shadows and lighting integration. Evaluate local segmentation/compositing against a configured image-editing service using real product references; preserve product identity and label generated visualisations. If a remote provider is chosen, disclose photo transmission before upload, enforce file/pixel limits and retention/deletion, and keep provider keys server-side. No provider is selected or provisioned yet. The current local canvas moodboard is a prototype, not ROOM-02 completion. See the parity plan for acceptance.
 
 > Read [Reference parity and technical contracts](docs/REFERENCE_PARITY_PLAN.md) before new frontend work. Add `/build`, `/room-planner`, `/reviews`, `/appointment`, `/blog`, `/my-orders` and a global shopper guide while preserving `/shop` query filters and current motion. Existing catalogue IDs/prices and basket contracts remain authoritative. New persisted services use the original security/transaction contracts below; no filesystem persistence on Vercel and no simulated request success.
 
-Companion authority: [Project implementation plan, v0.2](PROJECT_IMPLEMENTATION_PLAN.md). That document owns business requirements and acceptance IDs. This document owns the implementation design, contracts, task dependencies and verification approach. Later explicit user answers take precedence; record any change in both affected documents.
+Companion authority: [Project implementation plan](PROJECT_IMPLEMENTATION_PLAN.md). That document owns business requirements and acceptance IDs. This document owns the implementation design, contracts, task dependencies and verification approach. Later explicit user answers take precedence; record any change in both affected documents.
 
 The storefront name **Oakmere Living** is provisional and configurable. This is a fresh, single-store UK furniture project. The complete agreed feature set is intended for launch. The user requests a two-day delivery target; this plan defines an aggressive implementation sprint, not a claim that production readiness has already been achieved.
 

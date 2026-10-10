@@ -17,7 +17,7 @@ The reference assistant offers suggested prompts, chat, cancellation, chat expor
 | Product detail | `/products/[slug]` | Actual variant selection, room/build/swatches links and related products |
 | Swatches | `/swatches` | First-class top navigation; select up to four, postal request persisted before success |
 | Build | `/build` | Seven-step catalogue-backed design; standard variants can enter basket; custom requests require a quotation, never fabricated prices |
-| Room planner | `/room-planner` | Browser-local photo, sofa selection, scale/position/rotation, reset and export; no geometric-fit guarantee from a photo |
+| Room planner | `/room-planner` | Interim local moodboard; final requirement is naturally integrated selected furniture in uploaded room photo, faithful product identity, perspective/scale/light/shadows, reset and export; no geometric-fit guarantee |
 | Delivery availability / delivery info | `/delivery` | Address/postcode policy lookup must use approved configured coverage; unknown cases need team review |
 | Size guide | `/guides/measuring-for-delivery` | Existing guide, also discoverable from footer/product tools |
 | FAQ | `/faqs` | Existing content and a clear shopping/help path |
@@ -49,6 +49,9 @@ NAV-01: desktop and mobile expose Shop, Swatches, Build, Plan Room, About, Conta
 MOTION-05: hover/focus/touch and reduced-motion behaviour remain usable; no existing animation is removed.
 BUILD-01: complete a real standard variant through seven steps and add the exact price/ID to basket; custom requests cannot masquerade as standard orders.
 ROOM-01: upload a local photo, choose a product, adjust placement with pointer and keyboard, reset and export; no upload network request occurs.
+ROOM-02 (owner addition, 10 October): selected furniture appears naturally integrated into the room, with its source background removed, convincing floor contact, perspective, lighting and shadows. Preserve exact product/variant identity. Compare representative room and product photos visually; a rectangular photo overlay does not pass. Any remote processing requires an explicit photo transmission disclosure and bounded retention. ROOM-01 is only interim prototype acceptance.
+QTY-01 (owner addition, 10 October): every customer quantity uses immediate +/− buttons, with live count and subtotal, correct boundaries and persistence. Rapid repeated clicks must not lose increments. No quantity dropdown.
+CHECKOUT-01: checkout uses the actual basket and server-authoritative variant/delivery prices, an atomic order/items transaction and idempotency. Verify invalid/tampered prices, repeat submission and persistence before enabling `checkoutImplementationReady`. The current mock-cart/client-price prototype cannot pass.
 HELP-01: shopper can find actual matching products and policy actions; unsupported questions receive a truthful path to the team.
 CONTENT-01: no copied reviews, competitor contacts, invented inventory or false successful form states.
 PARITY-01: each row above has implementation and verification evidence; unavailable backend/provider/operational dependencies remain explicit launch blockers. A page's presence alone does not establish functional parity.

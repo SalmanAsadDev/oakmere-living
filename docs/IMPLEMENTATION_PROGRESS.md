@@ -1,39 +1,30 @@
-# Implementation progress
+# Implementation progress — 10 October 2026
 
-Started: 6 October 2026. Full scope follows the project and technical plans.
+Current authority: project and technical plans; reference parity contract. Frontend evidence and limitations are recorded in `docs/FRONTEND_PROGRESS.md`. Historical Antigravity progress is in `docs/ANTIGRAVITY_PROGRESS.md`; inspect source and runtime evidence before treating its milestones as launch ready.
 
-## Current external setup
+## Current setup
 
-- Private GitHub repository created: https://github.com/SalmanAsadDev/oakmere-living. Baseline pushed to main.
-- Vercel authenticated and linked to oakmere-living. Automatic GitHub linking failed because Vercel lacks repository access; CLI deployment remains available.
-- Context7 is not exposed in this session's tools. Installed Vercel guidance and official documentation are the fallback.
-- Free Supabase project provisioned in London through Vercel; connected to development and preview. Required database environment keys verified as present without exposing values. Production is not connected.
-- Email and address-provider configuration remain outstanding.
-- Frontend deployed and verified on 7 October: latest preview https://oakmere-living-jgk664e9e-salmanasad561-gmailcoms-projects.vercel.app (commit 01a9d14). Vercel assigned the initial deployment to production automatically at https://oakmere-living.vercel.app; that alias currently precedes the final hero spacing fix. Neither is a completed commerce launch. Indexing and live orders remain disabled.
-- Direct database migration connectivity requires the Supabase CA certificate: verified TLS connections returned SELF_SIGNED_CERT_IN_CHAIN, including with the Windows trust store. Certificate verification was not disabled. The empty CLI-generated commerce migration has not been applied.
+- Private GitHub repository: https://github.com/SalmanAsadDev/oakmere-living. Main contains Antigravity milestones through `7bef57f`; frontend release and integration guards are the next commits.
+- Vercel project `oakmere-living` linked; CLI preview deployment available. Automatic GitHub deployment is not connected. Hostinger will supply domain/DNS later; application stays on Vercel.
+- Supabase provisioned in London, development/preview configuration present; schema, RLS and real staff/persistent service journeys still require runtime proof. Earlier direct migration TLS failed with SELF_SIGNED_CERT_IN_CHAIN; verification was not disabled.
+- Context7 and installed Vercel/React/Supabase skills used for supported APIs and release checks.
+- Email, address provider and actual business contacts/policies remain unresolved.
 
-## Build milestones
+## Milestones
 
-| Milestone | State |
+| Area | Current state |
 | --- | --- |
-| Repository, locked dependencies and application foundation | Build verified |
-| Catalogue import/validation and storefront | Homepage, categories, search/sort, product gallery/selection and basket implemented; database catalogue integration pending |
-| Basket, quote and transactional order flow | Pending |
-| Staff login, catalogue and order administration | Pending |
-| Swatches, appointments and content | Pending |
-| Colour previews and room planner | Pending |
-| Verification, deployment and handover | Pending |
+| Catalogue and storefront | 108 source records, 73 ready; shared frontend rebuilt with preserved motion and reference discovery/service navigation; production build passes |
+| Basket | Exact variants, immediate +/− controls, live totals and browser persistence verified |
+| Checkout/orders | Inherited prototype cannot open sales; mock cart/client prices/non-atomic writes remain behind explicit implementation guard |
+| Admin | Antigravity routes retained; verified identity/role guards added to pages/actions; real staff/RLS/persistence proof pending |
+| Contact/swatches | UI and POST validation wired; sample selection and enquiry prefill verified; real persistent submission and operational fulfilment still need proof |
+| Builder | Seven steps; standard catalogue configurations enter basket; custom requests become enquiries |
+| Room planner | Local moodboard prototype upload/keyboard/export verified; natural selected-product integration remains next milestone |
+| Assistant | Local catalogue/policy guide working; generative/file assistant requires a configured provider and guarded server implementation |
+| Content | Service/footer routes and original journal pages present; review moderation, appointment booking and private order lookup remain pending |
+| SEO/release | Server catalogue/product routes and metadata retained; no commercial launch or indexing enablement until release gates pass |
 
-Commit and push after each major verified milestone. Never commit credentials, local environment files or generated framework/build directories. Update this file with concrete evidence and blockers as work progresses.
+## Checks
 
-## Verification and known limitations
-
-- 7 October frontend revision: dedicated welcome Home, filter-based `/shop`, About and `/cart`; category routes redirect. Four motion components implemented: scroll assembly illustration, loaded-image material mask, staggered text/image reveals, Radix cart/filter drawers. See FRONTEND_MOTION_SPEC.md for specifications and the 400ms material timing resolution.
-- Revised production build and TypeScript passed. Browser verified: Corner Sofas gives 30 results without leaving `/shop`; filter/cart drawers work; Grey Leather Oxford variant morph computes 0.4s and adds the correct £999 line and image to cart; mobile viewport has no horizontal overflow; hero removes will-change after interaction. Reduced-motion stylesheet and listener paths inspected; OS preference emulation was not available in the browser tool.
-
-- `npm test`: 4 catalogue/price/variant tests passed.
-- `npm run typecheck`: passed.
-- `npm run build`: passed after allowing Windows worker process creation (sandbox initially returned EPERM).
-- Local browser: homepage renders with verified source product imagery. Shopping journey verification is in progress.
-- Media transfer: 100 URLs attempted, 20 unique URLs copied; 80 failures include missing source images and transient network errors. Some products share URLs. Keep the full report in `docs/research/media-transfer.json`; client image failures have an accessible fallback. This does not satisfy final production catalogue/media readiness.
-- No live order submission, admin management, services, room planner or deployment is claimed complete at this milestone.
+`npm run check` passes catalogue audit, seven tests and TypeScript. `npm run build` passes on Next.js 16.3.8. Browser checks and exact HTTP evidence are in the frontend progress report. Vercel preview URL and commit will be appended after deployment is READY. No new handoff document is being created.

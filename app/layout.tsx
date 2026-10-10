@@ -3,6 +3,8 @@ import "./globals.css";
 import { site } from "@/lib/config/site";
 import { BasketProvider } from "@/components/storefront/basket-provider";
 import { Header, Footer } from "@/components/storefront/shell";
+import { SofaGuide } from "@/components/storefront/sofa-guide";
+import { products } from "@/lib/domain/catalogue";
 export const metadata: Metadata = {
   metadataBase: new URL(site.origin),
   title: {
@@ -33,6 +35,19 @@ export default function RootLayout({
           <Header />
           <main id="main">{children}</main>
           <Footer />
+          <SofaGuide
+            catalogue={products.map((p) => ({
+              name: p.name,
+              slug: p.slug,
+              price: p.price,
+              search: [
+                p.name,
+                ...p.categories,
+                ...p.materials,
+                ...p.colours,
+              ].join(" "),
+            }))}
+          />
         </BasketProvider>
       </body>
     </html>

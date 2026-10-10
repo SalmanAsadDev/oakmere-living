@@ -80,16 +80,23 @@ export function ProductDetail({ product }: { product: Product }) {
                     aria-pressed={selected === v.id}
                     className={`swatch-button inline-flex items-center gap-3 border px-4 py-3 text-xs ${selected === v.id ? "border-primary bg-primary text-white" : ""}`}
                     onPointerEnter={(event) => {
-                      if (event.pointerType === "mouse" && v.image) setPhoto(v.image);
+                      if (event.pointerType === "mouse" && v.image)
+                        setPhoto(v.image);
                     }}
-                    onPointerLeave={() => setPhoto(variant?.image || product.images[0]?.url)}
+                    onPointerLeave={() =>
+                      setPhoto(variant?.image || product.images[0]?.url)
+                    }
                     onClick={() => {
                       setSelected(v.id);
                       setAdded(false);
                       if (v.image) setPhoto(v.image);
                     }}
                   >
-                    <span aria-hidden="true" className="size-4 rounded-full border border-current/30" style={{ backgroundColor: v.hex }} />
+                    <span
+                      aria-hidden="true"
+                      className="size-4 rounded-full border border-current/30"
+                      style={{ backgroundColor: v.hex }}
+                    />
                     {v.label}
                   </button>
                 ))}
@@ -138,6 +145,20 @@ export function ProductDetail({ product }: { product: Product }) {
               Ask about this sofa
             </Link>
           </Button>
+          <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-xs">
+            <Link
+              className="editorial-link link-underline"
+              href={`/room-planner?product=${encodeURIComponent(product.slug)}`}
+            >
+              Try it in your room →
+            </Link>
+            <Link className="editorial-link link-underline" href="/swatches">
+              Feel the fabric →
+            </Link>
+            <Link className="editorial-link link-underline" href="/build">
+              Build your sofa →
+            </Link>
+          </div>
           <div className="mt-8 divide-y border-y text-sm">
             <details className="py-5" open>
               <summary className="cursor-pointer font-medium">

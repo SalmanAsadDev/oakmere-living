@@ -15,6 +15,7 @@ type BasketState = {
   ready: boolean;
   add: (item: Omit<BasketItem, "quantity">) => void;
   quantity: (id: string, count: number) => void;
+  adjust: (id: string, delta: number) => void;
   remove: (id: string) => void;
   clear: () => void;
 };
@@ -73,6 +74,19 @@ export function BasketProvider({ children }: { children: React.ReactNode }) {
                 i.variantId === id ? { ...i, quantity: count } : i,
               ),
             );
+        },
+        adjust: (id, delta) => {
+          if (!Number.isInteger(delta)) return;
+          setItems((old) =>
+            old.map((item) =>
+              item.variantId === id
+                ? {
+                    ...item,
+                    quantity: Math.min(10, Math.max(1, item.quantity + delta)),
+                  }
+                : item,
+            ),
+          );
         },
         remove: (id) =>
           setItems((old) => old.filter((i) => i.variantId !== id)),

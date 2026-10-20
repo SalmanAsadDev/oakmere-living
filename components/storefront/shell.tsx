@@ -229,6 +229,7 @@ export function Footer() {
               ["Request a consultation", "/appointment"],
               ["The journal", "/blog"],
               ["Your basket", "/cart"],
+              ["Staff access", "/admin"],
               ["Privacy", "/privacy"],
               ["Terms", "/terms"],
             ],
@@ -252,7 +253,6 @@ export function Footer() {
         <p>© {new Date().getFullYear()} Oakmere Living</p>
         <div className="flex gap-5">
           <span>United Kingdom · GBP £</span>
-          <Link href="/admin">Team sign in</Link>
         </div>
       </div>
     </footer>

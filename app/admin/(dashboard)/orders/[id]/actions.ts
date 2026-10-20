@@ -1,13 +1,20 @@
 "use server";
 
 import { requireStaff } from "@/lib/server/staff";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
+import { z } from "zod";
 
 export async function updateOrderStatus(formData: FormData) {
   const order_id = formData.get("order_id") as string;
   const status = formData.get("status") as string;
 
-  if (!order_id || !status) return;
+  if (
+    !z.uuid().safeParse(order_id).success ||
+    !z
+      .enum(["pending", "processing", "shipped", "delivered", "cancelled"])
+      .safeParse(status).success
+  )
+    return;
 
   const supabase = await requireStaff(["admin", "sales"]);
 
@@ -22,5 +29,6 @@ export async function updateOrderStatus(formData: FormData) {
   }
 
   revalidatePath("/admin/orders");
+  updateTag("catalogue");
   revalidatePath(`/admin/orders/${order_id}`);
 }

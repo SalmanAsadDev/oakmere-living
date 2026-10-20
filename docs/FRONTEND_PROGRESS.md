@@ -59,3 +59,7 @@ Remaining launch work: persistent service/admin journeys and schema/RLS proof; s
 - Deployed browser smoke test: homepage and Lily detail render; Grey exact variant enters basket, + updates quantity to 2 and subtotal to £1,498. No console errors in tested session.
 - Target is preview; no production promotion or indexing enablement. Local verification screenshot: `.local/verification/frontend-home-2026-10-10.png` (ignored, not a repository asset).
 - Publishing initially encountered connection resets; HTTP/1.1 Git retry and Vercel CLI retry without update check succeeded. Vercel connector lacks the required team scope, so the authorized scoped CLI was used.
+
+## 20 October integration checkpoint
+
+Storefront catalogue reads now use published Supabase records and cache invalidation from admin saves. Owner editing covers variants, prices, stock and optimised photograph uploads. Checkout now uses the real basket with immediate +/− controls, server quotes, access details, delivery-payment review and a session-private confirmation. SQL/HTTP flow checks pass with synthetic records; these do not replace interactive responsive/accessibility verification. Live ordering remains disabled. The four existing signature animations are unchanged. Room compositing, richer discovery/comparison, gallery refinements and operational service journeys remain outstanding.

@@ -19,7 +19,9 @@ export default function ContactPage() {
         params.get("message") ||
         (params.get("product")
           ? `Please tell me more about ${params.get("product")}.`
-          : "")
+          : params.get("order")
+            ? `Please help me with order ${params.get("order")}.`
+            : "")
       ).slice(0, 2000),
     );
   }, []);

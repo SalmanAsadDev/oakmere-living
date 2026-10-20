@@ -7,6 +7,7 @@ import {
 
 export const metadata = {
   title: "Checkout | Oakmere Living",
+  robots: { index: false, follow: false },
 };
 
 export default function CheckoutPage() {
@@ -33,10 +34,8 @@ export default function CheckoutPage() {
       </div>
     );
   return (
-    <main className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <CheckoutForm />
-      </div>
-    </main>
+    <div className="container section">
+      <CheckoutForm />
+    </div>
   );
 }

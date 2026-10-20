@@ -1,107 +1,86 @@
-import { NextResponse } from "next/server";
-import { checkoutPayloadSchema } from "@/lib/validation/checkout";
 import { createAdminClient } from "@/lib/server/supabase";
-import { cookies } from "next/headers";
-import crypto from "crypto";
-import { liveOrderingEnabled, checkoutImplementationReady } from "@/lib/config/site";
+import {
+  checkoutRateLimit,
+  checkoutResponse,
+  checkoutSession,
+  readCheckoutRequest,
+} from "@/lib/server/checkout";
+import { checkoutPayloadSchema } from "@/lib/validation/checkout";
+import { revalidateTag } from "next/cache";
+import {
+  liveOrderingEnabled,
+  checkoutImplementationReady,
+} from "@/lib/config/site";
 
 export async function POST(request: Request) {
-  if (!liveOrderingEnabled || !checkoutImplementationReady) {
-    return NextResponse.json({ error: "Online ordering is not available yet. Please contact the team to confirm your sofa and delivery details." }, { status: 503 });
-  }
+  if (!liveOrderingEnabled || !checkoutImplementationReady)
+    return checkoutResponse(
+      {
+        error: "Online ordering is not available yet. Please contact the team.",
+      },
+      503,
+    );
   try {
-    const body = await request.json();
-    const result = checkoutPayloadSchema.safeParse(body);
-
-    if (!result.success) {
-      return NextResponse.json(
-        { error: "Invalid checkout payload", details: result.error.format() },
-        { status: 400 }
+    const input = checkoutPayloadSchema.safeParse(
+      await readCheckoutRequest(request),
+    );
+    if (!input.success)
+      return checkoutResponse(
+        {
+          error: "Check your contact details and accept the order terms.",
+          code: "INVALID_INPUT",
+        },
+        422,
+      );
+    const session = await checkoutSession(request, false);
+    if (!session)
+      return checkoutResponse(
+        {
+          error: "Your session has expired. Request a fresh delivery quote.",
+          code: "SESSION_EXPIRED",
+        },
+        409,
+      );
+    if (!(await checkoutRateLimit(request, session, "order")))
+      return checkoutResponse(
+        { error: "Too many requests. Wait ten minutes before retrying." },
+        429,
+      );
+    const { data, error } = await createAdminClient().rpc(
+      "submit_checkout_order",
+      {
+        session_key: session,
+        quote_key: input.data.quoteId,
+        idem: input.data.idempotencyKey,
+        contact: input.data.contact,
+        payment: input.data.paymentMethod,
+        terms: input.data.termsVersion,
+      },
+    );
+    if (error) {
+      console.warn("Order rejected", error.code);
+      return checkoutResponse(
+        {
+          error:
+            "The quote expired or availability changed. Review a fresh quote before ordering.",
+          code: "QUOTE_CHANGED",
+        },
+        error.code === "P0001" ? 409 : 503,
       );
     }
-
-    const data = result.data;
-
-    // Get or create a session ID for guest tracking
-    const cookieStore = await cookies();
-    let sessionId = cookieStore.get("guest_session")?.value;
-    if (!sessionId) {
-      sessionId = crypto.randomUUID();
-    }
-
-    const supabase = createAdminClient();
-
-    // 1. Calculate Delivery Cost (mock implementation for now)
-    // Normally, we'd query delivery_policies or an external API based on data.deliveryAddress
-    const deliveryCost = 50.00; // Flat rate for now
-
-    // 2. Validate Cart Items against DB
-    // In a real app, query products from DB to ensure prices match
-    let subtotal = 0;
-    const validatedItems = data.cartItems.map(item => {
-      // Trusting client price for prototype, but this should be DB driven
-      const lineTotal = item.quantity * item.unitPrice;
-      subtotal += lineTotal;
-      return {
-        ...item,
-        total_price: lineTotal
-      };
-    });
-
-    const totalAmount = subtotal + deliveryCost;
-
-    // 3. Persist Order Transaction
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .insert({
-        session_id: sessionId,
-        customer_email: data.customerEmail,
-        customer_phone: data.customerPhone || null,
-        customer_name: data.customerName,
-        delivery_address: data.deliveryAddress,
-        payment_method: data.paymentMethod,
-        subtotal: subtotal,
-        delivery_cost: deliveryCost,
-        total_amount: totalAmount,
-        status: "pending",
-      })
-      .select("id")
-      .single();
-
-    if (orderError) {
-      console.error("Order Insert Error:", orderError);
-      return NextResponse.json({ error: "Failed to create order" }, { status: 500 });
-    }
-
-    // Insert Order Items
-    const orderItemsToInsert = validatedItems.map(item => ({
-      order_id: order.id,
-      product_id: item.productId,
-      variant_id: item.variantId || null,
-      product_name: item.productName,
-      quantity: item.quantity,
-      unit_price: item.unitPrice,
-      total_price: item.total_price,
-    }));
-
-    const { error: itemsError } = await supabase
-      .from("order_items")
-      .insert(orderItemsToInsert);
-
-    if (itemsError) {
-      console.error("Order Items Insert Error:", itemsError);
-      return NextResponse.json({ error: "Failed to add items to order" }, { status: 500 });
-    }
-
-    // We can't always set cookies in API routes without a proper response structure in some older Next versions,
-    // but in newer App router we can just modify cookieStore directly before returning.
-    if (!cookieStore.get("guest_session")) {
-        cookieStore.set("guest_session", sessionId, { httpOnly: true, path: "/" });
-    }
-
-    return NextResponse.json({ success: true, orderId: order.id });
+    revalidateTag("catalogue", { expire: 0 });
+    return checkoutResponse({ success: true, orderId: data });
   } catch (error) {
-    console.error("Checkout Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return checkoutResponse(
+      {
+        error:
+          "We could not confirm the order. Retry with the same details; repeated attempts will not create duplicate orders.",
+      },
+      error instanceof SyntaxError ||
+        (error instanceof Error &&
+          ["origin", "content", "body", "size"].includes(error.message))
+        ? 400
+        : 503,
+    );
   }
 }

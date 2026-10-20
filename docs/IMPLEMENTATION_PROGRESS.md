@@ -2,6 +2,16 @@
 
 ## Latest checkpoint: restored database and catalogue administration
 
+### Checkout implementation added after catalogue checkpoint
+
+The mock checkout is replaced. `/api/checkout/quote` accepts only variant IDs/quantities and a delivery address; database prices produce a 15-minute quote bound to an HTTP-only guest session. `/api/checkout` accepts that quote, contact, delivery-payment method, terms acceptance and idempotency key. Order/items/known-stock reservations commit together. Expired quotes, price changes, unavailable configurations, foreign sessions and changed idempotency payloads are rejected. Replays return the original order. Cancelling pending/processing orders restores only explicitly reserved stock, once; cancelled orders cannot reopen. Unknown stock never becomes an invented reservation.
+
+The customer form now uses the real persisted basket, immediate quantity buttons, delivery/access details, exact quote totals, cash/card-on-delivery review, terms acceptance and private session-bound confirmation. Admin order amounts handle database numeric strings; reads use verified staff sessions. Stock changes expire the public catalogue cache.
+
+Verified locally: actual HTTP quote → persistent order → private confirmation. Concurrent identical requests create one order. Two separate checkouts racing for the final units yield one success and one stock conflict. Forged prices and cross-origin requests fail; another session receives 404 for confirmation. Test products, quotes, orders and counters were removed afterwards. Direct rollback tests also verify expiry, changed prices, cancellation, unknown stock and distributed throttling. Security advisors report no issues.
+
+`checkoutImplementationReady=true` records implementation readiness; **LIVE_ORDERING_ENABLED remains false locally and in Vercel preview**. Commercial release still needs owner sign-in/publishing QA, interactive checkout/mobile/accessibility testing, real staff fulfilment/notifications and reviewed business/legal settings. No online charge, notification email or production promotion was performed. Remaining room/discovery features are still outstanding.
+
 Supabase was restored by the owner on 20 October. The database had no application tables. The secure baseline and two atomic-editor migrations are applied; the earlier, never-applied SQL drafts are preserved under `supabase/legacy/`. TLS uses the official Supabase Root 2021 certificate with hostname verification enabled.
 
 - Live catalogue: **108 products, 73 published, 35 drafts, 160 exact configurations and 482 media records** imported from the supplied catalogue and local media manifest. Unknown stock stays null. Reference-only colours/stock were not imported.
@@ -69,3 +79,5 @@ READY: https://oakmere-living-dqiho232k-salmanasad561-gmailcoms-projects.vercel.
 - Full interactive browser, live email sign-in, Auth redirect allowlist, staff/RLS, catalogue publishing and persistent orders remain unverified. Do not infer those from build success.
 
 Verification update: the owner has added the local and team-scoped preview Auth callback URLs. Actual email-link sign-in remains to be exercised by the owner. Production build passes with 44 generated pages and the dynamic `/admin/products/[id]` editor route. Supabase security advisors remain clean after storage setup.
+
+Verification/release checkpoint: Next.js production build passes (45 generated pages plus dynamic routes); `npm run check` passes 17 tests and TypeScript. The final stock-reservation migration also passes unknown-stock and forced partial-order rollback checks. Supabase CLI security advisors report no issues. Catalogue commit `e6a460a` is pushed and READY at https://oakmere-living-ednwiczho-salmanasad561-gmailcoms-projects.vercel.app; authenticated Vercel HTTP confirms the shop renders actual product links. Owner Auth callback URLs are configured; the owner has been asked to exercise the email-link login. Checkout implementation commit/deployment follows this checkpoint. Preview environment was inspected without displaying credentials: both demo catalogue and LIVE_ORDERING_ENABLED are false.

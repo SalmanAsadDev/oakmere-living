@@ -1,105 +1,106 @@
-import { Metadata } from "next";
+import Link from "next/link";
+import { DeliveryCheck } from "@/components/storefront/delivery-check";
+import { deliveryPolicy } from "@/lib/domain/delivery.mjs";
+import { money } from "@/lib/presentation/format";
 
-export const metadata: Metadata = {
-  title: "Delivery Information",
-  description: "Find out everything you need to know about delivery areas, costs, timescales and preparing for your new furniture.",
+export const metadata = {
+  title: "Delivery information",
+  description:
+    "Check a delivery estimate, understand dispatch and production lead times, and prepare your space for your sofa.",
 };
-
 export default function DeliveryPage() {
   return (
-    <div className="container section max-w-3xl">
-      <h1 className="display text-4xl mb-4">Delivery Information</h1>
-      <p className="text-muted-foreground mb-12 text-lg">
-        We want the arrival of your new furniture to be as exciting and stress-free as possible. 
-        Here is everything you need to know about our delivery services, areas, and how to prepare.
+    <div className="container section max-w-4xl">
+      <p className="eyebrow mb-5 text-muted-foreground">
+        From our collection to your home
       </p>
-
-      <div className="space-y-12">
+      <h1 className="display text-4xl sm:text-6xl">A considered arrival.</h1>
+      <p className="mt-6 max-w-2xl text-sm leading-7 text-muted-foreground">
+        Check your delivery area and discuss access with the team before
+        ordering. Delivery windows are estimates after dispatch; production and
+        supplier lead times are additional.
+      </p>
+      <div className="my-10">
+        <DeliveryCheck />
+      </div>
+      <div className="grid gap-6 md:grid-cols-3">
+        {[
+          [
+            "Standard mainland",
+            "Free estimate",
+            "Allow 5–7 working days after dispatch. Coverage and room access are confirmed with the team.",
+          ],
+          [
+            "Express enquiry",
+            money(deliveryPolicy.expressPence),
+            "Indicative 2–3 working days after dispatch, where available. Ask the team to confirm before choosing this service.",
+          ],
+          [
+            "Old sofa removal",
+            money(deliveryPolicy.removalPence),
+            "Indicative service price. Ask about availability, the item to be collected and access arrangements.",
+          ],
+        ].map(([title, price, body]) => (
+          <section key={title} className="border-t pt-6">
+            <h2 className="font-serif text-2xl">{title}</h2>
+            <p className="my-4 text-lg">{price}</p>
+            <p className="text-sm leading-7 text-muted-foreground">{body}</p>
+          </section>
+        ))}
+      </div>
+      <div className="mt-14 space-y-10 text-sm leading-7">
         <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Delivery Costs & Areas</h2>
-          <div className="bg-muted/50 border border-border p-6 rounded-lg mb-6">
-            <h3 className="font-semibold text-lg mb-2">UK Mainland (Ground Floor)</h3>
-            <p className="text-2xl font-bold text-primary mb-2">FREE</p>
-            <p className="text-muted-foreground text-sm">
-              Standard ground floor delivery is included at no extra cost for most UK mainland postcodes.
-            </p>
-          </div>
-          <div className="prose prose-sm text-muted-foreground max-w-none">
-            <p>
-              We deliver to the majority of the UK mainland. Our checkout will verify if your specific postcode 
-              qualifies for free delivery. 
-            </p>
-            <p className="mt-4">
-              <strong>Remote areas and islands:</strong> For the Scottish Highlands, offshore islands, and Northern Ireland, 
-              please contact us for a delivery quote before placing your order. These areas may incur additional charges and extended lead times.
-            </p>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Delivery Timescales</h2>
-          <div className="grid gap-6 md:grid-cols-2 mb-6">
-            <div className="border border-border p-6 rounded-lg">
-              <h3 className="font-semibold mb-2">England</h3>
-              <p className="text-muted-foreground">Estimated 2-4 working days for stocked items.</p>
-            </div>
-            <div className="border border-border p-6 rounded-lg">
-              <h3 className="font-semibold mb-2">Scotland & Wales</h3>
-              <p className="text-muted-foreground">Estimated 5-7 working days for stocked items.</p>
-            </div>
-          </div>
-          <p className="text-sm text-muted-foreground italic">
-            * Estimated delivery times are subject to confirmation by our team. Made-to-order items 
-            will have specific lead times that will be communicated during checkout or by our team.
+          <h2 className="mb-4 font-serif text-2xl">Before dispatch</h2>
+          <p className="text-muted-foreground">
+            Made-to-order furniture can require an indicative 2–4 weeks of
+            production before dispatch. Your selected sofa may be stocked or
+            supplier-sourced instead; the team will confirm its own availability
+            and lead time. An express delivery estimate does not shorten
+            production.
           </p>
         </section>
-
         <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Additional Services</h2>
-          <div className="space-y-4">
-            <div className="flex justify-between items-start border-b border-border pb-4">
-              <div>
-                <h3 className="font-semibold">Upper Floor Delivery</h3>
-                <p className="text-sm text-muted-foreground">If you live in a flat without a lift or need furniture taking upstairs.</p>
-              </div>
-              <span className="font-semibold whitespace-nowrap ml-4">From £20 per flight</span>
-            </div>
-            <div className="flex justify-between items-start border-b border-border pb-4">
-              <div>
-                <h3 className="font-semibold">Assembly Service</h3>
-                <p className="text-sm text-muted-foreground">Our team will unbox and assemble your new furniture in your room of choice.</p>
-              </div>
-              <span className="font-semibold whitespace-nowrap ml-4">£20</span>
-            </div>
-            <div className="flex justify-between items-start border-b border-border pb-4">
-              <div>
-                <h3 className="font-semibold">Old Furniture Removal</h3>
-                <p className="text-sm text-muted-foreground">Responsible disposal and recycling of your old sofa.</p>
-              </div>
-              <span className="font-semibold whitespace-nowrap ml-4">£10 per seat</span>
-            </div>
-          </div>
+          <h2 className="mb-4 font-serif text-2xl">Your delivery area</h2>
+          <p className="text-muted-foreground">
+            Standard mainland delivery is estimated as free. Northern Ireland,
+            the Highlands, offshore islands and other locations needing
+            additional arrangements require a team-confirmed quote. A correctly
+            formatted postcode does not establish coverage or guarantee a
+            delivery date.
+          </p>
         </section>
-
         <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Preparing for Delivery</h2>
-          <div className="prose prose-sm text-muted-foreground max-w-none">
-            <p>
-              To ensure a smooth delivery, please make sure you have accurately measured all doorways, 
-              hallways, and staircases that the delivery team will need to navigate. 
-            </p>
-            <ul className="list-disc pl-5 mt-4 space-y-2">
-              <li>Clear the path of any trip hazards, rugs, or fragile items.</li>
-              <li>Ensure there is adequate parking for our delivery vehicle.</li>
-              <li>Someone over the age of 18 must be present to accept and sign for the delivery.</li>
-            </ul>
-            <p className="mt-4 text-sm text-destructive">
-              <strong>Note:</strong> A missed delivery slot may result in a £50 redelivery charge. Please notify us 
-              at least 48 hours in advance if you need to reschedule.
-            </p>
-          </div>
+          <h2 className="mb-4 font-serif text-2xl">
+            Let’s get the access right.
+          </h2>
+          <p className="text-muted-foreground">
+            Measure doorways, corridors, stair turns and the final room. Tell
+            the team about your floor, lift, parking and any narrow access.
+            Confirm room-of-choice delivery, stairs, assembly and packaging
+            removal with the team; these are not automatically booked by the
+            postcode checker.
+          </p>
+          <Link
+            href="/guides/measuring-for-delivery"
+            className="mt-3 inline-block link-underline"
+          >
+            Read the measuring guide →
+          </Link>
+        </section>
+        <section>
+          <h2 className="mb-4 font-serif text-2xl">Pay on delivery</h2>
+          <p className="text-muted-foreground">
+            Cash and card on delivery remain the payment options for Oakmere.
+            You will not be asked to enter card details on this website.
+          </p>
         </section>
       </div>
+      <Link
+        href="/contact?message=Please%20help%20me%20confirm%20delivery%20coverage%2C%20timing%20and%20access%20for%20my%20sofa."
+        className="editorial-link mt-10 inline-flex min-h-12 items-center border-b text-sm"
+      >
+        Ask the team about delivery →
+      </Link>
     </div>
   );
 }

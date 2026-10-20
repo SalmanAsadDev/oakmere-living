@@ -2,7 +2,9 @@
 
 > Updated frontend authority (7 October 2026): [Motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Use `/shop` with category query filters and `/cart`; legacy category routes redirect. Follow the named motion tokens and reduced-motion behaviour in that contract. It supersedes conflicting route/animation recommendations below.
 
-Version: 1.2 | Updated: 10 October 2026 | Status: frontend release verification; additive reference parity scope
+Version: 1.3 | Updated: 20 October 2026 | Status: initial administrator and reference-derived delivery integration
+
+> Initial administrator setup: `node --env-file=.env.local scripts/provision-admin.mjs` uses a server-only key, reuses the exact Auth identity and assigns its verified staff row. It does not create passwords, auto-confirm email, send invitations or grant roles at login. Staff access also requires confirmed email ownership. Password and email-link flows are available; email links require the environment's `/auth/callback` URL in the Supabase redirect allowlist. Staff-invitation UI is lower priority. `lib/domain/delivery.mjs` owns reference-derived delivery estimates, not guaranteed coverage or bookings. Existing Supabase host returned DNS ENOTFOUND on 20 October; provisioning and live database integration remain unverified until restored.
 
 > Latest technical requirements: all quantities use the shared `QuantityControl` and functional basket adjustments; no quantity dropdown. Room visualisation requires a faithful cutout of the exact selected product/variant, floor placement and perspective/scale controls, contact shadows and lighting integration. Evaluate local segmentation/compositing against a configured image-editing service using real product references; preserve product identity and label generated visualisations. If a remote provider is chosen, disclose photo transmission before upload, enforce file/pixel limits and retention/deletion, and keep provider keys server-side. No provider is selected or provisioned yet. The current local canvas moodboard is a prototype, not ROOM-02 completion. See the parity plan for acceptance.
 

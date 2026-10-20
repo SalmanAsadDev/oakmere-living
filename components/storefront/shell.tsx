@@ -205,7 +205,7 @@ export function Footer() {
               ["Corner sofas", "/shop?category=corner-sofas"],
               ["Sofa sets", "/shop?category=3-2-seater-sofa-sets"],
               ["U-shaped sofas", "/shop?category=u-shaped-sofas"],
-              ["Recliners", "/shop?category=electric-recliners"],
+              ["Recliners", "/shop?category=recliner-sofas"],
               ["Build your sofa", "/build"],
             ],
           },

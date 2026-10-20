@@ -12,6 +12,7 @@ export async function requireStaff(
     error: authError,
   } = await supabase.auth.getUser();
   if (authError || !user) redirect("/admin/login");
+  if (!user.email_confirmed_at) redirect("/admin/access-denied");
   // The user ID is verified with Auth, never taken from form input or editable metadata.
   const { data: staff, error } = await createAdminClient()
     .from("staff_profiles")

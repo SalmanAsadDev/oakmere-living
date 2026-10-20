@@ -7,6 +7,7 @@ import { MaterialImage } from "./material-image";
 import { money } from "@/lib/presentation/format";
 import { useBasket } from "./basket-provider";
 import { Button } from "@/components/ui/button";
+import { DeliveryCheck } from "./delivery-check";
 export function ProductDetail({ product }: { product: Product }) {
   const [selected, setSelected] = useState(
     product.variants.length === 1 ? product.variants[0].id : "",
@@ -67,6 +68,9 @@ export function ProductDetail({ product }: { product: Product }) {
           <p className="text-sm leading-7 text-muted-foreground">
             {product.description}
           </p>
+          <div className="mt-6">
+            <DeliveryCheck />
+          </div>
           {product.variants.length > 0 ? (
             <fieldset className="my-8">
               <legend className="mb-3 text-sm font-medium">

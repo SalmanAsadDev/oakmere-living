@@ -2,7 +2,9 @@
 
 > Latest frontend direction (7 October 2026): see [Frontend motion and navigation contract](docs/FRONTEND_MOTION_SPEC.md). Home, Shop, About and Cart are distinct pages; categories are Shop filters rather than separate landing pages. This supersedes conflicting category-route recommendations below.
 
-Version: 0.4 | Updated: 10 October 2026 | Status: frontend release verification; reference parity added
+Version: 0.5 | Updated: 20 October 2026 | Status: implementation; reference-derived service inputs and initial administrator
+
+> Owner decision (20 October): derive missing product/service requirements from Corner Sofa. Initial administrator: `salmanasad561@gmail.com`; admin-managed staff invitations are deferred. Retain cash/card on delivery where reference text conflicts. Reference delivery/FAQ/terms have conflicting claims; use recorded provenance and one shared service policy rather than copying every claim. Competitor identity, contacts, reviews and factory/showroom claims do not establish facts about Oakmere. See [reference audit](docs/research/reference-policy-audit-2026-10-20.md).
 
 > Latest owner requirements (10 October): quantity controls must use immediate +/− buttons everywhere, with totals updating in the same interaction. The room planner must integrate the selected furniture into an uploaded room photograph with convincing perspective, scale, lighting and contact shadows. A rectangular product-photo moodboard is an interim prototype and does not satisfy room-planner acceptance. Complete the shared frontend rebuild first, then develop natural room placement. Do not create a new Antigravity handoff.
 

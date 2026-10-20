@@ -1,78 +1,119 @@
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Frequently Asked Questions",
-  description: "Find answers to common questions about ordering, delivery, and caring for your Oakmere Living furniture.",
+import Link from "next/link";
+export const metadata = {
+  title: "Frequently asked questions",
+  description:
+    "Help with Oakmere sofas, delivery estimates, payment, fabric samples and measuring your space.",
 };
-
-export default function FaqsPage() {
+const groups = [
+  {
+    title: "Delivery & payment",
+    items: [
+      [
+        "Where do you deliver?",
+        "Standard mainland delivery is estimated as free. Northern Ireland, the Highlands, islands and locations requiring special arrangements need a team-confirmed quote. Use the delivery checker for an initial indication.",
+        "/delivery",
+        "Check delivery",
+      ],
+      [
+        "How long will my sofa take?",
+        "Standard delivery is estimated at 5–7 working days after dispatch. Production or supplier lead time comes first; made-to-order production may take an indicative 2–4 weeks. The team confirms the timing for your sofa.",
+        "/delivery",
+        "Understand delivery timing",
+      ],
+      [
+        "Can I pay when it arrives?",
+        "Yes. Oakmere’s selected methods are cash and card on delivery. No online card payment, finance or deposit is configured on this website.",
+        "/delivery",
+        "Delivery and payment",
+      ],
+      [
+        "What about stairs, assembly or removing my old sofa?",
+        "Describe your floor, lift and access when speaking with the team. Ask them to confirm which services are available and the final charge before booking.",
+        "/contact",
+        "Discuss your delivery",
+      ],
+    ],
+  },
+  {
+    title: "Choosing your sofa",
+    items: [
+      [
+        "How do I identify left and right facing?",
+        "Stand facing the sofa from the front. The side of the chaise determines the facing direction. Check the exact configuration and measurements with the team before ordering.",
+        "/guides/corner-orientation",
+        "See the orientation guide",
+      ],
+      [
+        "Can I see the fabric first?",
+        "Choose up to four listed samples on the swatches page. Your request is saved only after a successful submission. The team confirms sample availability and delivery arrangements.",
+        "/swatches",
+        "Choose samples",
+      ],
+      [
+        "Will my sofa fit through the door?",
+        "Check the sofa’s dimensions and every stage of its delivery route. Do not assume it separates into smaller sections. The team needs to confirm section and packaging sizes for your exact product.",
+        "/guides/measuring-for-delivery",
+        "Measure your space",
+      ],
+      [
+        "Can I visualise it in my room?",
+        "The current room studio creates a local photo moodboard. Product photos can retain their backgrounds and the result is not to scale. Always check measurements separately.",
+        "/room-planner",
+        "Open the room studio",
+      ],
+    ],
+  },
+  {
+    title: "A little more help",
+    items: [
+      [
+        "How do I ask about a return, damage or warranty?",
+        "Contact the team with your product or order reference and a description of the issue. The team will confirm the applicable terms and next steps for your purchase.",
+        "/contact",
+        "Contact the team",
+      ],
+      [
+        "Can I arrange a consultation?",
+        "Send your preferred day, contact method and the sofa you are considering. A consultation request is not a confirmed showroom booking; the team confirms the arrangements.",
+        "/appointment",
+        "Request a consultation",
+      ],
+    ],
+  },
+];
+export default function FAQsPage() {
   return (
-    <div className="container section max-w-3xl">
-      <h1 className="display text-4xl mb-4">Frequently Asked Questions</h1>
-      <p className="text-muted-foreground mb-12">
-        Find answers to common questions about ordering, delivery, and caring for your Oakmere Living furniture.
+    <div className="container section max-w-4xl">
+      <p className="eyebrow mb-5 text-muted-foreground">A little reassurance</p>
+      <h1 className="display text-4xl sm:text-6xl">Make yourself at home.</h1>
+      <p className="mt-6 max-w-xl text-sm leading-7 text-muted-foreground">
+        The details that help you choose with confidence. Ask the family team
+        whenever your sofa or delivery needs a closer look.
       </p>
-
-      <div className="space-y-8">
-        <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Ordering & Payment</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-semibold text-lg mb-2">What payment methods do you accept?</h3>
-              <p className="text-muted-foreground">
-                We currently accept Cash on Delivery and Card on Delivery. There is no deposit required to place your order online.
-              </p>
+      <div className="mt-12 space-y-12">
+        {groups.map((group) => (
+          <section key={group.title}>
+            <h2 className="mb-5 font-serif text-2xl">{group.title}</h2>
+            <div className="divide-y border-y">
+              {group.items.map(([question, answer, href, label]) => (
+                <details key={question} className="py-5">
+                  <summary className="cursor-pointer pr-4 text-sm font-medium">
+                    {question}
+                  </summary>
+                  <p className="mt-4 text-sm leading-7 text-muted-foreground">
+                    {answer}
+                  </p>
+                  <Link
+                    href={href}
+                    className="mt-3 inline-block text-sm link-underline"
+                  >
+                    {label} →
+                  </Link>
+                </details>
+              ))}
             </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Can I change my order after it's been placed?</h3>
-              <p className="text-muted-foreground">
-                If you need to make changes to your order, please contact our team as soon as possible. Changes may affect your delivery date depending on whether the items have already been processed or dispatched.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Delivery & Access</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Where do you deliver?</h3>
-              <p className="text-muted-foreground">
-                We deliver across the UK mainland. For deliveries to Northern Ireland, the Scottish Highlands, or offshore islands, please contact us for a custom quote.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">How long will delivery take?</h3>
-              <p className="text-muted-foreground">
-                Mainland deliveries typically take 2-4 working days for stocked items. For Scotland and Wales, please allow 5-7 working days. Made-to-order items will have their lead times clearly communicated during checkout.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Will the delivery team bring the sofa into my room of choice?</h3>
-              <p className="text-muted-foreground">
-                Standard delivery includes ground-floor room of choice. If you require delivery upstairs, this is available from £20 per flight of stairs. Please select this option during checkout or contact us in advance.
-              </p>
-            </div>
-          </div>
-        </section>
-
-        <section>
-          <h2 className="text-2xl font-serif mb-4 text-primary">Product & Care</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="font-semibold text-lg mb-2">Do you offer fabric samples?</h3>
-              <p className="text-muted-foreground">
-                Yes, you can request up to four fabric swatches free of charge. Visit our swatches page to make a request, and we'll post them to you.
-              </p>
-            </div>
-            <div>
-              <h3 className="font-semibold text-lg mb-2">How do I know if a corner sofa is left or right-hand facing?</h3>
-              <p className="text-muted-foreground">
-                Our orientation always refers to the sofa as you are standing looking at it from the front. If the corner section is on your left, it is a left-hand facing sofa.
-              </p>
-            </div>
-          </div>
-        </section>
+          </section>
+        ))}
       </div>
     </div>
   );

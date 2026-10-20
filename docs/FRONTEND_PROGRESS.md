@@ -1,4 +1,12 @@
-# Shared frontend progress — 10 October 2026
+# Shared frontend progress
+
+## 20 October 2026 extension
+
+Added a reusable postcode delivery estimate to product detail and Delivery. It operates locally, distinguishes invalid format from remote-area review and labels mainland results as estimates. Unified Delivery/FAQ policy text using the fetched reference while retaining delivery-only payments. Header/footer Recliners links now select the same category. Added staff first-access email-link UI, Auth callback and actionable login errors; no automatic signup or public email-to-role mapping exists.
+
+The administrator bootstrap uses `salmanasad561@gmail.com`, with staff invitations deferred. Database DNS is unavailable, so account provisioning and real email sign-in remain unverified. Source audit, limits and the latest check status are in IMPLEMENTATION_PROGRESS.md. No new browser-device verification is claimed: the browser tool failed to initialise, including after a reset. The earlier evidence below remains historical.
+
+## 10 October 2026 release
 
 Authority: the project plan, technical plan and reference parity contract. This checkpoint supersedes the 7 October progress report. Antigravity commits through `7bef57f` and its pending admin-product route moves are retained. No new handoff is required.
 

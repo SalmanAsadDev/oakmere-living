@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { connection } from "next/server";
 import { CatalogueGrid } from "@/components/storefront/catalogue-grid";
-import { products } from "@/lib/domain/catalogue";
+import { getProducts } from "@/lib/domain/catalogue";
 export const metadata = {
   title: "Shop sofas",
   description:
@@ -11,6 +11,7 @@ export const metadata = {
 export default async function ShopPage() {
   // Keep product/filter HTML available to crawlers on the initial request.
   await connection();
+  const products = await getProducts();
   return (
     <Suspense
       fallback={

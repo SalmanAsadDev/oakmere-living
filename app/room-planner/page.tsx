@@ -1,5 +1,5 @@
 import { RoomPlanner } from "@/components/previews/room-planner";
-import { products } from "@/lib/domain/catalogue";
+import { getProducts } from "@/lib/domain/catalogue";
 export const metadata = {
   title: "Plan your room",
   description:
@@ -11,6 +11,7 @@ export default async function RoomPlannerPage({
   searchParams: Promise<{ product?: string }>;
 }) {
   const { product } = await searchParams;
+  const products = await getProducts();
   const choices = products
     .filter((p) => p.images.some((i) => i.url.startsWith("/images/")))
     .map((p) => ({

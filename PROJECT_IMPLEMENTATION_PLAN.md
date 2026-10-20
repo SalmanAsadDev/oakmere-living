@@ -761,3 +761,7 @@ Completed next step: owner answers incorporated and technical implementation pla
 | --- | --- | --- |
 | 0.1 / 6 October 2026 | Initial consolidated plan based on current user request, attachments and research | Awaiting owner answers; recommendations remain provisional |
 | 0.2 / 6 October 2026 | Owner answers: Oakmere Living, fresh build, Vercel/Hostinger DNS, full scope, COD/card on delivery, reference defaults, mixed inventory and two-day target | Technical planning baseline; unresolved operational facts retained explicitly |
+
+## 20 October database implementation checkpoint
+
+The restored Supabase project is now the canonical catalogue source: 108 imported products, 73 published and 35 drafts. Admin-only atomic editing and product-photo uploads are implemented. Identity verification and database role checks protect catalogue writes; drafts/private orders are not public. Unknown inventory/measurements stay unknown. See `docs/IMPLEMENTATION_PROGRESS.md` for verification and remaining release gates. The owner account exists but its email ownership must still be verified. Checkout, natural room visualisation and remaining discovery improvements continue in the agreed sequence.

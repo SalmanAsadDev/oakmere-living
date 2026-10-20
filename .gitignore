@@ -13,6 +13,7 @@ playwright-report/
 next-env.d.ts
 docs/research/pdf-preview/
 *.log
+supabase/.temp/
 
 
 .vercel

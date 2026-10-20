@@ -1,11 +1,15 @@
-import { products, categories } from "@/lib/domain/catalogue";
+import { getProducts, getCategories } from "@/lib/domain/catalogue";
 import { SofaBuilder } from "@/components/storefront/sofa-builder";
 export const metadata = {
   title: "Build your sofa",
   description:
     "Choose a shape, design and real catalogue configuration. Build a sofa shortlist or send a custom design enquiry to Oakmere.",
 };
-export default function BuildPage() {
+export default async function BuildPage() {
+  const [products, categories] = await Promise.all([
+    getProducts(),
+    getCategories(),
+  ]);
   const choices = products.map((p) => ({
     id: p.id,
     slug: p.slug,

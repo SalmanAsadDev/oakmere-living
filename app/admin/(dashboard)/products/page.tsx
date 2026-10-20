@@ -30,24 +30,45 @@ export default async function AdminProductsPage() {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Name
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Category
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Price
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                Status
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
             {products?.map((product) => (
               <tr key={product.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.name}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <Link
+                    href={`/admin/products/${encodeURIComponent(product.id)}`}
+                    className="underline underline-offset-4"
+                  >
+                    {product.name}
+                  </Link>
+                </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                   {/* Handle Supabase relation typing dynamically */}
                   {(product.categories as any)?.name || "Uncategorized"}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">£{product.base_price.toFixed(2)}</td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
-                    {product.is_active ? 'Active' : 'Inactive'}
+                  {product.base_price === null
+                    ? "Enquiry"
+                    : `£${Number(product.base_price).toFixed(2)}`}
+                </td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <span
+                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${product.is_active ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}
+                  >
+                    {product.is_active ? "Active" : "Inactive"}
                   </span>
                 </td>
               </tr>

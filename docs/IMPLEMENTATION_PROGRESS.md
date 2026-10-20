@@ -1,6 +1,19 @@
 # Implementation progress — 20 October 2026
 
-## Latest checkpoint: reference inputs and administrator
+## Latest checkpoint: restored database and catalogue administration
+
+Supabase was restored by the owner on 20 October. The database had no application tables. The secure baseline and two atomic-editor migrations are applied; the earlier, never-applied SQL drafts are preserved under `supabase/legacy/`. TLS uses the official Supabase Root 2021 certificate with hostname verification enabled.
+
+- Live catalogue: **108 products, 73 published, 35 drafts, 160 exact configurations and 482 media records** imported from the supplied catalogue and local media manifest. Unknown stock stays null. Reference-only colours/stock were not imported.
+- The storefront now reads published database records with a five-minute tagged cache; administrator saves expire that cache immediately. JSON demo data requires an explicit `ALLOW_DEMO_DATA=true` opt-in.
+- New/edit administrator forms save metadata, configurations, exact penny prices, unknown/zero stock, image order, dimensions, materials and publication state in one user-authorised SQL transaction. Existing URLs/configuration IDs and secondary category memberships survive edits. Removed configurations are disabled. Product photograph uploads resize to WebP and use a public-read, server-admin-write bucket; customer room photos do not use this bucket.
+- Owner account **salmanasad561@gmail.com** was created with an administrator staff profile linked to its Auth UUID. Email remains unverified; no password or email was generated/sent by the agent. User email-link verification and Supabase redirect allowlisting remain outstanding. PKCE now returns to the exact trusted preview origin.
+- Live access checks pass: all 12 application tables use RLS, drafts/private orders are hidden, non-staff writes and privilege escalation are denied. A synthetic administrator fixture proved successful product creation/editing, stable configuration IDs, preserved secondary categories and complete rollback on invalid stock. All fixtures rolled back. Supabase CLI security advisor reports no issues.
+- `npm run check`: 17 tests and TypeScript pass. Interactive browser verification remains unavailable because the computer-use kernel cannot initialise. Authenticated end-to-end browser publishing and email delivery are not yet claimed.
+
+Next: replace the guarded prototype checkout with authoritative quotes and atomic, idempotent orders, then continue discovery and room-visualisation milestones. Checkout remains unavailable until its complete flow passes verification.
+
+## Earlier checkpoint: reference inputs and administrator (before restoration)
 
 The owner authorised deriving requirements from Corner Sofa and designated `salmanasad561@gmail.com` as initial administrator; staff invitations are deferred. Reference audit and catalogue findings are in `docs/research/reference-policy-audit-2026-10-20.md`. No competitor business identity, contacts, reviews, warranty or additional sellable inventory were imported.
 
@@ -54,3 +67,5 @@ READY: https://oakmere-living-dqiho232k-salmanasad561-gmailcoms-projects.vercel.
 - Local production HTTP: Delivery, FAQ, Lily product detail and login error page return 200 with expected content. Administrator email is not rendered in the login page. Missing callback code returns 307 to the login error with private/no-store caching. Checkout POST remains 503.
 - Provisioning command was attempted and stopped at staff-schema preflight; no live administrator creation or privilege write was reached. DNS diagnosis is recorded above. No email was sent and no password was generated.
 - Full interactive browser, live email sign-in, Auth redirect allowlist, staff/RLS, catalogue publishing and persistent orders remain unverified. Do not infer those from build success.
+
+Verification update: the owner has added the local and team-scoped preview Auth callback URLs. Actual email-link sign-in remains to be exercised by the owner. Production build passes with 44 generated pages and the dynamic `/admin/products/[id]` editor route. Supabase security advisors remain clean after storage setup.

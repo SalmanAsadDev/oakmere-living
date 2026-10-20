@@ -10,10 +10,31 @@ import { ProductImage as Image } from "@/components/storefront/product-image";
 import { AssemblyHero } from "@/components/storefront/assembly-hero";
 import { Reveal } from "@/components/storefront/reveal";
 import { ProductCard } from "@/components/storefront/product-card";
-import { products, getFeaturedProducts } from "@/lib/domain/catalogue";
-export default function HomePage() {
-  const featured = getFeaturedProducts();
+import { getProducts, getFeaturedProducts } from "@/lib/domain/catalogue";
+export default async function HomePage() {
+  const [products, featured] = await Promise.all([
+    getProducts(),
+    getFeaturedProducts(),
+  ]);
   const hero = featured[0];
+  if (!hero)
+    return (
+      <>
+        <AssemblyHero />
+        <section className="container section">
+          <h2 className="font-serif text-3xl">
+            Your next favourite place is on its way.
+          </h2>
+          <p className="my-5 text-sm">
+            The team is preparing the collection. Get in touch for help choosing
+            your sofa.
+          </p>
+          <Link href="/contact" className="link-underline">
+            Contact Oakmere →
+          </Link>
+        </section>
+      </>
+    );
   const groups = [
     { name: "Room for everyone", label: "Corner sofas", slug: "corner-sofas" },
     {

@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getProduct, products } from "@/lib/domain/catalogue";
+import { getProduct, getProducts } from "@/lib/domain/catalogue";
 import { ProductDetail } from "@/components/storefront/product-detail";
 import { ProductCard } from "@/components/storefront/product-card";
 import { Reveal } from "@/components/storefront/reveal";
@@ -10,7 +10,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const p = getProduct(slug);
+  const p = await getProduct(slug);
   return {
     title: p?.name || "Sofa not found",
     description: p?.description.slice(0, 160),
@@ -23,7 +23,10 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const product = getProduct(slug);
+  const [product, products] = await Promise.all([
+    getProduct(slug),
+    getProducts(),
+  ]);
   if (!product) notFound();
   const related = products
     .filter(

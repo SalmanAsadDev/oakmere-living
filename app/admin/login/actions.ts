@@ -3,7 +3,8 @@
 import { createClient } from "@/lib/server/supabase";
 import { redirect } from "next/navigation";
 import { createAdminClient } from "@/lib/server/supabase";
-import { site } from "@/lib/config/site";
+import { headers } from "next/headers";
+import { authOrigin } from "@/lib/domain/auth-origin.mjs";
 import { z } from "zod";
 
 export async function login(formData: FormData) {
@@ -47,7 +48,7 @@ export async function requestLoginLink(formData: FormData) {
     if (error) unavailable = true;
     else if (staff) {
       const supabase = await createClient();
-      const origin = process.env.AUTH_REDIRECT_ORIGIN || site.origin;
+      const origin = authOrigin((await headers()).get("origin"), process.env);
       const result = await supabase.auth.signInWithOtp({
         email: parsed.data,
         options: {

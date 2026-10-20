@@ -502,3 +502,11 @@ References checked 6 October 2026 are linked at the relevant sections. Provider 
 | Version | Change |
 | --- | --- |
 | 1.0 — 6 October 2026 | Initial detailed technical roadmap incorporating the user's nine answers and full-scope two-day target |
+
+## 20 October implemented database contract
+
+Canonical SQL is `supabase/migrations/20261020081744_secure_commerce_baseline.sql` followed by the atomic catalogue editor and category-preservation migrations. Historical unexecuted drafts are archived under `supabase/legacy/`; do not apply those. `scripts/migrate-database.mjs` runs transactional, advisory-locked, checksum-tracked migrations using the official Supabase CA and hostname verification. `scripts/import-catalogue.mjs` is initial-import only and refuses an existing catalogue. `scripts/provision-admin.mjs` binds the owner to a real, unverified Auth identity without creating a password.
+
+The public catalogue uses the publishable key, RLS and a five-minute `catalogue` cache tag. The admin action calls SECURITY INVOKER `save_catalogue_product` with the verified user's session and invalidates the cache via Next 16 `updateTag`. Writes are atomic across product/configurations/media; URLs are immutable, configurations retain IDs, removals deactivate configurations and primary-category changes deliberately replace category membership. `scripts/verify-database.mjs` exercises negative and positive access/rollback cases using synthetic records inside a rollback. `scripts/database-advisors.mjs` runs the official security advisor without putting passwords in command arguments.
+
+Run `node --env-file=.env.local scripts/setup-product-storage.mjs` once to provision public product photos (WebP only, 900 KB). It refuses to change an incompatible existing bucket. Uploads are verified-admin Server Actions; no public/client storage write policy is added. Uploaded originals are resized in the browser to 1600 px before upload. Customer room photographs must remain separate/private. Auth redirect URLs must be allowed in Supabase; preview PKCE returns to the exact trusted origin where it began. Real email delivery and browser publishing remain unverified. The guarded checkout is still the next backend milestone.

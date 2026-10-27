@@ -28,6 +28,24 @@ export const metadata: Metadata = {
     template: "%s | Oakmere Living",
   },
   description: site.description,
+  openGraph: {
+    type: "website",
+    siteName: site.name,
+    locale: "en_GB",
+    title: {
+      default: "Oakmere Living | Sofas for a life well lived",
+      template: "%s | Oakmere Living",
+    },
+    description: site.description,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: {
+      default: "Oakmere Living | Sofas for a life well lived",
+      template: "%s | Oakmere Living",
+    },
+    description: site.description,
+  },
   robots:
     process.env.APP_ENV === "production"
       ? { index: true, follow: true }

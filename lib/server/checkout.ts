@@ -57,6 +57,24 @@ export async function checkoutSession(request: Request, create: boolean) {
   }
   return sessionHash(token);
 }
+export async function serviceRateLimit(
+  request: Request,
+  action: "contact" | "swatch",
+): Promise<boolean> {
+  const ip = process.env.VERCEL
+    ? request.headers.get("x-vercel-forwarded-for")?.split(",")[0]?.trim()
+    : null;
+  if (!ip) return true; // dev: no trusted IP header, skip
+  const client = createAdminClient();
+  const identity = sessionHash(`${process.env.SUPABASE_SERVICE_ROLE_KEY}:${ip}`);
+  const { data, error } = await client.rpc("consume_checkout_limit", {
+    limit_key: `${action}:${identity}`,
+    maximum: 5,
+    seconds: 600,
+  });
+  if (error) return true; // fail open if rate-limit table unavailable
+  return data === true;
+}
 export async function checkoutRateLimit(
   request: Request,
   session: string,

@@ -1,7 +1,47 @@
 import type { NextConfig } from "next";
 
+const supabaseHost = process.env.NEXT_PUBLIC_SUPABASE_URL
+  ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL).host
+  : null;
+
+// img-src and connect-src include Supabase when configured, else wildcard fallback.
+const cspImgSrc = [
+  "'self'",
+  "data:",
+  "blob:",
+  "https://res.cloudinary.com",
+  "https://furnishingshub.co.uk",
+  supabaseHost ? `https://${supabaseHost}` : "https://*.supabase.co",
+].join(" ");
+
+const cspConnectSrc = [
+  "'self'",
+  supabaseHost ? `https://${supabaseHost}` : "https://*.supabase.co",
+].join(" ");
+
+// script-src uses 'unsafe-inline' because Next.js App Router emits inline hydration
+// scripts. Tighten to a nonce-based policy once a nonce infrastructure is in place.
+const csp = [
+  "default-src 'self'",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
+  `img-src ${cspImgSrc}`,
+  `connect-src ${cspConnectSrc}`,
+  "font-src 'self'",
+  "frame-src 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [
+      // /basket is an unreferenced duplicate of /cart.
+      { source: "/basket", destination: "/cart", permanent: true },
+    ];
+  },
   images: {
     remotePatterns: [
       {
@@ -37,6 +77,11 @@ const nextConfig: NextConfig = {
             key: "Permissions-Policy",
             value: "camera=(), microphone=(), geolocation=()",
           },
+          {
+            key: "Strict-Transport-Security",
+            value: "max-age=63072000; includeSubDomains; preload",
+          },
+          { key: "Content-Security-Policy", value: csp },
         ],
       },
     ];

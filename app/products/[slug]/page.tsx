@@ -4,6 +4,18 @@ import { ProductDetail } from "@/components/storefront/product-detail";
 import { ProductCard } from "@/components/storefront/product-card";
 import { Reveal } from "@/components/storefront/reveal";
 import Link from "next/link";
+import { site } from "@/lib/config/site";
+
+function truncateDescription(text: string, max = 160): string {
+  if (text.length <= max) return text;
+  return text.slice(0, max).replace(/\s\S*$/, "") + "…";
+}
+
+export async function generateStaticParams() {
+  const products = await getProducts().catch(() => []);
+  return products.map((p) => ({ slug: p.slug }));
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -11,12 +23,26 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const p = await getProduct(slug);
+  if (!p) return { title: "Sofa not found" };
+  const description = p.description
+    ? truncateDescription(p.description)
+    : undefined;
   return {
-    title: p?.name || "Sofa not found",
-    description: p?.description.slice(0, 160),
+    title: p.name,
+    description,
     alternates: { canonical: `/products/${slug}` },
+    openGraph: {
+      title: p.name,
+      description,
+      type: "website",
+      url: `${site.origin}/products/${slug}`,
+      ...(p.images[0]
+        ? { images: [{ url: p.images[0].url, alt: p.name }] }
+        : {}),
+    },
   };
 }
+
 export default async function Page({
   params,
 }: {
@@ -28,6 +54,7 @@ export default async function Page({
     getProducts(),
   ]);
   if (!product) notFound();
+
   const related = products
     .filter(
       (p) =>
@@ -35,8 +62,38 @@ export default async function Page({
         p.categories.some((category) => product.categories.includes(category)),
     )
     .slice(0, 4);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.description || undefined,
+    url: `${site.origin}/products/${product.slug}`,
+    ...(product.images[0] ? { image: product.images[0].url } : {}),
+    ...(product.price !== null
+      ? {
+          offers: {
+            "@type": "Offer",
+            priceCurrency: "GBP",
+            price: (product.price / 100).toFixed(2),
+            priceSpecification: {
+              "@type": "PriceSpecification",
+              price: (product.price / 100).toFixed(2),
+              priceCurrency: "GBP",
+            },
+            availability: "https://schema.org/InStock",
+            seller: { "@type": "Organization", name: "Oakmere Living" },
+          },
+        }
+      : {}),
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <ProductDetail product={product} />
       <section className="container section border-t">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-4">

@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
+import { Cormorant, Montserrat } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/config/site";
+
+const sans = Montserrat({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-montserrat",
+});
+
+const serif = Cormorant({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-cormorant",
+});
 import { BasketProvider } from "@/components/storefront/basket-provider";
 import { Header, Footer } from "@/components/storefront/shell";
 import { SofaGuide } from "@/components/storefront/sofa-guide";
@@ -57,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-GB">
+    <html lang="en-GB" className={`${sans.variable} ${serif.variable}`}>
       <body>
         <BasketProvider>
           <a

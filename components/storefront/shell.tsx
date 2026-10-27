@@ -14,7 +14,6 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 const navigation = [
-  { href: "/", label: "Home" },
   { href: "/shop", label: "Shop" },
   { href: "/swatches", label: "Swatches" },
   { href: "/build", label: "Build your sofa" },
@@ -27,7 +26,7 @@ export function Header() {
   const path = usePathname();
   return (
     <>
-      <div className="bg-primary py-2.5 text-center text-[10px] tracking-[.13em] text-white">
+      <div className="bg-primary py-2.5 text-center text-xs tracking-[.13em] text-white">
         A LITTLE MORE ROOM TO LIVE <span className="mx-3 opacity-40">/</span>{" "}
         PAY ON DELIVERY
       </div>

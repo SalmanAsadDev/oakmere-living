@@ -14,6 +14,8 @@ export function ProductCard({
     <article className="product-card group">
       <Link
         href={`/products/${product.slug}`}
+        tabIndex={-1}
+        aria-hidden="true"
         className="asset-mask relative block aspect-[5/4] overflow-hidden bg-[#eeece7]"
       >
         {product.images[0] && (
@@ -41,9 +43,11 @@ export function ProductCard({
         </span>
       </Link>
       <div className="pt-4">
-        <p className="mb-2 text-[10px] uppercase tracking-[.12em] text-muted-foreground">
-          {product.materials[0] || "Thoughtful comfort"}
-        </p>
+        {product.materials[0] && (
+          <p className="mb-2 text-xs uppercase tracking-[.12em] text-muted-foreground">
+            {product.materials[0]}
+          </p>
+        )}
         <Link href={`/products/${product.slug}`}>
           <h3 className="font-serif text-xl leading-snug">{product.name}</h3>
         </Link>
@@ -55,12 +59,15 @@ export function ProductCard({
               : "Enquire for price"}
           </p>
           <div
+            role="list"
+            aria-label={`Available in ${product.colours.length} colours`}
             className="flex gap-1.5"
-            aria-label={`${product.colours.length} listed colours`}
           >
             {product.variants.slice(0, 4).map((variant) => (
               <span
                 key={variant.id}
+                role="listitem"
+                aria-label={variant.colour}
                 title={variant.colour}
                 className="h-3 w-3 rounded-full border border-black/10"
                 style={{ background: variant.hex }}

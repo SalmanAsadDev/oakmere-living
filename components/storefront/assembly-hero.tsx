@@ -126,7 +126,7 @@ export function AssemblyHero() {
         </div>
         <div className="container absolute inset-x-0 bottom-7 z-10 flex items-end justify-between gap-4">
           <div>
-            <p className="eyebrow text-[9px] text-muted-foreground">
+            <p className="eyebrow text-muted-foreground">
               The comfort study · 01 · Illustration
             </p>
             <p className="mt-2 text-xs">Thoughtfully put together.</p>

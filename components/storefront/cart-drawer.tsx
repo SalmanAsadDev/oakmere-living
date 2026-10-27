@@ -78,6 +78,7 @@ export function CartDrawer() {
                     <button
                       aria-label={`Remove ${item.name}`}
                       onClick={() => basket.remove(item.variantId)}
+                      className="-mr-2 flex h-11 w-11 items-center justify-center"
                     >
                       <X size={14} />
                     </button>

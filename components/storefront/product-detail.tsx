@@ -22,7 +22,11 @@ export function ProductDetail({ product }: { product: Product }) {
         className="mb-8 text-xs text-muted-foreground"
         aria-label="Breadcrumb"
       >
-        <Link href="/shop">Sofas</Link> / {product.name}
+        <ol className="flex items-center gap-2">
+          <li><Link href="/shop">Sofas</Link></li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page">{product.name}</li>
+        </ol>
       </nav>
       <div className="grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]">
         <div>
@@ -42,7 +46,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 onClick={() => setPhoto(image.url)}
                 aria-label={`View ${product.name}, image ${index + 1}`}
                 aria-pressed={photo === image.url}
-                className={`relative h-20 w-24 shrink-0 border ${photo === image.url ? "border-primary" : "border-transparent"}`}
+                className={`relative h-20 w-24 shrink-0 ${photo === image.url ? "ring-2 ring-primary ring-offset-1" : "border border-transparent"}`}
               >
                 <Image
                   src={image.url}
@@ -56,8 +60,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
         </div>
         <div>
-          <p className="eyebrow text-muted-foreground">Make room for comfort</p>
-          <h1 className="display mt-4 text-4xl sm:text-5xl">{product.name}</h1>
+          <h1 className="display text-4xl sm:text-5xl">{product.name}</h1>
           <p className="my-6 text-2xl">
             {variant
               ? money(variant.price)
@@ -110,6 +113,11 @@ export function ProductDetail({ product }: { product: Product }) {
             <p className="my-6 rounded border p-4 text-sm">
               Our team can help confirm the available configurations and price
               for this sofa.
+            </p>
+          )}
+          {product.variants.length > 0 && !variant && (
+            <p className="mb-2 text-xs text-muted-foreground" aria-live="polite">
+              Select a configuration to continue.
             </p>
           )}
           {product.variants.length > 0 && (

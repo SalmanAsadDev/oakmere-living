@@ -1,0 +1,63 @@
+{
+  "attempted": 100,
+  "copied": 66,
+  "available": 86,
+  "errors": [
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372040/Lily-5-Seater-Corner-High-Back-Sofa-Grey_l8aovm.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372037/Lily-5-Seater-Corner-High-Back-Sofa-Black_dewlkv.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372077/Lily-U-Shape-Navy-Beige_qamzdw.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372078/Lily-U-Shape-Navy-Cream_fttog1.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372077/Lily-U-Shape-Navy-Black_c61qgx.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372044/Lily-Footstool-Grey_wg34mb.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372076/Lily-U-Shape-Grey_plahnk.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372044/Lily-Footstool-Navy-Blue_cjmbyj.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-Scatter-Back-Sofa-Grey_fnhlv9.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372039/Lily-3-2-Seater-Corner-Scatter-Back-Sofa-Black_om86vz.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372042/Lily-5-Seater-Corner-Scatter-Back-Sofa-Grey_hggppb.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372043/Lily-5-Seater-Corner-Scatter-Back-Sofa-Black_rswmfi.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-High-Back-Sofa-Grey_nm3cpr.png",
+      "error": "HTTP 404"
+    },
+    {
+      "url": "https://res.cloudinary.com/dmlna04yk/image/upload/v1788372035/Lily-3-2-Seater-Corner-High-Back-Sofa-Black_mlvpbr.png",
+      "error": "HTTP 404"
+    }
+  ]
+}

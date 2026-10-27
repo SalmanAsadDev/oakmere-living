@@ -1,0 +1,57 @@
+I inspected that the forntemd you made is not upto the mark.Here is a refiend prompt for making a well designed and animated fronted.
+MOTION DIRECTION
+Create a restrained, highly tailored motion language specifically optimized for premium furniture retail. You must implement the following four core signature animations across the customer-facing surfaces, strictly adhering to the technical specifications below.
+1. The Scroll-Scrubbed "Exploded View" (Hero Section / Featured Sofa)
+- Behavior: A modular sofa or premium chair begins slightly deconstructed or layered in mid-air (cushions, frame, legs slightly separated along a 3D Z-axis or clean Y-axis layout). As the user scrolls from 0vh to 100vh, the components smoothly translate and lock into a perfectly assembled unit.
+- Technical Implementation:
+  - Use a client boundary wrapper optimized for scroll tracking.
+  - Map the scroll-delta smoothly to CSS Custom Properties (e.g., --scroll-progress) applied to independent layout layers.
+  - Animate exclusively using GPU-accelerated properties: transform: translate3d() and opacity.
+  - Strict Constraint: Zero layout shifts. The bounding box of the overall section must remain fixed via absolute positioning inside a container with an explicit aspect ratio.
+2. The Micro-Texture Material-Swap Morph (Product Detail Page)
+- Behavior: When a user clicks or hovers over a fabric swatch (e.g., swapping from Bouclé to Aniline Leather), the product image must not bluntly flash or reload. Instead, the incoming material must organically expand across the product silhouette.
+- Technical Implementation:
+  - Utilize a dual-layered image stack inside an aspect-ratio-controlled container.
+  - Animate the incoming material layer using a CSS mask-image with a linear-gradient wipe or a smooth radial scale transition.
+  - Duration: 400ms. Easing: cubic-bezier(0.25, 1, 0.5, 1) (Quintic Out).
+  - Preload the primary alternative variant images using Next.js <Image> priority states to completely eliminate flash-to-white latency.
+3. Staggered Fluid-Mask Typography & Asset Entrances (Catalog & Section Reveals)
+- Behavior: As sections scroll into the viewport, category headers and product cards must reveal themselves elegantly, feeling like a premium editorial editorial turning pages rather than a generic tech site template fly-in.
+- Technical Implementation:
+  - Wrap typography lines or headings in containers configured with overflow: hidden.
+  - Animate text upward from transform: translate3d(0, 100%, 0) to translate3d(0, 0, 0).
+  - Stagger the child elements (e.g., Title \(\rightarrow \) Subtitle \(\rightarrow \) CTA) with a micro-delay of 60ms per element.
+  - For product imagery, use an expanding clip-path mask (clip-path: inset(100% 0 0 0) to inset(0% 0 0 0)) mimicking a calm, vertical curtain reveal.
+4. Spatial Continuity Drawers (Basket & Filter Transitions)
+- Behavior: Sliding surfaces (Cart drawer, Category filters) must feel heavy, tactile, and physically connected to the edge of the viewport they emerge from.
+- Technical Implementation:
+  - Leverage Radix UI primitive states (data-state="open"/"closed").
+  - Map entrance to transform: translate3d(0, 0, 0) with an easing curve of cubic-bezier(0.32, 0.94, 0.6, 1) to mimic natural friction deceleration.
+  - Overlay backdrop must transition smoothly via opacity from 0 to 1 over exactly 300ms, acting as a visual anchor that dampens background noise.
+Mandatory Performance & Accessibility Boundaries:
+- Layout Safety: Never animate properties that trigger browser reflow or repaint cycles (width, height, top, left, margin, flex). All layout coordinates must be established statically, and offset purely via transform.
+- Reduced Motion: You must encapsulate all animation code within a global utility or Tailwind modifier (motion-reduce:transform-none, motion-reduce:transition-none). If prefers-reduced-motion: reduce is detected, all transitions must instantly fallback to an immediate, static state swap or a simple 200ms opacity fade.
+- Hardware Acceleration: Apply will-change: transform, opacity dynamically only during active interaction states to prevent memory leaks on lower-end mobile viewports. Do not leave it active globally.
+MOTION DESIGN TOKENS (PHYSICS & TIMING SYSTEM)
+To enforce absolute visual cohesion, all animation logic must strictly consume the following design tokens. Do not declare arbitrary millisecond values or native CSS cubic-bezier strings inside layout files. Map these tokens directly to Tailwind v4 theme utilities (theme { --animate-*: ... }) or inline custom CSS properties.
+Token Name	Value	Intent / Applied Components
+motion-ease-editorial	cubic-bezier(0.25, 1, 0.5, 1)	Primary curve. Smooth deceleration. Applied to typography reveals, category slider transitions, and image mask reveals.
+motion-ease-tactile	cubic-bezier(0.32, 0.94, 0.6, 1)	Friction curve. Emulates physical mass. Used for heavy UI surfaces like the Cart drawer slide-in and mobile filter sheets.
+motion-ease-micro	cubic-bezier(0.16, 1, 0.3, 1)	High-velocity snap. Used for instantaneous interactive states: button hover states, swatch selections, and dropdown items.
+motion-duration-slow	700ms	Immersive choreography. Used for the Hero scroll-scrubbed assembly and full-page layout transitions.
+motion-duration-calm	450ms	Standard component entrances. Used for typography line reveals, product card expansions, and aspect-ratio mask clips.
+motion-duration-responsive	300ms	Mid-scale interface updates. Used for Material-Swap morphs, color swaps, and sliding panel disclosures.
+motion-duration-snappy	150ms	Immediate micro-feedback. Used for "Add to Basket" click states, active swatch scale adjustments, and tooltips.
+
+
+Structural Integration Rules for Astra:
+1. Choreography Spacing: When elements require sequential rendering (e.g., product listing grids), use a fixed staggered delay token of 60ms per index item, up to a maximum threshold of 6 items (max-delay: 360ms) to prevent blocking user workflows.
+2. State Interruptibility: All asynchronous interactions (like opening a drawer and immediately hitting the close button) must be completely interruptible. Do not use animation triggers that lock user interaction inputs until a transition completes.
+3. Tailwind v4 Setup Guidance: Implement these tokens within the main global CSS entry point (app/globals.css) using the new Tailwind v4 syntax:
+css
+@theme {
+  --transition-timing-function-editorial: cubic-bezier(0.25, 1, 0.5, 1);
+  --transition-timing-function-tactile: cubic-bezier(0.32, 0.94, 0.6, 1);
+  --transition-duration-calm: 450ms;
+  --transition-duration-responsive: 300ms;
+}

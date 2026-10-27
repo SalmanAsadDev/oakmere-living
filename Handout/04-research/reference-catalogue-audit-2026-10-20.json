@@ -1,0 +1,81 @@
+{
+  "observedOn": "2026-10-20",
+  "source": "https://www.cornersofa.online/api/products/",
+  "records": 108,
+  "snapshotSha256": "a9988dc511ea776fe294bf81273bfecd383cb0af4f6185b11c7b539cbb2d247c",
+  "missingDimensions": [
+    {
+      "slug": "uks-lily-footstool",
+      "name": "Lily Footstool",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "uks-roma-recliner-manual-3-and-2",
+      "name": "Roma Recliner 3+2 Seater Manual Sofa",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-roma-brown-leather-5-seater-corner-recliner-sofa-luxury-corner-suite-uk",
+      "name": "Roma Brown Leather 5 Seater Corner Recliner Sofa – Luxury Corner Suite UK",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-roma-black-leather-5-seater-corner-recliner-sofa-luxury-corner-suite-uk",
+      "name": "Roma Black Leather 5 Seater Corner Recliner Sofa – Luxury Corner Suite UK",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-madrid-sofa-32-by-furnishings-hub",
+      "name": "MADRID SOFA 3+2 BY FURNISHINGS HUB",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-5-seater-grey-corner-sofa-bed-with-pull-out-sleeper-scatter-cushions",
+      "name": "5 Seater Grey Corner Sofa Bed with Pull-Out Sleeper & Scatter Cushions",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-3-in-1-corner-sofa-bed-with-storage-grey-fabric-sleeper-sofa-furnishings-hub",
+      "name": "3-in-1 Corner Sofa Bed with Storage – Grey Fabric Sleeper Sofa | Furnishings Hub",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-orlando-electric-recliner-sofa-set-grey-32-with-blue-led-lights-in-real-leather",
+      "name": "Orlando Electric Recliner Sofa Set grey 3+2 with blue led lights in real leather",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-luxury-black-led-recliner-sofa-32-seater-cup-holders-console-uk",
+      "name": "Luxury Black LED Recliner Sofa 3+2 Seater – Cup Holders & Console UK",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-roma-grey-leather-5-seater-corner-recliner-sofa-luxury-corner-suite-uk",
+      "name": "Roma Grey Leather 5 Seater Corner Recliner Sofa – Luxury Corner Suite UK",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-u-shape-sofa-in-truffle-alaska-chenille-fabric-full-back-cushions-uk",
+      "name": "U Shape Sofa in Truffle Alaska Chenille Fabric – Full Back Cushions UK",
+      "matched": true,
+      "dimensions": null
+    },
+    {
+      "slug": "fh-chesterfield-black-leather-32-seater-sofa-set-luxury-button-tufted-suite-uk",
+      "name": "Chesterfield Black Leather 3+2 Seater Sofa Set – Luxury Button Tufted Suite UK",
+      "matched": true,
+      "dimensions": null
+    }
+  ],
+  "selectedReferenceProduct": "Lily 3+2 Seater High Back"
+}

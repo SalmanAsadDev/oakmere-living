@@ -69,7 +69,7 @@ export function ProductCard({
                 role="listitem"
                 aria-label={variant.colour}
                 title={variant.colour}
-                className="h-3 w-3 rounded-full border border-black/10"
+                className="h-3.5 w-3.5 rounded-full ring-1 ring-inset ring-black/10"
                 style={{ background: variant.hex }}
               />
             ))}

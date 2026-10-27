@@ -73,6 +73,24 @@ button {
 ::selection {
   background: #dde5d4;
 }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+input,
+textarea {
+  caret-color: var(--primary);
+}
 .container {
   width: min(1320px, calc(100% - 48px));
   margin-inline: auto;
@@ -156,6 +174,93 @@ button {
   background: var(--primary);
   color: white;
   border-color: var(--primary);
+}
+.sidebar-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 13px;
+  color: var(--muted-foreground);
+  transition: color var(--motion-duration-snappy) var(--motion-ease-micro);
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.sidebar-filter-btn::before {
+  content: '';
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  transition:
+    background var(--motion-duration-snappy) var(--motion-ease-micro),
+    border-color var(--motion-duration-snappy) var(--motion-ease-micro);
+}
+.sidebar-filter-btn:hover {
+  color: var(--foreground);
+}
+.sidebar-filter-btn:hover::before {
+  border-color: var(--muted-foreground);
+}
+.sidebar-filter-btn.is-active {
+  color: var(--primary);
+  font-weight: 500;
+}
+.sidebar-filter-btn.is-active::before {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.filter-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.filter-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  width: 12px;
+  height: 12px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4.5l4 4 4-4' stroke='%235e6358' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+}
+.filter-select {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 40px;
+  border: 1px solid var(--border);
+  background: var(--background);
+  padding: 0 32px 0 12px;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: border-color var(--motion-duration-snappy);
+}
+.filter-select:hover {
+  border-color: var(--muted-foreground);
+}
+.filter-select:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.filter-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  background: var(--primary);
+  color: white;
+  font-size: 10px;
+  padding: 0 4px;
 }
 .product-photo {
   transition: transform var(--motion-duration-calm) var(--motion-ease-editorial);
@@ -296,6 +401,22 @@ button {
     scale(calc(0.85 + var(--scroll-progress) * 0.15));
   opacity: calc(0.45 + var(--scroll-progress) * 0.55);
 }
+.assembly-bg-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 55% 65%, rgba(226, 212, 176, 0.4), transparent 55%);
+  opacity: var(--scroll-progress, 0);
+  pointer-events: none;
+}
+.assembly-glow {
+  position: absolute;
+  inset: 8%;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(243, 228, 185, 0.55), transparent 70%);
+  opacity: calc(var(--scroll-progress, 0) * 0.9);
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
 .assembly-section[data-scrubbing="true"] .assembly-layer {
   will-change: transform, opacity;
 }
@@ -305,6 +426,20 @@ button {
 }
 .assembly-sticky .line-mask:nth-child(2) > span {
   animation-delay: var(--motion-stagger);
+}
+.assembly-sticky .assembly-subtext {
+  animation: assembly-text-in var(--motion-duration-calm) var(--motion-ease-editorial) both;
+  animation-delay: calc(var(--motion-stagger) * 3);
+}
+@keyframes assembly-text-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 @keyframes line-in {
   from {
@@ -441,6 +576,11 @@ button {
   }
   .assembly-layer {
     will-change: auto !important;
+  }
+  .assembly-sticky .assembly-subtext {
+    animation: none;
+    opacity: 1 !important;
+    transform: none !important;
   }
   .asset-mask {
     clip-path: none !important;

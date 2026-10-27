@@ -15,6 +15,7 @@ import {
   SheetDescription,
   SheetClose,
 } from "@/components/ui/sheet";
+
 export function CatalogueGrid({ products }: { products: Product[] }) {
   const router = useRouter();
   const path = usePathname();
@@ -30,17 +31,25 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
   const sort = selectedParams.get("sort") || "featured";
   const categories = [...new Set(products.flatMap((p) => p.categories))].sort();
   const materials = [...new Set(products.flatMap((p) => p.materials))].sort();
+
   function change(key: string, value: string) {
     const next = new URLSearchParams(selectedParams);
     if (value) next.set(key, value);
     else next.delete(key);
     startTransition(() => {
       setOptimistic(next.toString());
-      router.replace(`${path}${next.size ? `?${next}` : ""}`, {
-        scroll: false,
-      });
+      router.replace(`${path}${next.size ? `?${next}` : ""}`, { scroll: false });
     });
   }
+
+  function clearAll() {
+    setSearch("");
+    startTransition(() => {
+      setOptimistic("");
+      router.replace(path, { scroll: false });
+    });
+  }
+
   const filtered = products.filter(
     (p) =>
       (!category || p.categories.includes(category)) &&
@@ -53,50 +62,72 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
     filtered.sort((a, b) => (a.price ?? Infinity) - (b.price ?? Infinity));
   if (sort === "price-high")
     filtered.sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
-  const filters = (
+
+  const activeCount = [category, material, query].filter(Boolean).length;
+
+  const filterControls = (
     <>
-      <fieldset>
-        <legend className="eyebrow mb-5">Shape & style</legend>
-        <div className="grid gap-3">
-          <label className="flex items-center gap-3 text-sm">
-            <input
-              type="radio"
-              name="category"
-              checked={!category}
-              onChange={() => change("category", "")}
-            />{" "}
+      <fieldset className="border-none p-0">
+        <legend className="eyebrow mb-4 text-[10px] text-muted-foreground">
+          Shape &amp; style
+        </legend>
+        <div className="space-y-px">
+          <button
+            className={`sidebar-filter-btn${!category ? " is-active" : ""}`}
+            aria-pressed={!category}
+            onClick={() => change("category", "")}
+          >
             All sofas
-          </label>
+          </button>
           {categories.map((c) => (
-            <label
+            <button
               key={c}
-              className="flex items-center gap-3 text-sm capitalize"
+              className={`sidebar-filter-btn capitalize${category === c ? " is-active" : ""}`}
+              aria-pressed={category === c}
+              onClick={() => change("category", category === c ? "" : c)}
             >
-              <input
-                type="radio"
-                name="category"
-                checked={category === c}
-                onChange={() => change("category", c)}
-              />
               {c.replaceAll("-", " ")}
-            </label>
+            </button>
           ))}
         </div>
       </fieldset>
-      <label className="field mt-8">
-        Material
-        <select
-          value={material}
-          onChange={(e) => change("material", e.target.value)}
+      {materials.length > 0 && (
+        <fieldset className="mt-8 border-none p-0">
+          <legend className="eyebrow mb-4 text-[10px] text-muted-foreground">
+            Material
+          </legend>
+          <div className="space-y-px">
+            <button
+              className={`sidebar-filter-btn${!material ? " is-active" : ""}`}
+              aria-pressed={!material}
+              onClick={() => change("material", "")}
+            >
+              All materials
+            </button>
+            {materials.map((m) => (
+              <button
+                key={m}
+                className={`sidebar-filter-btn${material === m ? " is-active" : ""}`}
+                aria-pressed={material === m}
+                onClick={() => change("material", material === m ? "" : m)}
+              >
+                {m}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+      )}
+      {activeCount > 0 && (
+        <button
+          className="mt-8 flex items-center gap-2 text-xs text-muted-foreground transition-colors hover:text-foreground"
+          onClick={clearAll}
         >
-          <option value="">All materials</option>
-          {materials.map((m) => (
-            <option key={m}>{m}</option>
-          ))}
-        </select>
-      </label>
+          <X size={11} /> Clear all
+        </button>
+      )}
     </>
   );
+
   return (
     <>
       <Reveal className="bg-muted">
@@ -108,17 +139,22 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
             <span>Find your favourite seat.</span>
           </h1>
           <p className="reveal-text mt-5 max-w-xl text-sm leading-7 text-muted-foreground">
-            A cosy corner. Room for the family. A place that’s entirely yours.
-            Find your fit with the filters below.
+            A cosy corner. Room for the family. A place that&apos;s entirely
+            yours. Find your fit with the filters below.
           </p>
         </div>
       </Reveal>
       <div className="container py-9">
-        <div className="mb-7 flex flex-wrap items-center gap-4 border-b pb-6">
+        {/* Toolbar */}
+        <div className="mb-8 flex flex-wrap items-center gap-3 border-b pb-6">
+          {/* Mobile-only filter sheet trigger */}
           <Sheet>
-            <SheetTrigger className="flex items-center gap-3 border px-5 py-3 text-xs">
-              <SlidersHorizontal size={16} /> Filters{" "}
-              {(category || material) && "•"}
+            <SheetTrigger className="flex items-center gap-2.5 border bg-background px-4 py-2.5 text-xs transition-colors hover:bg-muted lg:hidden">
+              <SlidersHorizontal size={14} />
+              Filters
+              {activeCount > 0 && (
+                <span className="filter-count">{activeCount}</span>
+              )}
             </SheetTrigger>
             <SheetContent side="left" className="w-full sm:max-w-md">
               <SheetHeader className="border-b p-7">
@@ -129,12 +165,14 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
                   Filter the collection by category and fabric.
                 </SheetDescription>
               </SheetHeader>
-              <div className="flex-1 overflow-auto p-7">{filters}</div>
-              <SheetClose className="m-7 bg-primary p-4 text-sm text-white">
-                Show {filtered.length} sofas
+              <div className="flex-1 overflow-auto p-7">{filterControls}</div>
+              <SheetClose className="m-7 block bg-primary p-4 text-center text-sm text-white">
+                Show {filtered.length}{" "}
+                {filtered.length === 1 ? "sofa" : "sofas"}
               </SheetClose>
             </SheetContent>
           </Sheet>
+
           <form
             className="flex min-w-48 flex-1 gap-2"
             onSubmit={(e) => {
@@ -148,83 +186,115 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search a name, colour or fabric"
             />
-            <button type="submit" className="border px-4 text-xs">
+            <button
+              type="submit"
+              className="border bg-background px-4 text-xs transition-colors hover:bg-muted"
+            >
               Search
             </button>
           </form>
-          <select
-            aria-label="Sort sofas"
-            value={sort}
-            onChange={(e) => change("sort", e.target.value)}
-            className="h-10 border bg-background px-3 text-xs"
-          >
-            <option value="featured">Featured</option>
-            <option value="price-low">Price: low to high</option>
-            <option value="price-high">Price: high to low</option>
-          </select>
+
+          <div className="filter-select-wrap">
+            <select
+              aria-label="Sort sofas"
+              value={sort}
+              onChange={(e) => change("sort", e.target.value)}
+              className="filter-select"
+            >
+              <option value="featured">Featured</option>
+              <option value="price-low">Price: low to high</option>
+              <option value="price-high">Price: high to low</option>
+            </select>
+          </div>
+
           <span aria-live="polite" className="text-xs text-muted-foreground">
-            {filtered.length} sofas
+            {filtered.length} {filtered.length === 1 ? "sofa" : "sofas"}
           </span>
         </div>
-        <div
-          role="group"
-          aria-label="Quick category filters"
-          className="mb-8 flex flex-wrap gap-2"
-        >
-          <button
-            className={`filter-chip ${!category ? "is-active" : ""}`}
-            aria-pressed={!category}
-            onClick={() => change("category", "")}
-          >
-            All sofas
-          </button>
-          {[
-            "corner-sofas",
-            "3-2-seater-sofa-sets",
-            "electric-recliners",
-            "2-seater-sofas",
-            "armchairs",
-          ]
-            .filter((c) => categories.includes(c))
-            .map((c) => (
-              <button
-                key={c}
-                className={`filter-chip capitalize ${category === c ? "is-active" : ""}`}
-                aria-pressed={category === c}
-                onClick={() => change("category", category === c ? "" : c)}
-              >
-                {c.replaceAll("-", " ")}
-              </button>
-            ))}
-          {(category || material || query) && (
-            <button
-              className="inline-flex items-center gap-2 px-3 text-xs"
-              onClick={() => {
-                setSearch("");
-                startTransition(() => {
-                  setOptimistic("");
-                  router.replace(path, { scroll: false });
-                });
-              }}
-            >
-              <X size={13} /> Clear filters
-            </button>
-          )}
-        </div>
-        <div aria-busy={pending} className={pending ? "opacity-60" : ""}>
-          {filtered.length ? (
-            <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {filtered.map((product, i) => (
-                <Reveal key={product.id} index={i}>
-                  <ProductCard product={product} />
-                </Reveal>
-              ))}
+
+        {/* Sidebar + grid */}
+        <div className="lg:grid lg:grid-cols-[200px_1fr] lg:gap-10 xl:grid-cols-[220px_1fr] xl:gap-12">
+          {/* Sidebar — desktop only */}
+          <aside className="hidden lg:block">
+            <div className="sticky top-28 pb-10">
+              {filterControls}
             </div>
-          ) : (
-            <p className="py-16 text-center">
-              No sofas match these filters. Try another colour or category.
-            </p>
-          )}
+          </aside>
+
+          {/* Product area */}
+          <div>
+            {/* Mobile quick-filter chips */}
+            <div
+              role="group"
+              aria-label="Quick category filters"
+              className="mb-6 flex flex-wrap gap-2 lg:hidden"
+            >
+              <button
+                className={`filter-chip${!category ? " is-active" : ""}`}
+                aria-pressed={!category}
+                onClick={() => change("category", "")}
+              >
+                All sofas
+              </button>
+              {[
+                "corner-sofas",
+                "3-2-seater-sofa-sets",
+                "electric-recliners",
+                "2-seater-sofas",
+                "armchairs",
+              ]
+                .filter((c) => categories.includes(c))
+                .map((c) => (
+                  <button
+                    key={c}
+                    className={`filter-chip capitalize${category === c ? " is-active" : ""}`}
+                    aria-pressed={category === c}
+                    onClick={() =>
+                      change("category", category === c ? "" : c)
+                    }
+                  >
+                    {c.replaceAll("-", " ")}
+                  </button>
+                ))}
+              {activeCount > 0 && (
+                <button
+                  className="inline-flex items-center gap-2 px-3 text-xs"
+                  onClick={clearAll}
+                >
+                  <X size={13} /> Clear
+                </button>
+              )}
+            </div>
+
+            <div
+              aria-busy={pending}
+              className={
+                pending
+                  ? "opacity-60 transition-opacity duration-300"
+                  : "transition-opacity duration-300"
+              }
+            >
+              {filtered.length ? (
+                <div className="grid grid-cols-2 gap-x-6 gap-y-10 xl:grid-cols-3">
+                  {filtered.map((product, i) => (
+                    <Reveal key={product.id} index={i}>
+                      <ProductCard product={product} />
+                    </Reveal>
+                  ))}
+                </div>
+              ) : (
+                <p className="py-16 text-center text-sm text-muted-foreground">
+                  No sofas match these filters.{" "}
+                  <button
+                    onClick={clearAll}
+                    className="underline underline-offset-4"
+                  >
+                    Clear filters
+                  </button>
+                </p>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </>

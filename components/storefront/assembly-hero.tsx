@@ -80,6 +80,7 @@ export function AssemblyHero() {
       className="assembly-section"
       style={{ "--scroll-progress": 0 } as React.CSSProperties}
     >
+      <div className="assembly-bg-glow" aria-hidden="true" />
       <div className="assembly-sticky">
         <div className="container relative z-10 pt-10 sm:pt-14">
           <p className="eyebrow text-primary">Welcome to Oakmere Living</p>
@@ -94,7 +95,7 @@ export function AssemblyHero() {
                 </span>
               </span>
             </h1>
-            <div className="mt-7 hidden max-w-[280px] pb-3 md:block">
+            <div className="assembly-subtext mt-7 hidden max-w-[280px] pb-3 md:block">
               <p className="text-sm leading-7 text-muted-foreground">
                 For the slow Sundays. The long conversations. The moments that
                 make a house your home.
@@ -120,6 +121,7 @@ export function AssemblyHero() {
           aria-label="An illustrated modular sofa assembles as you scroll"
         >
           <div className="assembly-shadow" />
+          <div className="assembly-glow" aria-hidden="true" />
           <SofaLayer part="feet" />
           <SofaLayer part="frame" />
           <SofaLayer part="cushions" />

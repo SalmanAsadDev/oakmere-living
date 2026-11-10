@@ -4,6 +4,7 @@ export const metadata = {
   title: "Plan your room",
   description:
     "Create a private photo moodboard with sofas from the Oakmere collection. Position, resize and save your ideas.",
+  alternates: { canonical: "/room-planner" },
 };
 export default async function RoomPlannerPage({
   searchParams,

@@ -4,6 +4,7 @@ export const metadata = {
   title: "Fabric swatches",
   description:
     "Choose up to four listed sofa finishes and ask Oakmere for fabric samples to compare at home.",
+  alternates: { canonical: "/swatches" },
 };
 export default async function SwatchesPage() {
   const products = await getProducts();

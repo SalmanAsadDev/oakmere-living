@@ -4,6 +4,7 @@ export const metadata = {
   title: "Request a consultation",
   description:
     "Ask the Oakmere team for help choosing your sofa, checking the fit or discussing a design.",
+  alternates: { canonical: "/appointment" },
 };
 export default function AppointmentPage() {
   return (

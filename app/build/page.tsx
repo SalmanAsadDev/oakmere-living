@@ -4,6 +4,7 @@ export const metadata = {
   title: "Build your sofa",
   description:
     "Choose a shape, design and real catalogue configuration. Build a sofa shortlist or send a custom design enquiry to Oakmere.",
+  alternates: { canonical: "/build" },
 };
 export default async function BuildPage() {
   const [products, categories] = await Promise.all([

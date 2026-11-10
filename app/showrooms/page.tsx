@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Showrooms",
   description: "Information about Oakmere Living showrooms and our online-first approach.",
+  alternates: { canonical: "/showrooms" },
 };
 
 export default function ShowroomsPage() {

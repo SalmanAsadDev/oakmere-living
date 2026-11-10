@@ -16,7 +16,16 @@ import {
   SheetClose,
 } from "@/components/ui/sheet";
 
-export function CatalogueGrid({ products }: { products: Product[] }) {
+export function CatalogueGrid({
+  products,
+  heading = "Find your favourite seat.",
+  intro =
+    "A cosy corner. Room for the family. A place that's entirely yours. Find your fit with the filters below.",
+}: {
+  products: Product[];
+  heading?: string;
+  intro?: string;
+}) {
   const router = useRouter();
   const path = usePathname();
   const params = useSearchParams();
@@ -136,11 +145,10 @@ export function CatalogueGrid({ products }: { products: Product[] }) {
             The Oakmere collection
           </p>
           <h1 className="line-mask display mt-4 text-5xl sm:text-6xl">
-            <span>Find your favourite seat.</span>
+            <span>{heading}</span>
           </h1>
           <p className="reveal-text mt-5 max-w-xl text-sm leading-7 text-muted-foreground">
-            A cosy corner. Room for the family. A place that&apos;s entirely
-            yours. Find your fit with the filters below.
+            {intro}
           </p>
         </div>
       </Reveal>

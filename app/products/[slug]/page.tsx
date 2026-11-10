@@ -4,7 +4,7 @@ import { ProductDetail } from "@/components/storefront/product-detail";
 import { ProductCard } from "@/components/storefront/product-card";
 import { Reveal } from "@/components/storefront/reveal";
 import Link from "next/link";
-import { site } from "@/lib/config/site";
+import { absoluteUrl, site } from "@/lib/config/site";
 
 function truncateDescription(text: string, max = 160): string {
   if (text.length <= max) return text;
@@ -37,7 +37,7 @@ export async function generateMetadata({
       type: "website",
       url: `${site.origin}/products/${slug}`,
       ...(p.images[0]
-        ? { images: [{ url: p.images[0].url, alt: p.name }] }
+        ? { images: [{ url: absoluteUrl(p.images[0].url), alt: p.name }] }
         : {}),
     },
   };
@@ -69,11 +69,14 @@ export default async function Page({
     name: product.name,
     description: product.description || undefined,
     url: `${site.origin}/products/${product.slug}`,
-    ...(product.images[0] ? { image: product.images[0].url } : {}),
+    ...(product.images.length
+      ? { image: product.images.map((image) => absoluteUrl(image.url)) }
+      : {}),
     ...(product.price !== null
       ? {
           offers: {
             "@type": "Offer",
+            url: `${site.origin}/products/${product.slug}`,
             priceCurrency: "GBP",
             price: (product.price / 100).toFixed(2),
             priceSpecification: {
@@ -82,10 +85,35 @@ export default async function Page({
               priceCurrency: "GBP",
             },
             availability: "https://schema.org/InStock",
-            seller: { "@type": "Organization", name: "Oakmere Living" },
+            itemCondition: "https://schema.org/NewCondition",
+            seller: { "@type": "OnlineStore", name: site.name },
           },
         }
       : {}),
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: site.origin,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Shop sofas",
+        item: `${site.origin}/shop`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: product.name,
+        item: `${site.origin}/products/${product.slug}`,
+      },
+    ],
   };
 
   return (
@@ -93,6 +121,10 @@ export default async function Page({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
       />
       <ProductDetail product={product} />
       <section className="container section border-t">

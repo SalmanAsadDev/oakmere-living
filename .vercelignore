@@ -2,6 +2,9 @@
 .agents/
 .local/
 .cache/
+.claude/
+.playwright-mcp/
+Handout/
 .env*
 docs/
 tests/

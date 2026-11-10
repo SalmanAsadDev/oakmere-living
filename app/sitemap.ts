@@ -1,9 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getProducts } from "@/lib/domain/catalogue";
 import { articles } from "@/lib/data/journal";
-import { site } from "@/lib/config/site";
+import { absoluteUrl, searchIndexingEnabled, site } from "@/lib/config/site";
+import { shopCategorySeo } from "@/lib/config/seo";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  if (!searchIndexingEnabled) return [];
   const products = await getProducts().catch(() => []);
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -23,6 +25,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${site.origin}/guides/materials-guide`, priority: 0.5 },
     { url: `${site.origin}/blog`, priority: 0.6 },
     { url: `${site.origin}/appointment`, priority: 0.5 },
+    { url: `${site.origin}/privacy`, priority: 0.3 },
+    { url: `${site.origin}/terms`, priority: 0.3 },
+    { url: `${site.origin}/showrooms`, priority: 0.4 },
   ].map((r) => ({
     ...r,
     lastModified: new Date(),
@@ -41,7 +46,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: new Date(),
     changeFrequency: "weekly" as const,
     priority: 0.85,
+    images: p.images.map((image) => absoluteUrl(image.url)),
   }));
 
-  return [...staticRoutes, ...blogRoutes, ...productRoutes];
+  const categoryRoutes: MetadataRoute.Sitemap = Object.keys(
+    shopCategorySeo,
+  ).map((category) => ({
+    url: `${site.origin}/shop?category=${encodeURIComponent(category)}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
+    priority: 0.75,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...categoryRoutes,
+    ...blogRoutes,
+    ...productRoutes,
+  ];
 }

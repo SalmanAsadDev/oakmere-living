@@ -82,8 +82,24 @@ const groups = [
   },
 ];
 export default function FAQsPage() {
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: groups.flatMap((group) =>
+      group.items.map(([question, answer]) => ({
+        "@type": "Question",
+        name: question,
+        acceptedAnswer: { "@type": "Answer", text: answer },
+      })),
+    ),
+  };
+
   return (
     <div className="container section max-w-4xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
       <p className="eyebrow mb-5 text-muted-foreground">A little reassurance</p>
       <h1 className="display text-4xl sm:text-6xl">Make yourself at home.</h1>
       <p className="mt-6 max-w-xl text-sm leading-7 text-muted-foreground">

@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "montserrat",
+        "createdAt": "2026-11-10T07:16:27.660Z",
+        "reason": "Project design choice: Cormorant+Montserrat pairing established in P4-A/B and self-hosted; accepted by team"
+      }
+    ]
+  }
+}

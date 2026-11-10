@@ -11,6 +11,15 @@ import { AssemblyHero } from "@/components/storefront/assembly-hero";
 import { Reveal } from "@/components/storefront/reveal";
 import { ProductCard } from "@/components/storefront/product-card";
 import { getProducts, getFeaturedProducts } from "@/lib/domain/catalogue";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Corner Sofas, Sofa Sets & Recliners UK",
+  description:
+    "Shop corner sofas, sofa sets and recliners for UK homes. Explore fabrics, compare dimensions and choose cash or card payment on delivery.",
+  alternates: { canonical: "/" },
+};
+
 export default async function HomePage() {
   const [products, featured] = await Promise.all([
     getProducts(),

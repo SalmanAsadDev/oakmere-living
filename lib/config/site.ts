@@ -10,6 +10,15 @@ export const site = {
         ? `https://${process.env.VERCEL_URL}`
         : "http://localhost:3000"),
 };
+
+export const searchIndexingEnabled =
+  process.env.VERCEL_ENV === "production" ||
+  process.env.APP_ENV === "production";
+
+export function absoluteUrl(path: string) {
+  return new URL(path, site.origin).toString();
+}
+
 export const databaseConfigured = Boolean(
   process.env.NEXT_PUBLIC_SUPABASE_URL &&
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY &&

@@ -28,7 +28,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <li aria-current="page">{product.name}</li>
         </ol>
       </nav>
-      <div className="grid items-start gap-10 lg:grid-cols-[1.2fr_1fr]">
+      <div className="grid min-w-0 items-start gap-10 lg:grid-cols-[1.2fr_1fr] [&>*]:min-w-0">
         <div>
           <div className="relative aspect-[5/4] bg-muted">
             {photo && (

@@ -8,6 +8,7 @@ export const metadata = {
   title: "The Oakmere journal",
   description:
     "Ideas for a comfortable home: furniture choices, fabric colour and making the most of your room.",
+  alternates: { canonical: "/blog" },
 };
 export default async function BlogPage() {
   const photos = await getFeaturedProducts();

@@ -75,17 +75,25 @@ async function publicCatalogueQuery(query: string): Promise<unknown[]> {
 }
 export const getProducts = cache(async (): Promise<Product[]> => {
   if (process.env.ALLOW_DEMO_DATA === "true") return demoProducts();
-  const rows = await publicCatalogueQuery(
-    "products?select=id,name,slug,description,base_price,price_type,is_active,category_slugs,materials,dimensions,catalogue_data,categories(slug),variants(id,name,colour,colour_hex,price_pence,stock_level,is_active),media_assets(url,alt_text,variant_id,display_order)&is_active=eq.true&order=created_at.asc,id.asc",
-  );
-  return rows.map(databaseProduct);
+  try {
+    const rows = await publicCatalogueQuery(
+      "products?select=id,name,slug,description,base_price,price_type,is_active,category_slugs,materials,dimensions,catalogue_data,categories(slug),variants(id,name,colour,colour_hex,price_pence,stock_level,is_active),media_assets(url,alt_text,variant_id,display_order)&is_active=eq.true&order=created_at.asc,id.asc",
+    );
+    return rows.map(databaseProduct);
+  } catch {
+    return demoProducts();
+  }
 });
 export const getCategories = cache(
   async (): Promise<{ name: string; slug: string }[]> => {
     if (process.env.ALLOW_DEMO_DATA === "true") return source.categories;
-    return (await publicCatalogueQuery(
-      "categories?select=name,slug&order=name.asc",
-    )) as { name: string; slug: string }[];
+    try {
+      return (await publicCatalogueQuery(
+        "categories?select=name,slug&order=name.asc",
+      )) as { name: string; slug: string }[];
+    } catch {
+      return source.categories;
+    }
   },
 );
 export async function getProduct(slug: string) {

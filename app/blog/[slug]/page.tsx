@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { articles } from "@/lib/data/journal";
+import { site } from "@/lib/config/site";
 export function generateStaticParams() {
   return articles.map((a) => ({ slug: a.slug }));
 }
@@ -11,7 +12,11 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const article = articles.find((a) => a.slug === slug);
-  return { title: article?.title, description: article?.intro };
+  return {
+    title: article?.title,
+    description: article?.intro,
+    alternates: { canonical: `/blog/${slug}` },
+  };
 }
 export default async function ArticlePage({
   params,
@@ -21,8 +26,44 @@ export default async function ArticlePage({
   const { slug } = await params;
   const a = articles.find((a) => a.slug === slug);
   if (!a) notFound();
+  const articleUrl = `${site.origin}/blog/${slug}`;
+  const blogJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: a.title,
+    description: a.intro,
+    url: articleUrl,
+    publisher: {
+      "@type": "OnlineStore",
+      name: site.name,
+      url: site.origin,
+    },
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+  };
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.origin },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Journal",
+        item: `${site.origin}/blog`,
+      },
+      { "@type": "ListItem", position: 3, name: a.title, item: articleUrl },
+    ],
+  };
   return (
     <article className="container section max-w-3xl">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }}
+      />
       <Link href="/blog" className="text-xs link-underline">
         ← The journal
       </Link>

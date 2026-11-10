@@ -9,6 +9,8 @@ out/
 coverage/
 test-results/
 playwright-report/
+.playwright-mcp/
+.claude/
 *.tsbuildinfo
 next-env.d.ts
 docs/research/pdf-preview/

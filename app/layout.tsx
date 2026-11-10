@@ -1,19 +1,6 @@
 import type { Metadata } from "next";
-import { Cormorant, Montserrat } from "next/font/google";
 import "./globals.css";
-import { site } from "@/lib/config/site";
-
-const sans = Montserrat({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-montserrat",
-});
-
-const serif = Cormorant({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-cormorant",
-});
+import { searchIndexingEnabled, site } from "@/lib/config/site";
 import { BasketProvider } from "@/components/storefront/basket-provider";
 import { Header, Footer } from "@/components/storefront/shell";
 import { SofaGuide } from "@/components/storefront/sofa-guide";
@@ -36,8 +23,10 @@ async function CatalogueGuide() {
 }
 export const metadata: Metadata = {
   metadataBase: new URL(site.origin),
+  applicationName: site.name,
+  category: "shopping",
   title: {
-    default: "Oakmere Living | Sofas for a life well lived",
+    default: "Corner Sofas, Sofa Sets & Recliners UK | Oakmere Living",
     template: "%s | Oakmere Living",
   },
   description: site.description,
@@ -45,8 +34,9 @@ export const metadata: Metadata = {
     type: "website",
     siteName: site.name,
     locale: "en_GB",
+    url: site.origin,
     title: {
-      default: "Oakmere Living | Sofas for a life well lived",
+      default: "Corner Sofas, Sofa Sets & Recliners UK | Oakmere Living",
       template: "%s | Oakmere Living",
     },
     description: site.description,
@@ -54,15 +44,50 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: {
-      default: "Oakmere Living | Sofas for a life well lived",
+      default: "Corner Sofas, Sofa Sets & Recliners UK | Oakmere Living",
       template: "%s | Oakmere Living",
     },
     description: site.description,
   },
-  robots:
-    process.env.APP_ENV === "production"
-      ? { index: true, follow: true }
-      : { index: false, follow: false },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
+  },
+  robots: searchIndexingEnabled
+    ? {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+          "max-video-preview": -1,
+        },
+      }
+    : { index: false, follow: false },
+};
+
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${site.origin}/#website`,
+      url: site.origin,
+      name: site.name,
+      description: site.description,
+      inLanguage: "en-GB",
+    },
+    {
+      "@type": "OnlineStore",
+      "@id": `${site.origin}/#store`,
+      url: site.origin,
+      name: site.name,
+      description: site.description,
+      areaServed: { "@type": "Country", name: "United Kingdom" },
+      currenciesAccepted: "GBP",
+    },
+  ],
 };
 export default function RootLayout({
   children,
@@ -70,8 +95,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en-GB" className={`${sans.variable} ${serif.variable}`}>
+    <html lang="en-GB">
       <body>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteJsonLd) }}
+        />
         <BasketProvider>
           <a
             href="#main"

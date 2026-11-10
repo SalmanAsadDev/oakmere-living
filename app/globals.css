@@ -604,3 +604,23 @@ textarea {
     padding-block: 48px;
   }
 }
+@font-face {
+  font-family: "Montserrat";
+  src: url("/fonts/montserrat-latin.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: "Cormorant";
+  src: url("/fonts/cormorant-latin.woff2") format("woff2");
+  font-display: swap;
+  font-style: normal;
+  font-weight: 300 700;
+}
+
+:root {
+  --font-montserrat: "Montserrat";
+  --font-cormorant: "Cormorant";
+}

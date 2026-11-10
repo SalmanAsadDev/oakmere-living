@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Measuring for Delivery Guide",
   description: "Learn how to accurately measure your doorways, hallways, and room to ensure your new sofa fits perfectly.",
+  alternates: { canonical: "/guides/measuring-for-delivery" },
 };
 
 export default function MeasuringGuidePage() {

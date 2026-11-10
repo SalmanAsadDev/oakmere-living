@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { searchIndexingEnabled, site } from "@/lib/config/site";
 import { BasketProvider } from "@/components/storefront/basket-provider";
-import { Header, Footer } from "@/components/storefront/shell";
+import { Header, Footer, ScrollToTop } from "@/components/storefront/shell";
 import { SofaGuide } from "@/components/storefront/sofa-guide";
 import { getProducts } from "@/lib/domain/catalogue";
 import { Suspense } from "react";
@@ -114,6 +114,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <CatalogueGuide />
           </Suspense>
+          <ScrollToTop />
         </BasketProvider>
       </body>
     </html>

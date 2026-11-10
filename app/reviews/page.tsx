@@ -5,6 +5,7 @@ export const metadata = {
   title: "Customer reviews",
   description:
     "Real experiences belong here. Share your Oakmere Living feedback with our family team.",
+  alternates: { canonical: "/reviews" },
 };
 export default function ReviewsPage() {
   return (

@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, ChevronDown, Menu, Search } from "lucide-react";
+import { ArrowUpRight, ArrowUp, ChevronDown, Menu, Search } from "lucide-react";
+import { useEffect, useState } from "react";
 import { DropdownMenu } from "radix-ui";
 import { CartDrawer } from "./cart-drawer";
 import {
@@ -255,5 +256,24 @@ export function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+export function ScrollToTop() {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setVisible(window.scrollY > 600);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+  if (!visible) return null;
+  return (
+    <button
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      aria-label="Back to top"
+      className="fixed bottom-6 right-6 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-border bg-background/90 text-muted-foreground shadow-sm backdrop-blur-sm transition-all hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+    >
+      <ArrowUp size={16} strokeWidth={1.5} />
+    </button>
   );
 }

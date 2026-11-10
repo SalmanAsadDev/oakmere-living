@@ -3,6 +3,7 @@ import { Reveal } from "@/components/storefront/reveal";
 export const metadata = {
   title: "Our story",
   description: "Meet the family behind Oakmere Living.",
+  alternates: { canonical: "/about" },
 };
 export default function AboutPage() {
   return (

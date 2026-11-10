@@ -3,6 +3,7 @@ export const metadata = {
   title: "Frequently asked questions",
   description:
     "Help with Oakmere sofas, delivery estimates, payment, fabric samples and measuring your space.",
+  alternates: { canonical: "/faqs" },
 };
 const groups = [
   {

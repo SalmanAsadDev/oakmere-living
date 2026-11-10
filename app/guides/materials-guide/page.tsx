@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Fabric vs Leather Sofa Guide",
   description: "Compare the benefits of different materials to find the perfect match for your lifestyle.",
+  alternates: { canonical: "/guides/materials-guide" },
 };
 
 export default function MaterialsGuidePage() {

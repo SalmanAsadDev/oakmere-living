@@ -7,6 +7,7 @@ export const metadata = {
   title: "Delivery information",
   description:
     "Check a delivery estimate, understand dispatch and production lead times, and prepare your space for your sofa.",
+  alternates: { canonical: "/delivery" },
 };
 export default function DeliveryPage() {
   return (

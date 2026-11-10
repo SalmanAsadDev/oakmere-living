@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 export const metadata: Metadata = {
   title: "Left vs Right Hand Corner Sofas Guide",
   description: "Confused about corner sofa orientation? Our simple guide explains how to choose the correct side.",
+  alternates: { canonical: "/guides/corner-orientation" },
 };
 
 export default function CornerOrientationGuidePage() {

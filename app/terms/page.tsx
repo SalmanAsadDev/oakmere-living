@@ -4,6 +4,7 @@ export const metadata: Metadata = {
   title: "Terms of Service",
   description:
     "Terms and conditions for using Oakmere Living and purchasing our products.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {
